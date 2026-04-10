@@ -4,53 +4,123 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lucas Personal</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+}
+
+.card {
+  background: #1e293b;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 8px;
+  border: none;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  background: #22c55e;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+}
+</style>
 </head>
-<body style="font-family:Arial;padding:20px">
 
-<h2>Calculadora Pollock 7 Dobras</h2>
+<body>
 
-<input id="idade" placeholder="Idade"><br><br>
-<input id="peso" placeholder="Peso"><br><br>
+<h2>📊 Lucas Personal</h2>
 
-<input id="peitoral" placeholder="Peitoral"><br>
-<input id="axilar" placeholder="Axilar"><br>
-<input id="triceps" placeholder="Tríceps"><br>
-<input id="subescapular" placeholder="Subescapular"><br>
-<input id="abdominal" placeholder="Abdominal"><br>
-<input id="supra" placeholder="Supra-ilíaca"><br>
-<input id="coxa" placeholder="Coxa"><br><br>
+<div class="card">
+<input id="nome" placeholder="Nome do aluno">
+<input id="idade" type="number" placeholder="Idade">
+<input id="peso" type="number" placeholder="Peso (kg)">
+
+<select id="sexo">
+<option value="male">Masculino</option>
+<option value="female">Feminino</option>
+</select>
+</div>
+
+<div class="card">
+<h3>Dobras (mm)</h3>
+
+<input id="peitoral" placeholder="Peitoral">
+<input id="axilar" placeholder="Axilar média">
+<input id="tricipital" placeholder="Tríceps">
+<input id="subescapular" placeholder="Subescapular">
+<input id="abdominal" placeholder="Abdominal">
+<input id="supra" placeholder="Supra-ilíaca">
+<input id="coxa" placeholder="Coxa">
+</div>
 
 <button onclick="calcular()">Calcular</button>
 
-<div id="res"></div>
+<div id="resultado" class="card"></div>
 
-<br><br>
-<button onclick="whatsapp()">Falar no WhatsApp</button>
+<button onclick="whatsapp()">💬 Falar com Personal</button>
 
 <script>
 function calcular(){
-let idade = parseFloat(document.getElementById("idade").value);
-let peso = parseFloat(document.getElementById("peso").value);
+let idade = parseFloat(idadeInput());
+let peso = parseFloat(pesoInput());
+let sexo = document.getElementById("sexo").value;
 
 let soma =
-parseFloat(document.getElementById("peitoral").value)+
-parseFloat(document.getElementById("axilar").value)+
-parseFloat(document.getElementById("triceps").value)+
-parseFloat(document.getElementById("subescapular").value)+
-parseFloat(document.getElementById("abdominal").value)+
-parseFloat(document.getElementById("supra").value)+
-parseFloat(document.getElementById("coxa").value);
+val("peitoral")+
+val("axilar")+
+val("tricipital")+
+val("subescapular")+
+val("abdominal")+
+val("supra")+
+val("coxa");
 
-let densidade = 1.112 - (0.00043499*soma) + (0.00000055*soma*soma) - (0.00028826*idade);
+let densidade;
+
+if(sexo==="male"){
+densidade = 1.112 - (0.00043499*soma) + (0.00000055*soma*soma) - (0.00028826*idade);
+}else{
+densidade = 1.097 - (0.00046971*soma) + (0.00000056*soma*soma) - (0.00012828*idade);
+}
+
 let gordura = (495/densidade)-450;
-
 let mg = peso*(gordura/100);
 let mm = peso-mg;
 
-document.getElementById("res").innerHTML =
-"Gordura: "+gordura.toFixed(2)+"%<br>"+
-"Massa Gorda: "+mg.toFixed(2)+" kg<br>"+
-"Massa Magra: "+mm.toFixed(2)+" kg";
+document.getElementById("resultado").innerHTML =
+"<b>% Gordura:</b> "+gordura.toFixed(2)+"%<br>"+
+"<b>Massa Gorda:</b> "+mg.toFixed(2)+" kg<br>"+
+"<b>Massa Magra:</b> "+mm.toFixed(2)+" kg";
+}
+
+function val(id){
+return parseFloat(document.getElementById(id).value);
+}
+
+function idadeInput(){
+return document.getElementById("idade").value;
+}
+
+function pesoInput(){
+return document.getElementById("peso").value;
 }
 
 function whatsapp(){
