@@ -4,33 +4,53 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lucas Personal</title>
-<link rel="manifest" href="manifest.json">
 </head>
-<body style="font-family:Arial;background:#0f172a;color:white;padding:20px">
+<body style="font-family:Arial;padding:20px">
 
-<h2>📊 Lucas Personal</h2>
+<h2>Calculadora Pollock 7 Dobras</h2>
 
-<input id="soma" placeholder="Soma das dobras"><br><br>
 <input id="idade" placeholder="Idade"><br><br>
 <input id="peso" placeholder="Peso"><br><br>
+
+<input id="peitoral" placeholder="Peitoral"><br>
+<input id="axilar" placeholder="Axilar"><br>
+<input id="triceps" placeholder="Tríceps"><br>
+<input id="subescapular" placeholder="Subescapular"><br>
+<input id="abdominal" placeholder="Abdominal"><br>
+<input id="supra" placeholder="Supra-ilíaca"><br>
+<input id="coxa" placeholder="Coxa"><br><br>
 
 <button onclick="calcular()">Calcular</button>
 
 <div id="res"></div>
 
-<br>
-<button onclick="whatsapp()">💬 Falar com Personal</button>
+<br><br>
+<button onclick="whatsapp()">Falar no WhatsApp</button>
 
 <script>
 function calcular(){
-let soma = parseFloat(document.getElementById("soma").value);
 let idade = parseFloat(document.getElementById("idade").value);
 let peso = parseFloat(document.getElementById("peso").value);
+
+let soma =
+parseFloat(document.getElementById("peitoral").value)+
+parseFloat(document.getElementById("axilar").value)+
+parseFloat(document.getElementById("triceps").value)+
+parseFloat(document.getElementById("subescapular").value)+
+parseFloat(document.getElementById("abdominal").value)+
+parseFloat(document.getElementById("supra").value)+
+parseFloat(document.getElementById("coxa").value);
 
 let densidade = 1.112 - (0.00043499*soma) + (0.00000055*soma*soma) - (0.00028826*idade);
 let gordura = (495/densidade)-450;
 
-document.getElementById("res").innerHTML = gordura.toFixed(2)+"% gordura";
+let mg = peso*(gordura/100);
+let mm = peso-mg;
+
+document.getElementById("res").innerHTML =
+"Gordura: "+gordura.toFixed(2)+"%<br>"+
+"Massa Gorda: "+mg.toFixed(2)+" kg<br>"+
+"Massa Magra: "+mm.toFixed(2)+" kg";
 }
 
 function whatsapp(){
