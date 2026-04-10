@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lucas Personal</title>
+<link rel="manifest" href="manifest.json">
+</head>
+<body style="font-family:Arial;background:#0f172a;color:white;padding:20px">
+
+<h2>📊 Lucas Personal</h2>
+
+<input id="soma" placeholder="Soma das dobras"><br><br>
+<input id="idade" placeholder="Idade"><br><br>
+<input id="peso" placeholder="Peso"><br><br>
+
+<button onclick="calcular()">Calcular</button>
+
+<div id="res"></div>
+
+<br>
+<button onclick="whatsapp()">💬 Falar com Personal</button>
+
+<script>
+function calcular(){
+let soma = parseFloat(document.getElementById("soma").value);
+let idade = parseFloat(document.getElementById("idade").value);
+let peso = parseFloat(document.getElementById("peso").value);
+
+let densidade = 1.112 - (0.00043499*soma) + (0.00000055*soma*soma) - (0.00028826*idade);
+let gordura = (495/densidade)-450;
+
+document.getElementById("res").innerHTML = gordura.toFixed(2)+"% gordura";
+}
+
+function whatsapp(){
+window.open("https://wa.me/5519998676147?text=Olá,%20quero%20um%20acompanhamento","_blank");
+}
+</script>
+
+</body>
+</html>
