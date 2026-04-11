@@ -13,6 +13,19 @@ background:#dbe9f4;
 padding:20px;
 }
 
+.container{
+max-width:900px;
+margin:auto;
+}
+
+.header{
+background:linear-gradient(135deg,#165c99,#1f8ecf);
+color:white;
+padding:25px;
+border-radius:25px;
+margin-bottom:20px;
+}
+
 .card{
 background:#fff;
 padding:20px;
@@ -21,12 +34,18 @@ margin-bottom:15px;
 box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+}
+
 input,select{
 width:100%;
 padding:12px;
-margin:6px 0;
 border-radius:12px;
 border:1px solid #ccc;
+margin-top:5px;
 }
 
 button{
@@ -36,14 +55,27 @@ margin-top:10px;
 border:none;
 border-radius:12px;
 font-weight:bold;
+cursor:pointer;
 }
 
 .primary{background:#165c99;color:white;}
 .green{background:#1f7a42;color:white;}
+.red{background:#b91c1c;color:white;}
 
-.result{
-font-size:18px;
-line-height:1.6;
+.result-card{
+background:#eef3f7;
+padding:15px;
+border-radius:15px;
+}
+
+.badge{
+background:#dff1e5;
+color:#1f7a42;
+padding:8px 15px;
+border-radius:20px;
+font-weight:bold;
+display:inline-block;
+margin-bottom:10px;
 }
 </style>
 
@@ -51,35 +83,58 @@ line-height:1.6;
 
 <body>
 
-<h2>📊 Pollock 7 Dobras</h2>
+<div class="container">
+
+<div class="header">
+<h2>Lucas Personal</h2>
+<p>Calculadora Pollock 7 Dobras</p>
+</div>
 
 <div class="card">
+<div class="grid">
 <select id="sexo">
 <option value="male">Masculino</option>
 <option value="female">Feminino</option>
 </select>
 
 <input id="idade" placeholder="Idade">
+</div>
+
 <input id="peso" placeholder="Peso (kg)">
 </div>
 
 <div class="card">
-<input id="peitoral" placeholder="Peitoral (mm)">
-<input id="axilar" placeholder="Axilar média (mm)">
-<input id="tricipital" placeholder="Tricipital (mm)">
-<input id="subescapular" placeholder="Subescapular (mm)">
-<input id="abdominal" placeholder="Abdominal (mm)">
-<input id="supra" placeholder="Supra-ilíaca (mm)">
-<input id="coxa" placeholder="Coxa (mm)">
+<div class="grid">
+<input id="peitoral" placeholder="Peitoral">
+<input id="axilar" placeholder="Axilar média">
+<input id="tricipital" placeholder="Tricipital">
+<input id="subescapular" placeholder="Subescapular">
+<input id="abdominal" placeholder="Abdominal">
+<input id="supra" placeholder="Supra-ilíaca">
+</div>
+
+<input id="coxa" placeholder="Coxa">
 </div>
 
 <button class="primary" onclick="calcular()">Calcular</button>
 
-<div id="res" class="card result"></div>
+<div id="resultado" class="card"></div>
 
-<button class="green" onclick="whatsapp()">💬 Falar com Personal</button>
+<button class="green" onclick="salvar()">Salvar avaliação</button> <button class="primary" onclick="exportar()">Exportar CSV</button> <button class="red" onclick="limpar()">Limpar histórico</button>
+
+<button class="green" onclick="whatsapp()">💬 WhatsApp</button>
+
+<div class="card">
+<h3>Histórico</h3>
+<div id="historico"></div>
+</div>
+
+</div>
 
 <script>
+
+let dados = JSON.parse(localStorage.getItem("dados")) || [];
+
 function v(id){return parseFloat(document.getElementById(id).value)}
 
 function calcular(){
@@ -88,13 +143,9 @@ let peso=v("peso");
 let sexo=document.getElementById("sexo").value;
 
 let soma=
-v("peitoral")+
-v("axilar")+
-v("tricipital")+
-v("subescapular")+
-v("abdominal")+
-v("supra")+
-v("coxa");
+v("peitoral")+v("axilar")+v("tricipital")+
+v("subescapular")+v("abdominal")+
+v("supra")+v("coxa");
 
 let densidade;
 
@@ -115,16 +166,64 @@ gordura<18?"Bom":
 gordura<25?"Médio":
 "Elevado";
 
-document.getElementById("res").innerHTML=
-"<b>"+classif+"</b><br><br>"+
-"% Gordura: "+gordura.toFixed(2)+"%<br>"+
-"Massa Gorda: "+mg.toFixed(2)+" kg<br>"+
-"Massa Magra: "+mm.toFixed(2)+" kg";
+document.getElementById("resultado").innerHTML = `
+<div class="badge">${classif}</div>
+
+<div class="grid">
+<div class="result-card">Soma: ${soma.toFixed(1)} mm</div>
+<div class="result-card">Densidade: ${densidade.toFixed(4)}</div>
+<div class="result-card">% Gordura: ${gordura.toFixed(2)}%</div>
+<div class="result-card">% Massa magra: ${(100-gordura).toFixed(2)}%</div>
+<div class="result-card">Massa gorda: ${mg.toFixed(2)} kg</div>
+<div class="result-card">Massa magra: ${mm.toFixed(2)} kg</div>
+</div>
+`;
+
+window.resultadoAtual = {
+data:new Date().toLocaleDateString(),
+gordura:gordura.toFixed(2),
+mg:mg.toFixed(2),
+mm:mm.toFixed(2)
+};
+}
+
+function salvar(){
+if(!window.resultadoAtual) return alert("Calcule primeiro");
+dados.push(window.resultadoAtual);
+localStorage.setItem("dados", JSON.stringify(dados));
+render();
+}
+
+function render(){
+let html="";
+dados.forEach(d=>{
+html+=`<div>${d.data} - ${d.gordura}%</div>`;
+});
+document.getElementById("historico").innerHTML=html;
+}
+render();
+
+function exportar(){
+let csv="Data;%Gordura\n";
+dados.forEach(d=>{
+csv+=`${d.data};${d.gordura}\n`;
+});
+let blob=new Blob([csv]);
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="historico.csv";
+a.click();
+}
+
+function limpar(){
+localStorage.clear();
+location.reload();
 }
 
 function whatsapp(){
-window.open("https://wa.me/5573998676147?text=Olá,%20quero%20um%20acompanhamento","_blank");
+window.open("https://wa.me/5573998676147?text=Olá,%20quero%20um%20acompanhamento");
 }
+
 </script>
 
 </body>
