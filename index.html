@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -6,125 +7,123 @@
 <title>Lucas Personal</title>
 
 <style>
-body {
-  font-family: Arial;
-  background: #0f172a;
-  color: white;
-  padding: 20px;
+body{
+font-family:Arial;
+background:#dbe9f4;
+padding:20px;
 }
 
-h2 {
-  text-align: center;
+.card{
+background:#fff;
+padding:20px;
+border-radius:20px;
+margin-bottom:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 }
 
-.card {
-  background: #1e293b;
-  padding: 15px;
-  border-radius: 12px;
-  margin-bottom: 15px;
+input,select{
+width:100%;
+padding:12px;
+margin:6px 0;
+border-radius:12px;
+border:1px solid #ccc;
 }
 
-input, select {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0;
-  border-radius: 8px;
-  border: none;
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:12px;
+font-weight:bold;
 }
 
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  background: #22c55e;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-weight: bold;
+.primary{background:#165c99;color:white;}
+.green{background:#1f7a42;color:white;}
+
+.result{
+font-size:18px;
+line-height:1.6;
 }
 </style>
+
 </head>
 
 <body>
 
-<h2>📊 Lucas Personal</h2>
+<h2>📊 Pollock 7 Dobras</h2>
 
 <div class="card">
-<input id="nome" placeholder="Nome do aluno">
-<input id="idade" type="number" placeholder="Idade">
-<input id="peso" type="number" placeholder="Peso (kg)">
-
 <select id="sexo">
 <option value="male">Masculino</option>
 <option value="female">Feminino</option>
 </select>
+
+<input id="idade" placeholder="Idade">
+<input id="peso" placeholder="Peso (kg)">
 </div>
 
 <div class="card">
-<h3>Dobras (mm)</h3>
-
-<input id="peitoral" placeholder="Peitoral">
-<input id="axilar" placeholder="Axilar média">
-<input id="tricipital" placeholder="Tríceps">
-<input id="subescapular" placeholder="Subescapular">
-<input id="abdominal" placeholder="Abdominal">
-<input id="supra" placeholder="Supra-ilíaca">
-<input id="coxa" placeholder="Coxa">
+<input id="peitoral" placeholder="Peitoral (mm)">
+<input id="axilar" placeholder="Axilar média (mm)">
+<input id="tricipital" placeholder="Tricipital (mm)">
+<input id="subescapular" placeholder="Subescapular (mm)">
+<input id="abdominal" placeholder="Abdominal (mm)">
+<input id="supra" placeholder="Supra-ilíaca (mm)">
+<input id="coxa" placeholder="Coxa (mm)">
 </div>
 
-<button onclick="calcular()">Calcular</button>
+<button class="primary" onclick="calcular()">Calcular</button>
 
-<div id="resultado" class="card"></div>
+<div id="res" class="card result"></div>
 
-<button onclick="whatsapp()">💬 Falar com Personal</button>
+<button class="green" onclick="whatsapp()">💬 Falar com Personal</button>
 
 <script>
-function calcular(){
-let idade = parseFloat(idadeInput());
-let peso = parseFloat(pesoInput());
-let sexo = document.getElementById("sexo").value;
+function v(id){return parseFloat(document.getElementById(id).value)}
 
-let soma =
-val("peitoral")+
-val("axilar")+
-val("tricipital")+
-val("subescapular")+
-val("abdominal")+
-val("supra")+
-val("coxa");
+function calcular(){
+let idade=v("idade");
+let peso=v("peso");
+let sexo=document.getElementById("sexo").value;
+
+let soma=
+v("peitoral")+
+v("axilar")+
+v("tricipital")+
+v("subescapular")+
+v("abdominal")+
+v("supra")+
+v("coxa");
 
 let densidade;
 
 if(sexo==="male"){
-densidade = 1.112 - (0.00043499*soma) + (0.00000055*soma*soma) - (0.00028826*idade);
+densidade=1.112-(0.00043499*soma)+(0.00000055*soma*soma)-(0.00028826*idade);
 }else{
-densidade = 1.097 - (0.00046971*soma) + (0.00000056*soma*soma) - (0.00012828*idade);
+densidade=1.097-(0.00046971*soma)+(0.00000056*soma*soma)-(0.00012828*idade);
 }
 
-let gordura = (495/densidade)-450;
-let mg = peso*(gordura/100);
-let mm = peso-mg;
+let gordura=(495/densidade)-450;
+let mg=peso*(gordura/100);
+let mm=peso-mg;
 
-document.getElementById("resultado").innerHTML =
-"<b>% Gordura:</b> "+gordura.toFixed(2)+"%<br>"+
-"<b>Massa Gorda:</b> "+mg.toFixed(2)+" kg<br>"+
-"<b>Massa Magra:</b> "+mm.toFixed(2)+" kg";
-}
+let classif =
+gordura<6?"Gordura muito baixa":
+gordura<14?"Atlético":
+gordura<18?"Bom":
+gordura<25?"Médio":
+"Elevado";
 
-function val(id){
-return parseFloat(document.getElementById(id).value);
-}
-
-function idadeInput(){
-return document.getElementById("idade").value;
-}
-
-function pesoInput(){
-return document.getElementById("peso").value;
+document.getElementById("res").innerHTML=
+"<b>"+classif+"</b><br><br>"+
+"% Gordura: "+gordura.toFixed(2)+"%<br>"+
+"Massa Gorda: "+mg.toFixed(2)+" kg<br>"+
+"Massa Magra: "+mm.toFixed(2)+" kg";
 }
 
 function whatsapp(){
-window.open("https://wa.me/5519998676147?text=Olá,%20quero%20um%20acompanhamento","_blank");
+window.open("https://wa.me/5573998676147?text=Olá,%20quero%20um%20acompanhamento","_blank");
 }
 </script>
 
