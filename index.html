@@ -2,13 +2,26 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Lucas Personal</title>
+
   <meta name="theme-color" content="#165c99">
-  <meta name="description" content="Calculadora Pollock 7 dobras com histórico local e WhatsApp.">
+
+  <meta
+    name="description"
+    content="Calculadora Pollock 7 dobras com histórico local, perimetria e WhatsApp."
+  >
+
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="icons/icon-192.png">
+
   <style>
+
     body{
       font-family:Arial, sans-serif;
       background:#dbe9f4;
@@ -60,6 +73,11 @@
       box-shadow:0 5px 18px rgba(0,0,0,0.08);
     }
 
+    .section-title{
+      margin:0 0 18px 0;
+      color:#165c99;
+    }
+
     .grid{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -79,7 +97,8 @@
       color:#123a63;
     }
 
-    input,select{
+    input,
+    select{
       width:100%;
       padding:14px;
       border-radius:14px;
@@ -100,10 +119,25 @@
       font-size:16px;
     }
 
-    .primary{background:#165c99;color:white;}
-    .green{background:#1f7a42;color:white;}
-    .red{background:#b91c1c;color:white;}
-    .secondary{background:#eef3f7;color:#165c99;}
+    .primary{
+      background:#165c99;
+      color:white;
+    }
+
+    .green{
+      background:#1f7a42;
+      color:white;
+    }
+
+    .red{
+      background:#b91c1c;
+      color:white;
+    }
+
+    .secondary{
+      background:#eef3f7;
+      color:#165c99;
+    }
 
     .topline{
       display:flex;
@@ -174,11 +208,13 @@
       overflow:hidden;
     }
 
-    th,td{
+    th,
+    td{
       text-align:left;
       padding:12px;
       border-bottom:1px solid #e7edf3;
       font-size:14px;
+      vertical-align:top;
     }
 
     th{
@@ -199,8 +235,22 @@
       padding:10px 14px;
     }
 
-    @media (max-width: 768px){
-      .grid, .grid-3, .result-grid{
+    .perimetria-text{
+      min-width:220px;
+      line-height:1.6;
+      color:#475569;
+    }
+
+    .small{
+      font-size:13px;
+      color:#64748b;
+    }
+
+    @media (max-width:768px){
+
+      .grid,
+      .grid-3,
+      .result-grid{
         grid-template-columns:1fr;
       }
 
@@ -211,322 +261,1611 @@
       .header p{
         font-size:18px;
       }
+
     }
+
   </style>
 </head>
+
 <body>
-  <div class="container">
 
-    <div class="header">
-      <h1>Pollock 7 Dobras</h1>
-      <p>Calculadora mobile do método Jackson & Pollock com conversão pela equação de Siri.</p>
-      <div class="pill">Pronta para usar no celular</div>
+<div class="container">
 
-      <div class="install-row">
-        <button id="installBtn" class="secondary" style="display:none;">Instalar app</button>
-        <button class="green" onclick="whatsapp()">WhatsApp</button>
-      </div>
+  <!-- CABEÇALHO -->
+
+  <div class="header">
+
+    <h1>Pollock 7 Dobras</h1>
+
+    <p>
+      Calculadora mobile do método Jackson & Pollock
+      com conversão pela equação de Siri.
+    </p>
+
+    <div class="pill">
+      Pronta para usar no celular
     </div>
 
-    <div class="card">
-      <h2 style="margin-top:0;color:#165c99;">Nova avaliação</h2>
+    <div class="install-row">
 
-      <div class="grid">
-        <div class="field">
-          <label for="sexo">Sexo</label>
-          <select id="sexo">
-            <option value="male">Masculino</option>
-            <option value="female">Feminino</option>
-          </select>
-        </div>
+      <button
+        id="installBtn"
+        class="secondary"
+        style="display:none;"
+      >
+        Instalar app
+      </button>
 
-        <div class="field">
-          <label for="idade">Idade</label>
-          <input id="idade" type="number" min="1" step="1" placeholder="Ex.: 30">
-        </div>
-      </div>
+      <button
+        class="green"
+        onclick="whatsapp()"
+      >
+        WhatsApp
+      </button>
 
-      <div class="field" style="margin-top:14px;">
-        <label for="peso">Peso corporal (kg)</label>
-        <input id="peso" type="number" min="0" step="0.1" placeholder="Ex.: 78.5">
-      </div>
-
-      <div class="grid" style="margin-top:14px;">
-        <div class="field">
-          <label for="peitoral">Peitoral (mm)</label>
-          <input id="peitoral" type="number" min="0" step="0.1">
-        </div>
-
-        <div class="field">
-          <label for="axilar">Axilar média (mm)</label>
-          <input id="axilar" type="number" min="0" step="0.1">
-        </div>
-
-        <div class="field">
-          <label for="tricipital">Tricipital (mm)</label>
-          <input id="tricipital" type="number" min="0" step="0.1">
-        </div>
-
-        <div class="field">
-          <label for="subescapular">Subescapular (mm)</label>
-          <input id="subescapular" type="number" min="0" step="0.1">
-        </div>
-
-        <div class="field">
-          <label for="abdominal">Abdominal (mm)</label>
-          <input id="abdominal" type="number" min="0" step="0.1">
-        </div>
-
-        <div class="field">
-          <label for="supra">Supra-ilíaca (mm)</label>
-          <input id="supra" type="number" min="0" step="0.1">
-        </div>
-      </div>
-
-      <div class="field" style="margin-top:14px;">
-        <label for="coxa">Coxa (mm)</label>
-        <input id="coxa" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="grid-3" style="margin-top:18px;">
-        <button class="primary" onclick="calcular()">Calcular</button>
-        <button class="green" onclick="salvar()">Salvar avaliação</button>
-        <button class="secondary" onclick="exportar()">Exportar CSV</button>
-      </div>
-
-      <button class="red" onclick="limpar()">Limpar histórico</button>
-    </div>
-
-    <div class="card">
-      <div class="topline">
-        <h2 style="margin:0;color:#165c99;">Resultado</h2>
-        <div class="badge" id="classificacaoBadge">Aguardando cálculo</div>
-      </div>
-
-      <div class="result-grid">
-        <div class="result-card">
-          <div class="label">Soma das 7 dobras</div>
-          <div class="value" id="somaOut">—</div>
-        </div>
-
-        <div class="result-card">
-          <div class="label">Densidade corporal</div>
-          <div class="value" id="densidadeOut">—</div>
-        </div>
-
-        <div class="result-card">
-          <div class="label">% de gordura</div>
-          <div class="value" id="gorduraOut">—</div>
-        </div>
-
-        <div class="result-card">
-          <div class="label">% massa livre</div>
-          <div class="value" id="massaLivreOut">—</div>
-        </div>
-
-        <div class="result-card">
-          <div class="label">Massa gorda (kg)</div>
-          <div class="value" id="massaGordaOut">—</div>
-        </div>
-
-        <div class="result-card">
-          <div class="label">Massa magra (kg)</div>
-          <div class="value" id="massaMagraOut">—</div>
-        </div>
-      </div>
-
-      <div class="note">
-        Estimativa baseada em Jackson & Pollock (7 dobras) + Siri. A precisão depende da qualidade da coleta.
-      </div>
-
-      <details>
-        <summary>Faixas rápidas de referência</summary>
-        <div class="note">
-          <strong>Homens:</strong> &lt; 6% muito baixa, 6–13,99% atlético, 14–17,99% bom, 18–24,99% médio, ≥ 25% elevado.<br>
-          <strong>Mulheres:</strong> &lt; 14% muito baixa, 14–20,99% atlética, 21–24,99% bom, 25–31,99% médio, ≥ 32% elevado.
-        </div>
-      </details>
-    </div>
-
-    <div class="card">
-      <h2 style="margin-top:0;color:#165c99;">Histórico</h2>
-      <div style="overflow:auto;">
-        <table>
-          <thead>
-            <tr>
-              <th>Data</th>
-              <th>% Gordura</th>
-              <th>Massa gorda</th>
-              <th>Massa magra</th>
-            </tr>
-          </thead>
-          <tbody id="historico"></tbody>
-        </table>
-      </div>
     </div>
 
   </div>
 
-  <script>
-    const WHATSAPP_URL = "https://wa.me/5573998676147?text=Ol%C3%A1%2C%20quero%20um%20acompanhamento";
-    const STORAGE_KEY = "dados_pollock_v2";
-    let dados = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    let resultadoAtual = null;
-    let deferredPrompt = null;
 
-    function v(id){
-      return parseFloat(document.getElementById(id).value);
+  <!-- DADOS DO ALUNO -->
+
+  <div class="card">
+
+    <h2 class="section-title">
+      Nova avaliação
+    </h2>
+
+    <div class="field">
+
+      <label for="nome">
+        Nome do aluno
+      </label>
+
+      <input
+        id="nome"
+        type="text"
+        placeholder="Ex.: João Silva"
+      >
+
+    </div>
+
+    <div
+      class="grid"
+      style="margin-top:14px;"
+    >
+
+      <div class="field">
+
+        <label for="sexo">
+          Sexo
+        </label>
+
+        <select id="sexo">
+
+          <option value="male">
+            Masculino
+          </option>
+
+          <option value="female">
+            Feminino
+          </option>
+
+        </select>
+
+      </div>
+
+      <div class="field">
+
+        <label for="idade">
+          Idade
+        </label>
+
+        <input
+          id="idade"
+          type="number"
+          min="1"
+          step="1"
+          placeholder="Ex.: 30"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="field"
+      style="margin-top:14px;"
+    >
+
+      <label for="peso">
+        Peso corporal (kg)
+      </label>
+
+      <input
+        id="peso"
+        type="number"
+        min="0"
+        step="0.1"
+        placeholder="Ex.: 78.5"
+      >
+
+    </div>
+
+
+    <!-- 7 DOBRAS -->
+
+    <h3
+      style="
+        color:#165c99;
+        margin-top:28px;
+        margin-bottom:16px;
+      "
+    >
+      Dobras cutâneas
+    </h3>
+
+    <div class="grid">
+
+      <div class="field">
+
+        <label for="peitoral">
+          Peitoral (mm)
+        </label>
+
+        <input
+          id="peitoral"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="axilar">
+          Axilar média (mm)
+        </label>
+
+        <input
+          id="axilar"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="tricipital">
+          Tricipital (mm)
+        </label>
+
+        <input
+          id="tricipital"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="subescapular">
+          Subescapular (mm)
+        </label>
+
+        <input
+          id="subescapular"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="abdominal">
+          Abdominal (mm)
+        </label>
+
+        <input
+          id="abdominal"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+      <div class="field">
+
+        <label for="supra">
+          Supra-ilíaca (mm)
+        </label>
+
+        <input
+          id="supra"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="field"
+      style="margin-top:14px;"
+    >
+
+      <label for="coxa">
+        Coxa (mm)
+      </label>
+
+      <input
+        id="coxa"
+        type="number"
+        min="0"
+        step="0.1"
+      >
+
+    </div>
+
+  </div>
+
+
+  <!-- PERIMETRIA -->
+
+  <div class="card">
+
+    <h2 class="section-title">
+      Perimetria
+    </h2>
+
+    <p
+      class="small"
+      style="margin-top:-8px;margin-bottom:18px;"
+    >
+      Medidas corporais em centímetros.
+    </p>
+
+
+    <div class="grid">
+
+      <div class="field">
+
+        <label for="pescoco">
+          Pescoço (cm)
+        </label>
+
+        <input
+          id="pescoco"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="ombros">
+          Ombros (cm)
+        </label>
+
+        <input
+          id="ombros"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="torax">
+          Tórax (cm)
+        </label>
+
+        <input
+          id="torax"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="cintura">
+          Cintura (cm)
+        </label>
+
+        <input
+          id="cintura"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="abdomen">
+          Abdômen (cm)
+        </label>
+
+        <input
+          id="abdomen"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="quadril">
+          Quadril (cm)
+        </label>
+
+        <input
+          id="quadril"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="bracoD">
+          Braço direito (cm)
+        </label>
+
+        <input
+          id="bracoD"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="bracoE">
+          Braço esquerdo (cm)
+        </label>
+
+        <input
+          id="bracoE"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="antebracoD">
+          Antebraço direito (cm)
+        </label>
+
+        <input
+          id="antebracoD"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="antebracoE">
+          Antebraço esquerdo (cm)
+        </label>
+
+        <input
+          id="antebracoE"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="coxaD">
+          Coxa direita (cm)
+        </label>
+
+        <input
+          id="coxaD"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="coxaE">
+          Coxa esquerda (cm)
+        </label>
+
+        <input
+          id="coxaE"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="panturrilhaD">
+          Panturrilha direita (cm)
+        </label>
+
+        <input
+          id="panturrilhaD"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="panturrilhaE">
+          Panturrilha esquerda (cm)
+        </label>
+
+        <input
+          id="panturrilhaE"
+          type="number"
+          min="0"
+          step="0.1"
+        >
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- BOTÕES -->
+
+  <div class="card">
+
+    <div class="grid-3">
+
+      <button
+        class="primary"
+        onclick="calcular()"
+      >
+        Calcular
+      </button>
+
+      <button
+        class="green"
+        onclick="salvar()"
+      >
+        Salvar avaliação
+      </button>
+
+      <button
+        class="secondary"
+        onclick="exportar()"
+      >
+        Exportar CSV
+      </button>
+
+    </div>
+
+    <button
+      class="red"
+      onclick="limpar()"
+    >
+      Limpar histórico
+    </button>
+
+  </div>
+
+
+  <!-- RESULTADOS -->
+
+  <div class="card">
+
+    <div class="topline">
+
+      <h2
+        style="margin:0;color:#165c99;"
+      >
+        Resultado
+      </h2>
+
+      <div
+        class="badge"
+        id="classificacaoBadge"
+      >
+        Aguardando cálculo
+      </div>
+
+    </div>
+
+
+    <div class="result-grid">
+
+
+      <div class="result-card">
+
+        <div class="label">
+          Soma das 7 dobras
+        </div>
+
+        <div
+          class="value"
+          id="somaOut"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <div class="label">
+          Densidade corporal
+        </div>
+
+        <div
+          class="value"
+          id="densidadeOut"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <div class="label">
+          % de gordura
+        </div>
+
+        <div
+          class="value"
+          id="gorduraOut"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <div class="label">
+          % massa livre
+        </div>
+
+        <div
+          class="value"
+          id="massaLivreOut"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <div class="label">
+          Massa gorda (kg)
+        </div>
+
+        <div
+          class="value"
+          id="massaGordaOut"
+        >
+          —
+        </div>
+
+      </div>
+
+
+      <div class="result-card">
+
+        <div class="label">
+          Massa magra (kg)
+        </div>
+
+        <div
+          class="value"
+          id="massaMagraOut"
+        >
+          —
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="note">
+
+      Estimativa baseada em Jackson & Pollock
+      (7 dobras) + Siri.
+      A precisão depende da qualidade da coleta.
+
+    </div>
+
+
+    <details>
+
+      <summary>
+        Faixas rápidas de referência
+      </summary>
+
+      <div class="note">
+
+        <strong>Homens:</strong>
+        &lt; 6% muito baixa,
+        6–13,99% atlético,
+        14–17,99% bom,
+        18–24,99% médio,
+        ≥ 25% elevado.
+
+        <br><br>
+
+        <strong>Mulheres:</strong>
+        &lt; 14% muito baixa,
+        14–20,99% atlética,
+        21–24,99% bom,
+        25–31,99% médio,
+        ≥ 32% elevado.
+
+      </div>
+
+    </details>
+
+  </div>
+
+
+  <!-- HISTÓRICO -->
+
+  <div class="card">
+
+    <h2 class="section-title">
+      Histórico
+    </h2>
+
+    <div style="overflow:auto;">
+
+      <table>
+
+        <thead>
+
+          <tr>
+
+            <th>Data</th>
+            <th>Aluno</th>
+            <th>% Gordura</th>
+            <th>Massa gorda</th>
+            <th>Massa magra</th>
+            <th>Perimetria</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="historico"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+  const WHATSAPP_URL =
+  "https://wa.me/5573998676147?text=Ol%C3%A1%2C%20quero%20um%20acompanhamento";
+
+
+  /*
+    Mantive a mesma chave do aplicativo anterior
+    para não perder o histórico já salvo.
+  */
+
+  const STORAGE_KEY = "dados_pollock_v2";
+
+
+  let dados =
+    JSON.parse(
+      localStorage.getItem(STORAGE_KEY)
+    ) || [];
+
+
+  let resultadoAtual = null;
+
+  let deferredPrompt = null;
+
+
+  function v(id){
+
+    return parseFloat(
+      document.getElementById(id).value
+    );
+
+  }
+
+
+  function valor(id){
+
+    return document
+      .getElementById(id)
+      .value
+      .trim();
+
+  }
+
+
+  function textoClassificacao(sexo,gordura){
+
+    if(sexo === "male"){
+
+      if(gordura < 6)
+        return "Gordura muito baixa";
+
+      if(gordura < 14)
+        return "Atlético";
+
+      if(gordura < 18)
+        return "Bom";
+
+      if(gordura < 25)
+        return "Médio";
+
+      return "Elevado";
+
     }
 
-    function textoClassificacao(sexo, gordura){
-      if(sexo === "male"){
-        if(gordura < 6) return "Gordura muito baixa";
-        if(gordura < 14) return "Atlético";
-        if(gordura < 18) return "Bom";
-        if(gordura < 25) return "Médio";
-        return "Elevado";
-      } else {
-        if(gordura < 14) return "Gordura muito baixa";
-        if(gordura < 21) return "Atlética";
-        if(gordura < 25) return "Bom";
-        if(gordura < 32) return "Médio";
-        return "Elevado";
-      }
+    else{
+
+      if(gordura < 14)
+        return "Gordura muito baixa";
+
+      if(gordura < 21)
+        return "Atlética";
+
+      if(gordura < 25)
+        return "Bom";
+
+      if(gordura < 32)
+        return "Médio";
+
+      return "Elevado";
+
     }
 
-    function calcular(){
-      let idade = v("idade");
-      let peso = v("peso");
-      let sexo = document.getElementById("sexo").value;
+  }
 
-      let valores = [
-        v("peitoral"),
-        v("axilar"),
-        v("tricipital"),
-        v("subescapular"),
-        v("abdominal"),
-        v("supra"),
-        v("coxa")
-      ];
 
-      if(!idade || valores.some(n => Number.isNaN(n) || n < 0)){
-        alert("Preencha idade e as 7 dobras com valores válidos.");
-        return;
-      }
+  function calcular(){
 
-      let soma = valores.reduce((a,b)=>a+b,0);
+    let nome = valor("nome");
 
-      let densidade;
-      if(sexo==="male"){
-        densidade = 1.112-(0.00043499*soma)+(0.00000055*soma*soma)-(0.00028826*idade);
-      }else{
-        densidade = 1.097-(0.00046971*soma)+(0.00000056*soma*soma)-(0.00012828*idade);
-      }
+    let idade = v("idade");
 
-      let gordura = (495/densidade)-450;
-      let massaLivre = 100 - gordura;
-      let mg = Number.isNaN(peso) ? null : peso*(gordura/100);
-      let mm = Number.isNaN(peso) ? null : peso-mg;
+    let peso = v("peso");
 
-      let classif = textoClassificacao(sexo, gordura);
+    let sexo =
+      document.getElementById("sexo").value;
 
-      document.getElementById("classificacaoBadge").textContent = classif;
-      document.getElementById("somaOut").textContent = soma.toFixed(1) + " mm";
-      document.getElementById("densidadeOut").textContent = densidade.toFixed(4);
-      document.getElementById("gorduraOut").textContent = gordura.toFixed(2) + "%";
-      document.getElementById("massaLivreOut").textContent = massaLivre.toFixed(2) + "%";
-      document.getElementById("massaGordaOut").textContent = mg === null ? "—" : mg.toFixed(2) + " kg";
-      document.getElementById("massaMagraOut").textContent = mm === null ? "—" : mm.toFixed(2) + " kg";
 
-      resultadoAtual = {
-        data: new Date().toLocaleDateString(),
-        gordura: gordura.toFixed(2),
-        mg: mg === null ? "" : mg.toFixed(2),
-        mm: mm === null ? "" : mm.toFixed(2)
-      };
+    if(!nome){
+
+      alert(
+        "Informe o nome do aluno."
+      );
+
+      return;
+
     }
 
-    function salvar(){
-      if(!resultadoAtual){
-        alert("Calcule primeiro.");
-        return;
-      }
-      dados.unshift(resultadoAtual);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
-      render();
-      alert("Avaliação salva.");
+
+    let valores = [
+
+      v("peitoral"),
+      v("axilar"),
+      v("tricipital"),
+      v("subescapular"),
+      v("abdominal"),
+      v("supra"),
+      v("coxa")
+
+    ];
+
+
+    if(
+      !idade ||
+      valores.some(
+        n => Number.isNaN(n) || n < 0
+      )
+    ){
+
+      alert(
+        "Preencha idade e as 7 dobras com valores válidos."
+      );
+
+      return;
+
     }
 
-    function render(){
-      let html = "";
-      if(!dados.length){
-        html = '<tr><td colspan="4">Nenhuma avaliação salva ainda.</td></tr>';
-      } else {
-        dados.forEach(d => {
-          html += `
-            <tr>
-              <td>${d.data}</td>
-              <td>${d.gordura}%</td>
-              <td>${d.mg ? d.mg + " kg" : "—"}</td>
-              <td>${d.mm ? d.mm + " kg" : "—"}</td>
-            </tr>
-          `;
-        });
-      }
-      document.getElementById("historico").innerHTML = html;
+
+    let soma =
+      valores.reduce(
+        (a,b) => a + b,
+        0
+      );
+
+
+    let densidade;
+
+
+    if(sexo === "male"){
+
+      densidade =
+        1.112
+        -
+        (0.00043499 * soma)
+        +
+        (0.00000055 * soma * soma)
+        -
+        (0.00028826 * idade);
+
     }
 
-    function exportar(){
-      if(!dados.length){
-        alert("Não há histórico para exportar.");
-        return;
-      }
+    else{
 
-      let csv = "Data;% Gordura;Massa Gorda;Massa Magra\n";
-      dados.forEach(d=>{
-        csv += `${d.data};${d.gordura};${d.mg};${d.mm}\n`;
-      });
+      densidade =
+        1.097
+        -
+        (0.00046971 * soma)
+        +
+        (0.00000056 * soma * soma)
+        -
+        (0.00012828 * idade);
 
-      let blob = new Blob(["\uFEFF" + csv], {type:"text/csv;charset=utf-8;"});
-      let a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "historico_pollock.csv";
-      a.click();
     }
 
-    function limpar(){
-      if(confirm("Deseja apagar todo o histórico?")){
-        localStorage.removeItem(STORAGE_KEY);
-        dados = [];
-        render();
-      }
+
+    let gordura =
+      (495 / densidade) - 450;
+
+
+    let massaLivre =
+      100 - gordura;
+
+
+    let mg =
+      Number.isNaN(peso)
+      ? null
+      : peso * (gordura / 100);
+
+
+    let mm =
+      Number.isNaN(peso)
+      ? null
+      : peso - mg;
+
+
+    let classif =
+      textoClassificacao(
+        sexo,
+        gordura
+      );
+
+
+    document
+      .getElementById("classificacaoBadge")
+      .textContent = classif;
+
+
+    document
+      .getElementById("somaOut")
+      .textContent =
+      soma.toFixed(1) + " mm";
+
+
+    document
+      .getElementById("densidadeOut")
+      .textContent =
+      densidade.toFixed(4);
+
+
+    document
+      .getElementById("gorduraOut")
+      .textContent =
+      gordura.toFixed(2) + "%";
+
+
+    document
+      .getElementById("massaLivreOut")
+      .textContent =
+      massaLivre.toFixed(2) + "%";
+
+
+    document
+      .getElementById("massaGordaOut")
+      .textContent =
+      mg === null
+      ? "—"
+      : mg.toFixed(2) + " kg";
+
+
+    document
+      .getElementById("massaMagraOut")
+      .textContent =
+      mm === null
+      ? "—"
+      : mm.toFixed(2) + " kg";
+
+
+    resultadoAtual = {
+
+      data:
+        new Date().toLocaleDateString(
+          "pt-BR"
+        ),
+
+      hora:
+        new Date().toLocaleTimeString(
+          "pt-BR",
+          {
+            hour:"2-digit",
+            minute:"2-digit"
+          }
+        ),
+
+      nome:nome,
+
+      sexo:
+        sexo === "male"
+        ? "Masculino"
+        : "Feminino",
+
+      idade:idade,
+
+      peso:
+        Number.isNaN(peso)
+        ? ""
+        : peso.toFixed(1),
+
+
+      /* DOBRAS */
+
+      peitoral:
+        valores[0].toFixed(1),
+
+      axilar:
+        valores[1].toFixed(1),
+
+      tricipital:
+        valores[2].toFixed(1),
+
+      subescapular:
+        valores[3].toFixed(1),
+
+      abdominal:
+        valores[4].toFixed(1),
+
+      supra:
+        valores[5].toFixed(1),
+
+      coxa:
+        valores[6].toFixed(1),
+
+
+      soma:
+        soma.toFixed(1),
+
+      densidade:
+        densidade.toFixed(4),
+
+      gordura:
+        gordura.toFixed(2),
+
+      massaLivre:
+        massaLivre.toFixed(2),
+
+      mg:
+        mg === null
+        ? ""
+        : mg.toFixed(2),
+
+      mm:
+        mm === null
+        ? ""
+        : mm.toFixed(2),
+
+      classificacao:
+        classif,
+
+
+      /* PERIMETRIA */
+
+      pescoco:
+        valor("pescoco"),
+
+      ombros:
+        valor("ombros"),
+
+      torax:
+        valor("torax"),
+
+      cintura:
+        valor("cintura"),
+
+      abdomen:
+        valor("abdomen"),
+
+      quadril:
+        valor("quadril"),
+
+      bracoD:
+        valor("bracoD"),
+
+      bracoE:
+        valor("bracoE"),
+
+      antebracoD:
+        valor("antebracoD"),
+
+      antebracoE:
+        valor("antebracoE"),
+
+      coxaD:
+        valor("coxaD"),
+
+      coxaE:
+        valor("coxaE"),
+
+      panturrilhaD:
+        valor("panturrilhaD"),
+
+      panturrilhaE:
+        valor("panturrilhaE")
+
+    };
+
+  }
+
+
+  function salvar(){
+
+    if(!resultadoAtual){
+
+      alert(
+        "Calcule primeiro."
+      );
+
+      return;
+
     }
 
-    function whatsapp(){
-      window.open(WHATSAPP_URL, "_blank");
-    }
 
-    window.addEventListener("beforeinstallprompt", (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      const btn = document.getElementById("installBtn");
-      btn.style.display = "inline-block";
-      btn.onclick = async () => {
-        deferredPrompt.prompt();
-        await deferredPrompt.userChoice;
-        deferredPrompt = null;
-        btn.style.display = "none";
-      };
-    });
+    dados.unshift(
+      resultadoAtual
+    );
 
-    if("serviceWorker" in navigator){
-      window.addEventListener("load", () => {
-        navigator.serviceWorker.register("service-worker.js");
-      });
-    }
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(dados)
+    );
+
 
     render();
-  </script>
-<!-- redeploy -->
+
+
+    alert(
+      "Avaliação de " +
+      resultadoAtual.nome +
+      " salva com sucesso."
+    );
+
+  }
+
+
+  function mostrar(valor){
+
+    return (
+      valor === undefined ||
+      valor === null ||
+      valor === ""
+    )
+    ? "—"
+    : valor;
+
+  }
+
+
+  function montarPerimetria(d){
+
+    let itens = [
+
+      ["Pescoço",d.pescoco],
+      ["Ombros",d.ombros],
+      ["Tórax",d.torax],
+      ["Cintura",d.cintura],
+      ["Abdômen",d.abdomen],
+      ["Quadril",d.quadril],
+      ["Braço D",d.bracoD],
+      ["Braço E",d.bracoE],
+      ["Antebraço D",d.antebracoD],
+      ["Antebraço E",d.antebracoE],
+      ["Coxa D",d.coxaD],
+      ["Coxa E",d.coxaE],
+      ["Panturrilha D",d.panturrilhaD],
+      ["Panturrilha E",d.panturrilhaE]
+
+    ];
+
+
+    let preenchidos =
+      itens.filter(
+        item =>
+          item[1] !== undefined &&
+          item[1] !== null &&
+          item[1] !== ""
+      );
+
+
+    if(!preenchidos.length){
+
+      return "—";
+
+    }
+
+
+    return preenchidos
+      .map(
+        item =>
+          item[0] +
+          ": " +
+          item[1] +
+          " cm"
+      )
+      .join("<br>");
+
+  }
+
+
+  function render(){
+
+    let html = "";
+
+
+    if(!dados.length){
+
+      html =
+        '<tr>' +
+        '<td colspan="6">' +
+        'Nenhuma avaliação salva ainda.' +
+        '</td>' +
+        '</tr>';
+
+    }
+
+    else{
+
+      dados.forEach(d => {
+
+        html += `
+
+          <tr>
+
+            <td>
+              ${mostrar(d.data)}
+            </td>
+
+            <td>
+              <strong>
+                ${mostrar(d.nome)}
+              </strong>
+
+              ${
+                d.idade
+                ?
+                `<br><span class="small">
+                  ${mostrar(d.idade)} anos
+                </span>`
+                :
+                ""
+              }
+            </td>
+
+            <td>
+              ${
+                d.gordura
+                ? mostrar(d.gordura) + "%"
+                : "—"
+              }
+            </td>
+
+            <td>
+              ${
+                d.mg
+                ? mostrar(d.mg) + " kg"
+                : "—"
+              }
+            </td>
+
+            <td>
+              ${
+                d.mm
+                ? mostrar(d.mm) + " kg"
+                : "—"
+              }
+            </td>
+
+            <td class="perimetria-text">
+              ${montarPerimetria(d)}
+            </td>
+
+          </tr>
+
+        `;
+
+      });
+
+    }
+
+
+    document
+      .getElementById("historico")
+      .innerHTML = html;
+
+  }
+
+
+  function csvValor(valor){
+
+    if(
+      valor === undefined ||
+      valor === null
+    ){
+
+      return "";
+
+    }
+
+
+    let texto =
+      String(valor);
+
+
+    /*
+      Evita problema caso algum nome
+      possua ponto e vírgula.
+    */
+
+    texto =
+      texto.replace(
+        /;/g,
+        ","
+      );
+
+
+    return texto;
+
+  }
+
+
+  function exportar(){
+
+    if(!dados.length){
+
+      alert(
+        "Não há histórico para exportar."
+      );
+
+      return;
+
+    }
+
+
+    let cabecalho = [
+
+      "Data",
+      "Hora",
+      "Nome",
+      "Sexo",
+      "Idade",
+      "Peso kg",
+
+      "Peitoral mm",
+      "Axilar média mm",
+      "Tricipital mm",
+      "Subescapular mm",
+      "Abdominal mm",
+      "Supra-ilíaca mm",
+      "Coxa dobra mm",
+
+      "Soma 7 dobras mm",
+      "Densidade corporal",
+      "% Gordura",
+      "% Massa livre",
+      "Massa gorda kg",
+      "Massa magra kg",
+      "Classificação",
+
+      "Pescoço cm",
+      "Ombros cm",
+      "Tórax cm",
+      "Cintura cm",
+      "Abdômen cm",
+      "Quadril cm",
+
+      "Braço direito cm",
+      "Braço esquerdo cm",
+
+      "Antebraço direito cm",
+      "Antebraço esquerdo cm",
+
+      "Coxa direita cm",
+      "Coxa esquerda cm",
+
+      "Panturrilha direita cm",
+      "Panturrilha esquerda cm"
+
+    ];
+
+
+    let linhas = [
+
+      cabecalho.join(";")
+
+    ];
+
+
+    dados.forEach(d => {
+
+      let linha = [
+
+        d.data,
+        d.hora,
+        d.nome,
+        d.sexo,
+        d.idade,
+        d.peso,
+
+        d.peitoral,
+        d.axilar,
+        d.tricipital,
+        d.subescapular,
+        d.abdominal,
+        d.supra,
+        d.coxa,
+
+        d.soma,
+        d.densidade,
+        d.gordura,
+        d.massaLivre,
+        d.mg,
+        d.mm,
+        d.classificacao,
+
+        d.pescoco,
+        d.ombros,
+        d.torax,
+        d.cintura,
+        d.abdomen,
+        d.quadril,
+
+        d.bracoD,
+        d.bracoE,
+
+        d.antebracoD,
+        d.antebracoE,
+
+        d.coxaD,
+        d.coxaE,
+
+        d.panturrilhaD,
+        d.panturrilhaE
+
+      ];
+
+
+      linhas.push(
+
+        linha
+          .map(csvValor)
+          .join(";")
+
+      );
+
+    });
+
+
+    let csv =
+      linhas.join("\n");
+
+
+    let blob =
+      new Blob(
+        ["\uFEFF" + csv],
+        {
+          type:
+          "text/csv;charset=utf-8;"
+        }
+      );
+
+
+    let a =
+      document.createElement("a");
+
+
+    a.href =
+      URL.createObjectURL(blob);
+
+
+    a.download =
+      "historico_pollock_perimetria.csv";
+
+
+    a.click();
+
+
+    URL.revokeObjectURL(
+      a.href
+    );
+
+  }
+
+
+  function limpar(){
+
+    if(
+      confirm(
+        "Deseja apagar todo o histórico?"
+      )
+    ){
+
+      localStorage.removeItem(
+        STORAGE_KEY
+      );
+
+
+      dados = [];
+
+
+      render();
+
+
+      alert(
+        "Histórico apagado."
+      );
+
+    }
+
+  }
+
+
+  function whatsapp(){
+
+    window.open(
+      WHATSAPP_URL,
+      "_blank"
+    );
+
+  }
+
+
+  window.addEventListener(
+    "beforeinstallprompt",
+    (e) => {
+
+      e.preventDefault();
+
+      deferredPrompt = e;
+
+
+      const btn =
+        document.getElementById(
+          "installBtn"
+        );
+
+
+      btn.style.display =
+        "inline-block";
+
+
+      btn.onclick =
+        async () => {
+
+          deferredPrompt.prompt();
+
+          await deferredPrompt.userChoice;
+
+          deferredPrompt = null;
+
+          btn.style.display =
+            "none";
+
+        };
+
+    }
+  );
+
+
+  if(
+    "serviceWorker" in navigator
+  ){
+
+    window.addEventListener(
+      "load",
+      () => {
+
+        navigator
+          .serviceWorker
+          .register(
+            "service-worker.js"
+          );
+
+      }
+    );
+
+  }
+
+
+  render();
+
+</script>
+
 </body>
 </html>
