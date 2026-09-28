@@ -1,1729 +1,1403 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Lucas Personal</title>
+<title>Lucas Personal</title>
 
-  <meta name="theme-color" content="#165c99">
-  <meta name="description" content="Avaliação física com Pollock 7 dobras, composição corporal, perimetria, histórico e evolução.">
+<meta name="theme-color" content="#165c99">
+<meta name="description" content="Avaliação física, composição corporal, gasto energético, referência alimentar e planejamento de treino.">
 
-  <!-- Mantém o aplicativo instalável -->
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 
-  <style>
-    *{
-      box-sizing:border-box;
-    }
+<style>
+*{box-sizing:border-box}
 
-    body{
-      font-family:Arial, sans-serif;
-      background:#dbe9f4;
-      padding:20px;
-      margin:0;
-      color:#0f172a;
-    }
+body{
+  font-family:Arial,sans-serif;
+  background:#dbe9f4;
+  padding:20px;
+  margin:0;
+  color:#0f172a;
+}
 
-    .container{
-      max-width:900px;
-      margin:auto;
-    }
+.container{max-width:900px;margin:auto}
 
-    .header{
-      background:linear-gradient(135deg,#165c99,#1f8ecf);
-      color:white;
-      padding:28px;
-      border-radius:28px;
-      margin-bottom:20px;
-      box-shadow:0 8px 24px rgba(0,0,0,.12);
-    }
+.header{
+  background:linear-gradient(135deg,#165c99,#1f8ecf);
+  color:white;
+  padding:28px;
+  border-radius:28px;
+  margin-bottom:20px;
+  box-shadow:0 8px 24px rgba(0,0,0,.12);
+}
 
-    .header h1{
-      margin:0 0 8px;
-      font-size:42px;
-    }
+.header h1{margin:0 0 8px;font-size:42px}
+.header p{margin:0;font-size:19px;line-height:1.4}
 
-    .header p{
-      margin:0;
-      font-size:20px;
-      line-height:1.4;
-    }
+.pill{
+  display:inline-block;
+  margin-top:18px;
+  background:rgba(255,255,255,.18);
+  padding:10px 18px;
+  border-radius:999px;
+  font-weight:bold;
+}
 
-    .pill{
-      display:inline-block;
-      margin-top:18px;
-      background:rgba(255,255,255,.18);
-      padding:10px 18px;
-      border-radius:999px;
-      font-weight:bold;
-    }
+.card{
+  background:white;
+  padding:22px;
+  border-radius:24px;
+  margin-bottom:18px;
+  box-shadow:0 5px 18px rgba(0,0,0,.08);
+}
 
-    .card{
-      background:white;
-      padding:22px;
-      border-radius:24px;
-      margin-bottom:18px;
-      box-shadow:0 5px 18px rgba(0,0,0,.08);
-    }
+.section-title{
+  margin:0 0 18px;
+  color:#165c99;
+}
 
-    .section-title{
-      margin:0 0 18px;
-      color:#165c99;
-    }
+.sub{
+  color:#165c99;
+  margin:26px 0 12px;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
 
-    .grid-3{
-      display:grid;
-      grid-template-columns:1fr 1fr 1fr;
-      gap:12px;
-    }
+.field label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:6px;
+  color:#123a63;
+}
 
-    .field label{
-      display:block;
-      font-weight:bold;
-      margin-bottom:6px;
-      color:#123a63;
-    }
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid #cfdbe5;
+  font-size:16px;
+  background:#f7f1d5;
+}
 
-    input, select{
-      width:100%;
-      padding:14px;
-      border-radius:14px;
-      border:1px solid #cfdbe5;
-      font-size:16px;
-      background:#f7f1d5;
-    }
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
 
-    button{
-      width:100%;
-      padding:14px;
-      margin-top:10px;
-      border:none;
-      border-radius:14px;
-      font-weight:bold;
-      cursor:pointer;
-      font-size:16px;
-    }
+button{
+  width:100%;
+  padding:14px;
+  margin-top:10px;
+  border:none;
+  border-radius:14px;
+  font-weight:bold;
+  cursor:pointer;
+  font-size:16px;
+}
 
-    .primary{
-      background:#165c99;
-      color:white;
-    }
+.primary{background:#165c99;color:white}
+.green{background:#1f7a42;color:white}
+.red{background:#b91c1c;color:white}
+.secondary{background:#eef3f7;color:#165c99}
 
-    .green{
-      background:#1f7a42;
-      color:white;
-    }
+.topline{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
 
-    .red{
-      background:#b91c1c;
-      color:white;
-    }
+.badge{
+  background:#dff1e5;
+  color:#1f7a42;
+  padding:10px 18px;
+  border-radius:999px;
+  font-weight:bold;
+}
 
-    .secondary{
-      background:#eef3f7;
-      color:#165c99;
-    }
+.result-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
 
-    .topline{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-bottom:16px;
-    }
+.result-card{
+  background:#eef3f7;
+  padding:18px;
+  border-radius:18px;
+  border:1px solid #d6e1ea;
+}
 
-    .badge{
-      background:#dff1e5;
-      color:#1f7a42;
-      padding:10px 18px;
-      border-radius:999px;
-      font-weight:bold;
-    }
+.result-card .label{
+  color:#64748b;
+  font-size:14px;
+  margin-bottom:8px;
+}
 
-    .result-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-    }
+.result-card .value{
+  font-size:22px;
+  font-weight:bold;
+}
 
-    .result-card{
-      background:#eef3f7;
-      padding:18px;
-      border-radius:18px;
-      border:1px solid #d6e1ea;
-    }
+.note{
+  margin-top:18px;
+  color:#64748b;
+  line-height:1.5;
+}
 
-    .result-card .label{
-      color:#64748b;
-      font-size:14px;
-      margin-bottom:8px;
-    }
+.warning{
+  margin-top:16px;
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  padding:14px;
+  border-radius:14px;
+  line-height:1.5;
+  color:#9a3412;
+}
 
-    .result-card .value{
-      font-size:22px;
-      font-weight:bold;
-    }
+.success{
+  margin-top:16px;
+  background:#ecfdf5;
+  border:1px solid #bbf7d0;
+  padding:14px;
+  border-radius:14px;
+  color:#166534;
+}
 
-    .note{
-      margin-top:18px;
-      color:#64748b;
-      line-height:1.5;
-    }
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+}
 
-    table{
-      width:100%;
-      border-collapse:collapse;
-      margin-top:10px;
-    }
+th,td{
+  text-align:left;
+  padding:12px;
+  border-bottom:1px solid #e7edf3;
+  font-size:14px;
+  vertical-align:top;
+}
 
-    th, td{
-      text-align:left;
-      padding:12px;
-      border-bottom:1px solid #e7edf3;
-      font-size:14px;
-      vertical-align:top;
-    }
+th{
+  color:#165c99;
+  background:#f4f8fb;
+}
 
-    th{
-      color:#165c99;
-      background:#f4f8fb;
-    }
+.history-row{cursor:pointer}
+.history-row:hover{background:#f8fafc}
 
-    .history-row{
-      cursor:pointer;
-    }
+.comparison{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
 
-    .history-row:hover{
-      background:#f8fafc;
-    }
+.comparison-item,.meal,.workout-day{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  border-radius:16px;
+  padding:15px;
+  margin-top:10px;
+}
 
-    .positive{
-      color:#15803d;
-      font-weight:bold;
-    }
+.hidden{display:none}
 
-    .negative{
-      color:#b91c1c;
-      font-weight:bold;
-    }
+.detail-block{
+  background:#f8fafc;
+  padding:16px;
+  border-radius:16px;
+  margin-top:12px;
+  line-height:1.7;
+}
 
-    .comparison{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:12px;
-    }
+.detail-block h3{
+  margin-top:0;
+  color:#165c99;
+}
 
-    .comparison-item{
-      background:#f8fafc;
-      border:1px solid #e2e8f0;
-      border-radius:16px;
-      padding:15px;
-    }
+.macro-line{
+  font-weight:bold;
+  color:#123a63;
+  margin-top:10px;
+}
 
-    .comparison-item strong{
-      display:block;
-      margin-bottom:7px;
-    }
+.small{
+  font-size:13px;
+  color:#64748b;
+}
 
-    .hidden{
-      display:none;
-    }
+.totals{
+  background:#eaf4fb;
+  border:1px solid #bdd8ea;
+  border-radius:16px;
+  padding:16px;
+  margin-top:14px;
+}
 
-    .detail-block{
-      background:#f8fafc;
-      padding:16px;
-      border-radius:16px;
-      margin-top:12px;
-      line-height:1.7;
-    }
+.exercise{
+  padding:10px 0;
+  border-bottom:1px solid #e2e8f0;
+}
 
-    .detail-block h3{
-      margin-top:0;
-      color:#165c99;
-    }
+.exercise:last-child{border-bottom:0}
 
-    @media(max-width:768px){
-      .grid,
-      .grid-3,
-      .result-grid,
-      .comparison{
-        grid-template-columns:1fr;
-      }
+@media(max-width:768px){
+  .grid,.result-grid,.comparison{
+    grid-template-columns:1fr;
+  }
 
-      .header h1{
-        font-size:32px;
-      }
+  .header h1{font-size:32px}
+  .header p{font-size:17px}
+}
 
-      .header p{
-        font-size:18px;
-      }
-    }
-
-    @media print{
-      body{
-        background:white;
-        padding:0;
-      }
-
-      .no-print{
-        display:none !important;
-      }
-
-      .card{
-        box-shadow:none;
-        border:1px solid #ddd;
-      }
-    }
-  </style>
+@media print{
+  body{background:white;padding:0}
+  .no-print{display:none!important}
+  .card{box-shadow:none;border:1px solid #ddd}
+}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <div class="header">
-    <h1>Lucas Personal</h1>
-
-    <p>
-      Avaliação física completa com composição corporal,
-      perimetria e acompanhamento de evolução.
-    </p>
-
-    <div class="pill">Pollock 7 Dobras</div>
-  </div>
-
-
-  <!-- NOVA AVALIAÇÃO -->
-  <div class="card no-print">
-
-    <h2 class="section-title">Nova avaliação</h2>
-
-    <div class="field">
-      <label for="nome">Nome do aluno</label>
-      <input id="nome" type="text" placeholder="Ex.: João Silva">
-    </div>
-
-    <div class="grid" style="margin-top:14px">
-
-      <div class="field">
-        <label for="sexo">Sexo</label>
-        <select id="sexo">
-          <option value="male">Masculino</option>
-          <option value="female">Feminino</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="idade">Idade</label>
-        <input id="idade" type="number" min="1" step="1" placeholder="Ex.: 30">
-      </div>
-
-      <div class="field">
-        <label for="peso">Peso corporal (kg)</label>
-        <input id="peso" type="number" min="0" step="0.1" placeholder="Ex.: 78.5">
-      </div>
-
-      <div class="field">
-        <label for="altura">Altura (cm)</label>
-        <input id="altura" type="number" min="0" step="0.1" placeholder="Ex.: 178">
-      </div>
-
-    </div>
-
-    <h3 style="color:#165c99;margin-top:28px">Dobras cutâneas</h3>
-
-    <div class="grid">
-
-      <div class="field">
-        <label for="peitoral">Peitoral (mm)</label>
-        <input id="peitoral" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="axilar">Axilar média (mm)</label>
-        <input id="axilar" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="tricipital">Tricipital (mm)</label>
-        <input id="tricipital" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="subescapular">Subescapular (mm)</label>
-        <input id="subescapular" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="abdominal">Abdominal (mm)</label>
-        <input id="abdominal" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="supra">Supra-ilíaca (mm)</label>
-        <input id="supra" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="coxa">Coxa (mm)</label>
-        <input id="coxa" type="number" min="0" step="0.1">
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- PERIMETRIA -->
-  <div class="card no-print">
-
-    <h2 class="section-title">Perimetria</h2>
-
-    <div class="grid">
-
-      <div class="field">
-        <label for="pescoco">Pescoço (cm)</label>
-        <input id="pescoco" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="ombros">Ombros (cm)</label>
-        <input id="ombros" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="torax">Tórax (cm)</label>
-        <input id="torax" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="cintura">Cintura (cm)</label>
-        <input id="cintura" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="abdomen">Abdômen (cm)</label>
-        <input id="abdomen" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="quadril">Quadril (cm)</label>
-        <input id="quadril" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="bracoD">Braço direito (cm)</label>
-        <input id="bracoD" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="bracoE">Braço esquerdo (cm)</label>
-        <input id="bracoE" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="antebracoD">Antebraço direito (cm)</label>
-        <input id="antebracoD" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="antebracoE">Antebraço esquerdo (cm)</label>
-        <input id="antebracoE" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="coxaD">Coxa direita (cm)</label>
-        <input id="coxaD" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="coxaE">Coxa esquerda (cm)</label>
-        <input id="coxaE" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="panturrilhaD">Panturrilha direita (cm)</label>
-        <input id="panturrilhaD" type="number" min="0" step="0.1">
-      </div>
-
-      <div class="field">
-        <label for="panturrilhaE">Panturrilha esquerda (cm)</label>
-        <input id="panturrilhaE" type="number" min="0" step="0.1">
-      </div>
-
-    </div>
-  </div>
-
-
-  <!-- BOTÕES -->
-  <div class="card no-print">
-
-    <div class="grid-3">
-
-      <button class="primary" onclick="calcular()">
-        Calcular
-      </button>
-
-      <button class="green" onclick="salvar()">
-        Salvar avaliação
-      </button>
-
-      <button class="secondary" onclick="exportar()">
-        Exportar CSV
-      </button>
-
-    </div>
-
-    <button class="secondary" onclick="gerarRelatorioAtual()">
-      Gerar relatório
-    </button>
-
-    <button class="red" onclick="limpar()">
-      Limpar histórico
-    </button>
-
-  </div>
-
-
-  <!-- RESULTADO -->
-  <div class="card">
-
-    <div class="topline">
-
-      <h2 class="section-title" style="margin:0">Resultado</h2>
-
-      <div class="badge" id="classificacaoBadge">
-        Aguardando cálculo
-      </div>
-
-    </div>
-
-    <div class="result-grid">
-
-      <div class="result-card">
-        <div class="label">Soma das 7 dobras</div>
-        <div class="value" id="somaOut">—</div>
-      </div>
-
-      <div class="result-card">
-        <div class="label">Densidade corporal</div>
-        <div class="value" id="densidadeOut">—</div>
-      </div>
-
-      <div class="result-card">
-        <div class="label">% de gordura</div>
-        <div class="value" id="gorduraOut">—</div>
-      </div>
-
-      <div class="result-card">
-        <div class="label">% massa livre</div>
-        <div class="value" id="massaLivreOut">—</div>
-      </div>
-
-      <div class="result-card">
-        <div class="label">Massa gorda</div>
-        <div class="value" id="massaGordaOut">—</div>
-      </div>
-
-      <div class="result-card">
-        <div class="label">Massa magra</div>
-        <div class="value" id="massaMagraOut">—</div>
-      </div>
-
-      <div class="result-card">
-        <div class="label">IMC</div>
-        <div class="value" id="imcOut">—</div>
-      </div>
-
-      <div class="result-card">
-        <div class="label">Classificação IMC</div>
-        <div class="value" id="imcClassOut">—</div>
-      </div>
-
-    </div>
-
-    <div class="note">
-      Estimativa baseada em Jackson & Pollock (7 dobras)
-      com conversão pela equação de Siri.
-      A precisão depende da qualidade e padronização da coleta.
-    </div>
-  </div>
-
-
-  <!-- COMPARAÇÃO -->
-  <div class="card">
-
-    <h2 class="section-title">
-      Comparação com avaliação anterior
-    </h2>
-
-    <div id="comparacaoConteudo">
-      <div class="note">
-        Calcule uma avaliação para verificar a evolução.
-      </div>
-    </div>
-
-  </div>
-
-
-  <!-- HISTÓRICO -->
-  <div class="card">
-
-    <h2 class="section-title">
-      Histórico de avaliações
-    </h2>
-
-    <div style="overflow:auto">
-
-      <table>
-
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Aluno</th>
-            <th>Peso</th>
-            <th>Gordura</th>
-            <th>Massa magra</th>
-          </tr>
-        </thead>
-
-        <tbody id="historico"></tbody>
-
-      </table>
-
-    </div>
-
-    <div id="detalhesAvaliacao" class="hidden"></div>
-
-  </div>
+<div class="header">
+  <h1>Lucas Personal</h1>
+  <p>Avaliação física, composição corporal, evolução, estimativa energética, referência alimentar e planejamento de treino.</p>
+  <div class="pill">Pollock 7 Dobras</div>
+</div>
+
+<div class="card no-print">
+
+<h2 class="section-title">Nova avaliação</h2>
+
+<div class="field">
+<label>Nome do aluno</label>
+<input id="nome" type="text" placeholder="Ex.: João Silva">
+</div>
+
+<div class="grid" style="margin-top:14px">
+
+<div class="field">
+<label>Sexo</label>
+<select id="sexo">
+<option value="male">Masculino</option>
+<option value="female">Feminino</option>
+</select>
+</div>
+
+<div class="field">
+<label>Idade</label>
+<input id="idade" type="number" min="1">
+</div>
+
+<div class="field">
+<label>Peso corporal (kg)</label>
+<input id="peso" type="number" min="0" step="0.1">
+</div>
+
+<div class="field">
+<label>Altura (cm)</label>
+<input id="altura" type="number" min="0" step="0.1">
+</div>
 
 </div>
 
+<h3 class="sub">Dobras cutâneas</h3>
+
+<div class="grid">
+<div class="field"><label>Peitoral (mm)</label><input id="peitoral" type="number" step="0.1"></div>
+<div class="field"><label>Axilar média (mm)</label><input id="axilar" type="number" step="0.1"></div>
+<div class="field"><label>Tricipital (mm)</label><input id="tricipital" type="number" step="0.1"></div>
+<div class="field"><label>Subescapular (mm)</label><input id="subescapular" type="number" step="0.1"></div>
+<div class="field"><label>Abdominal (mm)</label><input id="abdominal" type="number" step="0.1"></div>
+<div class="field"><label>Supra-ilíaca (mm)</label><input id="supra" type="number" step="0.1"></div>
+<div class="field"><label>Coxa (mm)</label><input id="coxa" type="number" step="0.1"></div>
+</div>
+
+</div>
+
+<div class="card no-print">
+
+<h2 class="section-title">Perimetria</h2>
+
+<div class="grid">
+<div class="field"><label>Pescoço (cm)</label><input id="pescoco" type="number" step="0.1"></div>
+<div class="field"><label>Ombros (cm)</label><input id="ombros" type="number" step="0.1"></div>
+<div class="field"><label>Tórax (cm)</label><input id="torax" type="number" step="0.1"></div>
+<div class="field"><label>Cintura (cm)</label><input id="cintura" type="number" step="0.1"></div>
+<div class="field"><label>Abdômen (cm)</label><input id="abdomen" type="number" step="0.1"></div>
+<div class="field"><label>Quadril (cm)</label><input id="quadril" type="number" step="0.1"></div>
+<div class="field"><label>Braço direito (cm)</label><input id="bracoD" type="number" step="0.1"></div>
+<div class="field"><label>Braço esquerdo (cm)</label><input id="bracoE" type="number" step="0.1"></div>
+<div class="field"><label>Antebraço direito (cm)</label><input id="antebracoD" type="number" step="0.1"></div>
+<div class="field"><label>Antebraço esquerdo (cm)</label><input id="antebracoE" type="number" step="0.1"></div>
+<div class="field"><label>Coxa direita (cm)</label><input id="coxaD" type="number" step="0.1"></div>
+<div class="field"><label>Coxa esquerda (cm)</label><input id="coxaE" type="number" step="0.1"></div>
+<div class="field"><label>Panturrilha direita (cm)</label><input id="panturrilhaD" type="number" step="0.1"></div>
+<div class="field"><label>Panturrilha esquerda (cm)</label><input id="panturrilhaE" type="number" step="0.1"></div>
+</div>
+
+</div>
+
+<div class="card no-print">
+
+<h2 class="section-title">Energia e objetivo</h2>
+
+<div class="grid">
+
+<div class="field">
+<label>Nível de atividade</label>
+<select id="atividade">
+<option value="1.2">Sedentário</option>
+<option value="1.375">Levemente ativo</option>
+<option value="1.55" selected>Moderadamente ativo</option>
+<option value="1.725">Muito ativo</option>
+<option value="1.9">Extremamente ativo</option>
+</select>
+</div>
+
+<div class="field">
+<label>Objetivo</label>
+<select id="objetivo">
+<option value="manutencao">Manutenção</option>
+<option value="cutting">Perda de gordura / Cutting</option>
+<option value="bulking">Ganho de massa / Bulking</option>
+</select>
+</div>
+
+<div class="field">
+<label>Número de refeições por dia</label>
+<select id="refeicoes">
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5" selected>5</option>
+<option value="6">6</option>
+</select>
+</div>
+
+<div class="field">
+<label>Horário habitual do treino</label>
+<input id="horarioTreino" type="time">
+</div>
+
+</div>
+
+<h3 class="sub">Restrições e preferências alimentares</h3>
+
+<div class="grid">
+
+<div class="field">
+<label>Alergias alimentares</label>
+<input id="alergias" type="text" placeholder="Ex.: amendoim; nenhuma">
+</div>
+
+<div class="field">
+<label>Intolerâncias</label>
+<input id="intolerancias" type="text" placeholder="Ex.: lactose; nenhuma">
+</div>
+
+<div class="field">
+<label>Alimentos que não consome ou evita</label>
+<input id="evitaAlimentos" type="text">
+</div>
+
+<div class="field">
+<label>Padrão alimentar</label>
+<select id="padraoAlimentar">
+<option value="onivoro">Onívoro</option>
+<option value="vegetariano">Vegetariano</option>
+<option value="vegano">Vegano</option>
+</select>
+</div>
+
+</div>
+
+<div class="field" style="margin-top:14px">
+<label>Condição clínica ou dieta terapêutica prescrita?</label>
+<textarea id="condicaoNutri" placeholder="Informe caso exista uma condição ou dieta terapêutica específica."></textarea>
+</div>
+
+<button class="primary" onclick="calcularEnergia()">Calcular gasto energético e referência nutricional</button>
+
+</div>
+
+<div class="card no-print">
+
+<h2 class="section-title">Anamnese e planejamento de treino</h2>
+
+<div class="grid">
+
+<div class="field">
+<label>Objetivo principal</label>
+<select id="objetivoTreino">
+<option value="hipertrofia">Hipertrofia</option>
+<option value="emagrecimento">Emagrecimento</option>
+<option value="forca">Força</option>
+<option value="condicionamento">Condicionamento</option>
+<option value="saude">Saúde e qualidade de vida</option>
+</select>
+</div>
+
+<div class="field">
+<label>Nível</label>
+<select id="nivelTreino">
+<option value="iniciante">Iniciante</option>
+<option value="intermediario">Intermediário</option>
+<option value="avancado">Avançado</option>
+</select>
+</div>
+
+<div class="field">
+<label>Experiência</label>
+<select id="experiencia">
+<option value="nenhuma">Nenhuma</option>
+<option value="menos6">Menos de 6 meses</option>
+<option value="6a12">6 a 12 meses</option>
+<option value="1a3">1 a 3 anos</option>
+<option value="mais3">Mais de 3 anos</option>
+</select>
+</div>
+
+<div class="field">
+<label>Dias disponíveis por semana</label>
+<select id="diasTreino">
+<option value="2">2 dias</option>
+<option value="3">3 dias</option>
+<option value="4" selected>4 dias</option>
+<option value="5">5 dias</option>
+<option value="6">6 dias</option>
+</select>
+</div>
+
+<div class="field">
+<label>Duração do treino</label>
+<select id="duracaoTreino">
+<option value="30">30 minutos</option>
+<option value="45">45 minutos</option>
+<option value="60" selected>60 minutos</option>
+<option value="75">75 minutos</option>
+<option value="90">90 minutos</option>
+</select>
+</div>
+
+<div class="field">
+<label>Local</label>
+<select id="localTreino">
+<option value="academia">Academia completa</option>
+<option value="condominio">Academia de condomínio</option>
+<option value="casa">Casa</option>
+</select>
+</div>
+
+</div>
+
+<div class="field" style="margin-top:14px">
+<label>Dias da semana disponíveis</label>
+<input id="diasSemana" type="text" placeholder="Ex.: segunda, terça, quinta e sexta">
+</div>
+
+<div class="field" style="margin-top:14px">
+<label>Grupos musculares prioritários</label>
+<input id="prioridades" type="text" placeholder="Ex.: glúteos, quadríceps, costas">
+</div>
+
+<div class="field" style="margin-top:14px">
+<label>Equipamentos disponíveis</label>
+<textarea id="equipamentos"></textarea>
+</div>
+
+<h3 class="sub">Saúde musculoesquelética e segurança</h3>
+
+<div class="field">
+<label>Lesões, alterações posturais ou condições diagnosticadas</label>
+<textarea id="condicoesTreino" placeholder="Ex.: cifose, escoliose, hérnia de disco, joelho, ombro..."></textarea>
+</div>
+
+<div class="field" style="margin-top:14px">
+<label>Sintomas atuais</label>
+<textarea id="sintomasTreino" placeholder="Ex.: dor, formigamento, perda de força, tontura ou limitação de movimento."></textarea>
+</div>
+
+<div class="field" style="margin-top:14px">
+<label>Cirurgias anteriores relevantes</label>
+<textarea id="cirurgiasTreino"></textarea>
+</div>
+
+<div class="field" style="margin-top:14px">
+<label>Restrições determinadas por médico ou fisioterapeuta</label>
+<textarea id="restricoesProf"></textarea>
+</div>
+
+<div class="field" style="margin-top:14px">
+<label>Exercícios que não pode ou prefere não realizar</label>
+<textarea id="evitarExercicios"></textarea>
+</div>
+
+<button class="primary" onclick="gerarTreino()">Gerar planejamento de treino</button>
+
+</div>
+
+<div class="card">
+
+<div class="topline">
+<h2 class="section-title" style="margin:0">Resultados da avaliação</h2>
+<div id="badgeClassificacao" class="badge">Aguardando avaliação</div>
+</div>
+
+<div class="result-grid">
+
+<div class="result-card"><div class="label">Soma das 7 dobras</div><div class="value" id="rSoma">--</div></div>
+<div class="result-card"><div class="label">Densidade corporal</div><div class="value" id="rDensidade">--</div></div>
+<div class="result-card"><div class="label">Percentual de gordura</div><div class="value" id="rGordura">--</div></div>
+<div class="result-card"><div class="label">Percentual de massa livre</div><div class="value" id="rMassaLivre">--</div></div>
+<div class="result-card"><div class="label">Massa gorda</div><div class="value" id="rMassaGorda">--</div></div>
+<div class="result-card"><div class="label">Massa magra</div><div class="value" id="rMassaMagra">--</div></div>
+<div class="result-card"><div class="label">IMC</div><div class="value" id="rImc">--</div></div>
+<div class="result-card"><div class="label">Classificação do IMC</div><div class="value" id="rImcClass">--</div></div>
+
+</div>
+
+<div class="no-print">
+<button class="primary" onclick="calcular()">Calcular avaliação</button>
+<button class="green" onclick="salvarAvaliacao()">Salvar avaliação</button>
+<button class="secondary" onclick="exportarCSV()">Exportar CSV</button>
+<button class="secondary" onclick="gerarRelatorio()">Gerar relatório / PDF</button>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">Classificação do percentual de gordura</h2>
+
+<div style="overflow-x:auto">
+<table>
+<thead>
+<tr><th>Classificação</th><th>Homens</th><th>Mulheres</th></tr>
+</thead>
+<tbody>
+<tr><td>Muito baixo</td><td>Menos de 6%</td><td>Menos de 14%</td></tr>
+<tr><td>Atlético</td><td>6% a 13,9%</td><td>14% a 20,9%</td></tr>
+<tr><td>Bom</td><td>14% a 17,9%</td><td>21% a 24,9%</td></tr>
+<tr><td>Médio</td><td>18% a 24,9%</td><td>25% a 31,9%</td></tr>
+<tr><td>Elevado</td><td>25% ou mais</td><td>32% ou mais</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="note">Classificação de referência geral para acompanhamento.</p>
+
+</div>
+
+<div class="card">
+
+<h2 class="section-title">Estimativa energética e nutricional</h2>
+
+<div class="result-grid">
+
+<div class="result-card"><div class="label">Taxa metabólica basal</div><div class="value" id="rTmb">--</div></div>
+<div class="result-card"><div class="label">Gasto energético diário</div><div class="value" id="rGet">--</div></div>
+<div class="result-card"><div class="label">Meta energética</div><div class="value" id="rMetaCal">--</div></div>
+<div class="result-card"><div class="label">Proteína diária</div><div class="value" id="rProteina">--</div></div>
+<div class="result-card"><div class="label">Carboidratos diários</div><div class="value" id="rCarbo">--</div></div>
+<div class="result-card"><div class="label">Gorduras diárias</div><div class="value" id="rLipidio">--</div></div>
+
+</div>
+
+<div id="planoAlimentar"></div>
+
+<p class="note">Pesos de arroz, feijão, carnes, tubérculos e similares são apresentados como alimento pronto para consumo/cozido.</p>
+
+</div>
+
+<div class="card">
+<h2 class="section-title">Planejamento de treino</h2>
+<div id="treinoResultado"><p class="note">Preencha a anamnese e toque em “Gerar planejamento de treino”.</p></div>
+</div>
+
+<div class="card">
+<h2 class="section-title">Comparação com avaliação anterior</h2>
+<div id="comparacao"><p class="note">Salve avaliações do mesmo aluno para acompanhar a evolução.</p></div>
+</div>
+
+<div class="card">
+
+<h2 class="section-title">Histórico de avaliações</h2>
+
+<div style="overflow-x:auto">
+<table>
+<thead>
+<tr><th>Data</th><th>Aluno</th><th>Peso</th><th>% gordura</th><th>Massa magra</th><th>IMC</th></tr>
+</thead>
+<tbody id="historicoTabela"></tbody>
+</table>
+</div>
+
+<div class="no-print">
+<button class="red" onclick="limparHistorico()">Limpar histórico</button>
+</div>
+
+</div>
+
+<div class="card hidden" id="detalhesCard">
+<h2 class="section-title">Detalhes da avaliação</h2>
+<div id="detalhesAvaliacao"></div>
+</div>
+
+</div>
 
 <script>
 
-const STORAGE_KEY = "dados_pollock_v2";
+const STORAGE_KEY="dados_pollock_v2";
 
-let dados = [];
+let avaliacaoAtual=null;
+let energiaAtual=null;
+let planoAtual=null;
+let treinoAtual=null;
 
-try{
-  dados = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-}catch(e){
-  dados = [];
+function numero(id){
+ const v=parseFloat(document.getElementById(id).value);
+ return Number.isFinite(v)?v:0;
 }
-
-let resultadoAtual = null;
-
-
-function v(id){
-  return parseFloat(document.getElementById(id).value);
-}
-
 
 function texto(id){
-  return document.getElementById(id).value.trim();
+ return document.getElementById(id).value.trim();
 }
 
-
-function mostrar(valor){
-  return (
-    valor === undefined ||
-    valor === null ||
-    valor === ""
-  ) ? "—" : valor;
+function formatarNumero(v,c=1){
+ if(!Number.isFinite(Number(v)))return"--";
+ return Number(v).toFixed(c).replace(".",",");
 }
 
-
-function classificacaoGordura(sexo,gordura){
-
-  if(sexo === "male"){
-
-    if(gordura < 6) return "Gordura muito baixa";
-    if(gordura < 14) return "Atlético";
-    if(gordura < 18) return "Bom";
-    if(gordura < 25) return "Médio";
-
-    return "Elevado";
-  }
-
-  if(gordura < 14) return "Gordura muito baixa";
-  if(gordura < 21) return "Atlética";
-  if(gordura < 25) return "Bom";
-  if(gordura < 32) return "Médio";
-
-  return "Elevado";
+function normalizarNome(nome){
+ return(nome||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
 }
-
 
 function classificacaoIMC(imc){
-
-  if(imc < 18.5) return "Baixo peso";
-  if(imc < 25) return "Peso adequado";
-  if(imc < 30) return "Sobrepeso";
-  if(imc < 35) return "Obesidade grau I";
-  if(imc < 40) return "Obesidade grau II";
-
-  return "Obesidade grau III";
+ if(imc<18.5)return"Baixo peso";
+ if(imc<25)return"Peso adequado";
+ if(imc<30)return"Sobrepeso";
+ if(imc<35)return"Obesidade grau I";
+ if(imc<40)return"Obesidade grau II";
+ return"Obesidade grau III";
 }
 
+function classificacaoGordura(sexo,g){
+ if(sexo==="male"){
+   if(g<6)return"Gordura muito baixa";
+   if(g<14)return"Atlético";
+   if(g<18)return"Bom";
+   if(g<25)return"Médio";
+   return"Elevado";
+ }
+ if(g<14)return"Gordura muito baixa";
+ if(g<21)return"Atlética";
+ if(g<25)return"Bom";
+ if(g<32)return"Médio";
+ return"Elevado";
+}
 
 function calcular(){
 
-  const nome = texto("nome");
-  const idade = v("idade");
-  const peso = v("peso");
-  const alturaCm = v("altura");
-  const sexo = document.getElementById("sexo").value;
+ const nome=texto("nome");
+ const sexo=document.getElementById("sexo").value;
+ const idade=numero("idade");
+ const peso=numero("peso");
+ const altura=numero("altura");
 
-  if(!nome){
-    alert("Informe o nome do aluno.");
-    return;
-  }
+ const dobras={
+   peitoral:numero("peitoral"),
+   axilar:numero("axilar"),
+   tricipital:numero("tricipital"),
+   subescapular:numero("subescapular"),
+   abdominal:numero("abdominal"),
+   supra:numero("supra"),
+   coxa:numero("coxa")
+ };
 
-  if(Number.isNaN(idade) || idade <= 0){
-    alert("Informe uma idade válida.");
-    return;
-  }
+ if(!nome||idade<=0||peso<=0||altura<=0){
+   alert("Preencha nome, idade, peso e altura.");
+   return null;
+ }
 
-  const dobras = [
-    v("peitoral"),
-    v("axilar"),
-    v("tricipital"),
-    v("subescapular"),
-    v("abdominal"),
-    v("supra"),
-    v("coxa")
-  ];
+ if(Object.values(dobras).some(v=>v<=0)){
+   alert("Preencha corretamente as sete dobras cutâneas.");
+   return null;
+ }
 
-  if(dobras.some(x => Number.isNaN(x) || x < 0)){
-    alert("Preencha as 7 dobras corretamente.");
-    return;
-  }
+ const soma=Object.values(dobras).reduce((a,b)=>a+b,0);
 
-  const soma = dobras.reduce((a,b) => a+b,0);
+ let densidade;
 
-  let densidade;
+ if(sexo==="male"){
+   densidade=1.112-(0.00043499*soma)+(0.00000055*soma*soma)-(0.00028826*idade);
+ }else{
+   densidade=1.097-(0.00046971*soma)+(0.00000056*soma*soma)-(0.00012828*idade);
+ }
 
-  if(sexo === "male"){
+ const gordura=(495/densidade)-450;
+ const massaLivre=100-gordura;
+ const massaGorda=peso*(gordura/100);
+ const massaMagra=peso-massaGorda;
+ const imc=peso/Math.pow(altura/100,2);
 
-    densidade =
-      1.112
-      - (0.00043499 * soma)
-      + (0.00000055 * soma * soma)
-      - (0.00028826 * idade);
+ const classImc=classificacaoIMC(imc);
+ const classGordura=classificacaoGordura(sexo,gordura);
 
-  }else{
+ const perimetria={};
 
-    densidade =
-      1.097
-      - (0.00046971 * soma)
-      + (0.00000056 * soma * soma)
-      - (0.00012828 * idade);
-  }
+ [
+ "pescoco","ombros","torax","cintura","abdomen","quadril",
+ "bracoD","bracoE","antebracoD","antebracoE",
+ "coxaD","coxaE","panturrilhaD","panturrilhaE"
+ ].forEach(id=>perimetria[id]=numero(id));
 
-  const gordura = (495 / densidade) - 450;
-  const massaLivre = 100 - gordura;
+ avaliacaoAtual={
+   nome,sexo,idade,peso,altura,dobras,soma,densidade,
+   gordura,massaLivre,massaGorda,massaMagra,
+   imc,classImc,classGordura,perimetria
+ };
 
-  const massaGorda =
-    Number.isNaN(peso)
-      ? null
-      : peso * (gordura / 100);
+ document.getElementById("rSoma").textContent=formatarNumero(soma)+" mm";
+ document.getElementById("rDensidade").textContent=formatarNumero(densidade,4);
+ document.getElementById("rGordura").textContent=formatarNumero(gordura)+"%";
+ document.getElementById("rMassaLivre").textContent=formatarNumero(massaLivre)+"%";
+ document.getElementById("rMassaGorda").textContent=formatarNumero(massaGorda)+" kg";
+ document.getElementById("rMassaMagra").textContent=formatarNumero(massaMagra)+" kg";
+ document.getElementById("rImc").textContent=formatarNumero(imc);
+ document.getElementById("rImcClass").textContent=classImc;
+ document.getElementById("badgeClassificacao").textContent=classGordura;
 
-  const massaMagra =
-    Number.isNaN(peso)
-      ? null
-      : peso - massaGorda;
+ mostrarComparacao(avaliacaoAtual);
 
-  let imc = null;
-  let imcClass = "";
-
-  if(
-    !Number.isNaN(peso) &&
-    peso > 0 &&
-    !Number.isNaN(alturaCm) &&
-    alturaCm > 0
-  ){
-
-    const alturaMetros = alturaCm / 100;
-
-    imc =
-      peso /
-      (alturaMetros * alturaMetros);
-
-    imcClass =
-      classificacaoIMC(imc);
-  }
-
-  const classif =
-    classificacaoGordura(sexo,gordura);
-
-
-  document.getElementById("classificacaoBadge").textContent =
-    classif;
-
-  document.getElementById("somaOut").textContent =
-    soma.toFixed(1) + " mm";
-
-  document.getElementById("densidadeOut").textContent =
-    densidade.toFixed(4);
-
-  document.getElementById("gorduraOut").textContent =
-    gordura.toFixed(2) + "%";
-
-  document.getElementById("massaLivreOut").textContent =
-    massaLivre.toFixed(2) + "%";
-
-  document.getElementById("massaGordaOut").textContent =
-    massaGorda === null
-      ? "—"
-      : massaGorda.toFixed(2) + " kg";
-
-  document.getElementById("massaMagraOut").textContent =
-    massaMagra === null
-      ? "—"
-      : massaMagra.toFixed(2) + " kg";
-
-  document.getElementById("imcOut").textContent =
-    imc === null
-      ? "—"
-      : imc.toFixed(2);
-
-  document.getElementById("imcClassOut").textContent =
-    imcClass || "—";
-
-
-  resultadoAtual = {
-
-    id:Date.now(),
-
-    data:new Date().toLocaleDateString("pt-BR"),
-
-    hora:new Date().toLocaleTimeString(
-      "pt-BR",
-      {
-        hour:"2-digit",
-        minute:"2-digit"
-      }
-    ),
-
-    nome:nome,
-
-    sexo:
-      sexo === "male"
-        ? "Masculino"
-        : "Feminino",
-
-    sexoCodigo:sexo,
-
-    idade:idade,
-
-    peso:
-      Number.isNaN(peso)
-        ? ""
-        : peso.toFixed(1),
-
-    altura:
-      Number.isNaN(alturaCm)
-        ? ""
-        : alturaCm.toFixed(1),
-
-    peitoral:dobras[0].toFixed(1),
-    axilar:dobras[1].toFixed(1),
-    tricipital:dobras[2].toFixed(1),
-    subescapular:dobras[3].toFixed(1),
-    abdominal:dobras[4].toFixed(1),
-    supra:dobras[5].toFixed(1),
-    coxa:dobras[6].toFixed(1),
-
-    soma:soma.toFixed(1),
-    densidade:densidade.toFixed(4),
-    gordura:gordura.toFixed(2),
-    massaLivre:massaLivre.toFixed(2),
-
-    mg:
-      massaGorda === null
-        ? ""
-        : massaGorda.toFixed(2),
-
-    mm:
-      massaMagra === null
-        ? ""
-        : massaMagra.toFixed(2),
-
-    imc:
-      imc === null
-        ? ""
-        : imc.toFixed(2),
-
-    imcClass:imcClass,
-    classificacao:classif,
-
-    pescoco:texto("pescoco"),
-    ombros:texto("ombros"),
-    torax:texto("torax"),
-    cintura:texto("cintura"),
-    abdomen:texto("abdomen"),
-    quadril:texto("quadril"),
-
-    bracoD:texto("bracoD"),
-    bracoE:texto("bracoE"),
-
-    antebracoD:texto("antebracoD"),
-    antebracoE:texto("antebracoE"),
-
-    coxaD:texto("coxaD"),
-    coxaE:texto("coxaE"),
-
-    panturrilhaD:texto("panturrilhaD"),
-    panturrilhaE:texto("panturrilhaE")
-  };
-
-  compararComAnterior(resultadoAtual);
+ return avaliacaoAtual;
 }
 
+function calcularEnergia(){
+
+ let av=avaliacaoAtual||calcular();
+ if(!av)return;
+
+ const fator=numero("atividade");
+ const objetivo=document.getElementById("objetivo").value;
+
+ let tmb;
+
+ if(av.sexo==="male"){
+   tmb=(10*av.peso)+(6.25*av.altura)-(5*av.idade)+5;
+ }else{
+   tmb=(10*av.peso)+(6.25*av.altura)-(5*av.idade)-161;
+ }
+
+ const get=tmb*fator;
+
+ let metaCal=get;
+ if(objetivo==="cutting")metaCal=get*0.85;
+ if(objetivo==="bulking")metaCal=get*1.10;
+
+ const proteina=av.peso*(objetivo==="cutting"?2:1.8);
+ const lipidio=av.peso*0.8;
+ const carbo=Math.max(0,(metaCal-(proteina*4)-(lipidio*9))/4);
+
+ energiaAtual={
+   fator,objetivo,tmb,get,metaCal,proteina,carbo,lipidio,
+   refeicoes:parseInt(document.getElementById("refeicoes").value),
+   horarioTreino:document.getElementById("horarioTreino").value,
+   alergias:texto("alergias"),
+   intolerancias:texto("intolerancias"),
+   evitaAlimentos:texto("evitaAlimentos"),
+   padraoAlimentar:document.getElementById("padraoAlimentar").value,
+   condicaoNutri:texto("condicaoNutri")
+ };
+
+ document.getElementById("rTmb").textContent=Math.round(tmb)+" kcal";
+ document.getElementById("rGet").textContent=Math.round(get)+" kcal";
+ document.getElementById("rMetaCal").textContent=Math.round(metaCal)+" kcal";
+ document.getElementById("rProteina").textContent=Math.round(proteina)+" g";
+ document.getElementById("rCarbo").textContent=Math.round(carbo)+" g";
+ document.getElementById("rLipidio").textContent=Math.round(lipidio)+" g";
+
+ gerarPlanoAlimentar();
+}
+
+function gerarPlanoAlimentar(){
+
+ if(!energiaAtual)return;
+
+ const area=document.getElementById("planoAlimentar");
+
+ if(energiaAtual.condicaoNutri){
+   planoAtual=null;
+   area.innerHTML=`
+   <div class="warning">
+   <strong>Plano alimentar automático não gerado.</strong><br>
+   Foi informada uma condição clínica ou dieta terapêutica.
+   Nesse caso, o planejamento alimentar deve seguir orientação individualizada do profissional habilitado responsável.
+   </div>`;
+   return;
+ }
+
+ const n=energiaAtual.refeicoes;
+
+ let nomes;
+
+ if(n===3)nomes=["Café da manhã","Almoço","Jantar"];
+ else if(n===4)nomes=["Café da manhã","Almoço","Lanche","Jantar"];
+ else if(n===5)nomes=["Café da manhã","Lanche da manhã","Almoço","Lanche da tarde","Jantar"];
+ else nomes=["Café da manhã","Lanche da manhã","Almoço","Lanche da tarde","Jantar","Ceia"];
+
+ if(energiaAtual.horarioTreino){
+   const hora=parseInt(energiaAtual.horarioTreino.split(":")[0]);
+
+   if(hora<11){
+     nomes[0]+=" • Pré-treino";
+     if(n>1)nomes[1]+=" • Pós-treino";
+   }else if(hora<17){
+     const i=Math.max(1,Math.floor(n/2)-1);
+     nomes[i]+=" • Pré-treino";
+     if(i+1<n)nomes[i+1]+=" • Pós-treino";
+   }else{
+     const i=Math.max(1,n-2);
+     nomes[i]+=" • Pré-treino";
+     nomes[n-1]+=" • Pós-treino";
+   }
+ }
+
+ const kcal=Math.round(energiaAtual.metaCal/n);
+ const p=Math.round(energiaAtual.proteina/n);
+ const c=Math.round(energiaAtual.carbo/n);
+ const g=Math.round(energiaAtual.lipidio/n);
+
+ const restricoes=(
+   energiaAtual.alergias+" "+
+   energiaAtual.intolerancias+" "+
+   energiaAtual.evitaAlimentos
+ ).toLowerCase();
+
+ const vegano=energiaAtual.padraoAlimentar==="vegano";
+ const vegetariano=energiaAtual.padraoAlimentar==="vegetariano";
+
+ function arred5(v){return Math.max(5,Math.round(v/5)*5)}
+
+ const lista=nomes.map((nome,index)=>{
+
+   let itens=[];
+
+   if(index===0){
+
+     if(!restricoes.includes("aveia"))itens.push(`Aveia: ${arred5(c*1.1)} g`);
+     if(!restricoes.includes("banana"))itens.push("Banana: 1 unidade");
+
+     if(vegano){
+       itens.push(`Tofu: ${arred5(p*4)} g`);
+     }else if(!restricoes.includes("ovo")){
+       itens.push("Ovos: 2 unidades");
+     }else if(vegetariano){
+       itens.push(`Tofu: ${arred5(p*4)} g`);
+     }else{
+       itens.push(`Frango cozido/grelhado: ${arred5(p*4)} g`);
+     }
+
+   }else if(nome.includes("Almoço")||nome.includes("Jantar")||nome.includes("Pós-treino")){
+
+     if(!restricoes.includes("arroz"))itens.push(`Arroz cozido: ${arred5(c*2.5)} g`);
+     if(!restricoes.includes("feijão"))itens.push("Feijão cozido: 100 g");
+
+     if(vegano||vegetariano){
+       itens.push(`Lentilha ou grão-de-bico cozido: ${arred5(p*5)} g`);
+     }else{
+       itens.push(`Frango, carne magra ou peixe: ${arred5(p*4)} g`);
+     }
+
+     itens.push("Salada e legumes: porção livre");
+     itens.push(`Azeite: ${Math.max(5,Math.round(g/2))} g`);
+
+   }else{
+
+     itens.push(`Pão ou tapioca: ${arred5(c*2)} g`);
+
+     if(vegano){
+       itens.push(`Tofu: ${arred5(p*4)} g`);
+     }else if(!restricoes.includes("leite")&&!restricoes.includes("lactose")){
+       itens.push("Iogurte natural: 170 g");
+     }else{
+       itens.push("Ovos: 2 unidades");
+     }
+
+     itens.push("Fruta: 1 unidade");
+   }
+
+   return{nome,itens,kcal,proteina:p,carbo:c,gordura:g};
+ });
+
+ planoAtual={
+   refeicoes:lista,
+   totalKcal:lista.reduce((s,r)=>s+r.kcal,0),
+   totalProteina:lista.reduce((s,r)=>s+r.proteina,0),
+   totalCarbo:lista.reduce((s,r)=>s+r.carbo,0),
+   totalGordura:lista.reduce((s,r)=>s+r.gordura,0)
+ };
+
+ area.innerHTML=`
+ <h3 class="sub">Plano alimentar estimado</h3>
+ <div class="small">
+ Quantidades de arroz, feijão, carnes, tubérculos e similares correspondem ao alimento pronto para consumo/cozido.
+ </div>
+ ${lista.map(r=>`
+ <div class="meal">
+ <strong>${r.nome}</strong>
+ ${r.itens.map(i=>`<div>${i}</div>`).join("")}
+ <div class="macro-line">${r.kcal} kcal | Proteína ${r.proteina} g | Carboidrato ${r.carbo} g | Gordura ${r.gordura} g</div>
+ </div>`).join("")}
+ <div class="totals">
+ <strong>Totais diários estimados</strong><br><br>
+ Energia: ${planoAtual.totalKcal} kcal<br>
+ Proteínas: ${planoAtual.totalProteina} g<br>
+ Carboidratos: ${planoAtual.totalCarbo} g<br>
+ Gorduras: ${planoAtual.totalGordura} g<br><br>
+ <span class="small">Meta energética: ${Math.round(energiaAtual.metaCal)} kcal/dia. Pequenas diferenças podem ocorrer por arredondamento.</span>
+ </div>`;
+}
+
+function gerarTreino(){
+
+ const sintomas=texto("sintomasTreino").toLowerCase();
+ const condicoes=texto("condicoesTreino").toLowerCase();
+ const restricoes=texto("restricoesProf");
+ const evitar=texto("evitarExercicios").toLowerCase();
+
+ const alertas=["dor no peito","desmaio","perda de força","fraqueza súbita","falta de ar anormal","formigamento intenso"];
+
+ const area=document.getElementById("treinoResultado");
+
+ if(alertas.some(a=>sintomas.includes(a))){
+   treinoAtual=null;
+   area.innerHTML=`<div class="warning"><strong>Geração automática bloqueada.</strong><br>A anamnese contém um sinal ou sintoma que requer avaliação adequada antes da geração automática do treino.</div>`;
+   return;
+ }
+
+ const objetivo=document.getElementById("objetivoTreino").value;
+ const nivel=document.getElementById("nivelTreino").value;
+ const dias=parseInt(document.getElementById("diasTreino").value);
+ const duracao=parseInt(document.getElementById("duracaoTreino").value);
+ const prioridades=texto("prioridades");
+
+ let series=nivel==="iniciante"?2:3;
+ let repeticoes="8–12";
+ let rir=nivel==="avancado"?"1–2":"2–3";
+ let descanso="60–120 s";
+
+ if(objetivo==="forca"){
+   repeticoes="5–8";
+   descanso="2–3 min";
+ }
+
+ if(objetivo==="emagrecimento"||objetivo==="condicionamento"){
+   repeticoes="10–15";
+   descanso="45–90 s";
+ }
+
+ let inferiores=["Agachamento no Smith","Leg press","Cadeira extensora","Mesa flexora","Elevação pélvica","Panturrilha"];
+ let posteriores=["Elevação pélvica","Stiff / RDL","Mesa flexora","Leg press","Abdução de quadril","Panturrilha"];
+ let superiores=["Puxada frontal","Remada sentada","Supino máquina","Desenvolvimento de ombros","Elevação lateral","Rosca direta","Tríceps na polia"];
+ let full=["Leg press","Mesa flexora","Puxada frontal","Remada sentada","Supino máquina","Elevação lateral","Elevação pélvica"];
+
+ function remover(lista,termo){
+   return lista.filter(x=>!x.toLowerCase().includes(termo));
+ }
+
+ /*
+  Estas alterações são conservadoras e não significam que
+  determinada condição proíba universalmente um exercício.
+ */
+
+ if(condicoes.includes("cifose")||condicoes.includes("escoliose")||condicoes.includes("hérnia")||condicoes.includes("hernia")||condicoes.includes("lombar")){
+   inferiores=remover(inferiores,"agachamento no smith");
+   posteriores=remover(posteriores,"stiff");
+ }
+
+ if(condicoes.includes("ombro")){
+   superiores=remover(superiores,"desenvolvimento");
+ }
+
+ if(condicoes.includes("joelho")){
+   inferiores=remover(inferiores,"agachamento");
+ }
+
+ function filtrarPreferencias(lista){
+   if(!evitar)return lista;
+
+   const termos=evitar.split(/,|;/).map(x=>x.trim()).filter(Boolean);
+
+   return lista.filter(ex=>!termos.some(t=>ex.toLowerCase().includes(t)));
+ }
+
+ inferiores=filtrarPreferencias(inferiores);
+ posteriores=filtrarPreferencias(posteriores);
+ superiores=filtrarPreferencias(superiores);
+ full=filtrarPreferencias(full);
+
+ let divisao;
+
+ if(dias===2){
+   divisao=[["Treino A • Corpo inteiro",full],["Treino B • Corpo inteiro",full]];
+ }else if(dias===3){
+   divisao=[["Treino A • Inferiores",inferiores],["Treino B • Superiores",superiores],["Treino C • Corpo inteiro",full]];
+ }else if(dias===4){
+   divisao=[["Treino A • Quadríceps",inferiores],["Treino B • Posterior e glúteos",posteriores],["Treino C • Superiores",superiores],["Treino D • Inferiores",inferiores]];
+ }else if(dias===5){
+   divisao=[["Treino A • Inferiores",inferiores],["Treino B • Superiores",superiores],["Treino C • Posterior e glúteos",posteriores],["Treino D • Superiores",superiores],["Treino E • Corpo inteiro",full]];
+ }else{
+   divisao=[["Treino A • Inferiores",inferiores],["Treino B • Superiores",superiores],["Treino C • Posterior e glúteos",posteriores],["Treino D • Superiores",superiores],["Treino E • Inferiores",inferiores],["Treino F • Corpo inteiro",full]];
+ }
+
+ treinoAtual={objetivo,nivel,dias,duracao,prioridades,condicoes,restricoes,divisao,series,repeticoes,rir,descanso};
+
+ let html=`<div class="success"><strong>Planejamento-base gerado.</strong><br>Revise exercícios, volume, amplitude e cargas antes da aplicação.</div>`;
+
+ if(restricoes){
+   html+=`<div class="warning"><strong>Restrição profissional registrada:</strong><br>${restricoes}</div>`;
+ }
+
+ if(prioridades){
+   html+=`<p class="note"><strong>Prioridades informadas:</strong> ${prioridades}</p>`;
+ }
+
+ divisao.forEach(d=>{
+   html+=`
+   <div class="workout-day">
+   <h3>${d[0]}</h3>
+   ${d[1].map(ex=>`
+   <div class="exercise">
+   <strong>${ex}</strong><br>
+   ${series} séries × ${repeticoes} repetições | RIR ${rir} | descanso ${descanso}
+   </div>`).join("")}
+   </div>`;
+ });
+
+ html+=`<p class="note">Frequência: ${dias} sessões por semana. Duração disponível: aproximadamente ${duracao} minutos por sessão. O profissional responsável deve revisar a ficha conforme a avaliação e a evolução do aluno.</p>`;
+
+ area.innerHTML=html;
+}
+
+function obterHistorico(){
+ try{
+   const d=JSON.parse(localStorage.getItem(STORAGE_KEY));
+   return Array.isArray(d)?d:[];
+ }catch(e){
+   return[];
+ }
+}
 
 function buscarAnterior(av){
-
-  const nomeAtual =
-    av.nome.toLowerCase().trim();
-
-  return dados.find(d =>
-    d.nome &&
-    d.nome.toLowerCase().trim() === nomeAtual
-  );
+ const nome=normalizarNome(av.nome);
+ return obterHistorico().find(x=>normalizarNome(x.nome)===nome);
 }
 
+function mostrarComparacao(atual){
 
-function diferenca(atual,anterior){
+ const ant=buscarAnterior(atual);
+ const area=document.getElementById("comparacao");
 
-  const a = parseFloat(atual);
-  const b = parseFloat(anterior);
+ if(!ant){
+   area.innerHTML='<p class="note">Ainda não existe uma avaliação anterior salva para este aluno.</p>';
+   return;
+ }
 
-  if(Number.isNaN(a) || Number.isNaN(b)){
-    return null;
-  }
+ function antigo(campo,alternativo){
+   const v=ant[campo]??ant[alternativo];
+   return Number.isFinite(Number(v))?Number(v):null;
+ }
 
-  return a-b;
+ function bloco(nome,a,b,u){
+   if(b===null)return`<div class="comparison-item"><strong>${nome}</strong><br>Atual: ${formatarNumero(a)} ${u}<br>Anterior: sem dado</div>`;
+   const dif=a-b;
+   return`<div class="comparison-item"><strong>${nome}</strong><br>Atual: ${formatarNumero(a)} ${u}<br>Anterior: ${formatarNumero(b)} ${u}<br>Diferença: ${dif>0?"+":""}${formatarNumero(dif)} ${u}</div>`;
+ }
+
+ area.innerHTML=`<div class="comparison">
+ ${bloco("Peso",atual.peso,antigo("peso"),"kg")}
+ ${bloco("Percentual de gordura",atual.gordura,antigo("gordura"),"%")}
+ ${bloco("Massa magra",atual.massaMagra,antigo("massaMagra","mm"),"kg")}
+ ${bloco("IMC",atual.imc,antigo("imc"),"")}
+ </div>`;
 }
 
+function salvarAvaliacao(){
 
-function formatarDiferenca(valor,unidade=""){
+ if(!avaliacaoAtual){
+   if(!calcular())return;
+ }
 
-  if(valor === null){
-    return "Sem comparação";
-  }
+ const historico=obterHistorico();
+ const agora=new Date();
 
-  if(Math.abs(valor) < 0.0001){
-    return '<span class="neutral">Sem alteração</span>';
-  }
+ const registro={
+   ...avaliacaoAtual,
+   data:agora.toLocaleDateString("pt-BR"),
+   hora:agora.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"}),
+   energia:energiaAtual,
+   plano:planoAtual,
+   treino:treinoAtual
+ };
 
-  const sinal = valor > 0 ? "+" : "";
+ registro.mm=registro.massaMagra;
+ registro.mg=registro.massaGorda;
+ registro.classificacao=registro.classGordura;
 
-  return `
-    <strong>
-      ${sinal}${valor.toFixed(1)}${unidade}
-    </strong>
-  `;
+ historico.unshift(registro);
+
+ localStorage.setItem(STORAGE_KEY,JSON.stringify(historico));
+
+ renderHistorico();
+
+ alert("Avaliação de "+registro.nome+" salva com sucesso.");
 }
 
+function renderHistorico(){
 
-function compararComAnterior(atual){
+ const h=obterHistorico();
+ const tabela=document.getElementById("historicoTabela");
 
-  const anterior = buscarAnterior(atual);
+ if(!h.length){
+   tabela.innerHTML='<tr><td colspan="6">Nenhuma avaliação salva.</td></tr>';
+   return;
+ }
 
-  const el =
-    document.getElementById("comparacaoConteudo");
-
-  if(!anterior){
-
-    el.innerHTML =
-      '<div class="note">' +
-      'Esta é a primeira avaliação salva deste aluno.' +
-      '</div>';
-
-    return;
-  }
-
-  const itens = [
-
-    ["Peso",atual.peso,anterior.peso," kg"],
-    ["% Gordura",atual.gordura,anterior.gordura,"%"],
-    ["Massa magra",atual.mm,anterior.mm," kg"],
-
-    ["Pescoço",atual.pescoco,anterior.pescoco," cm"],
-    ["Ombros",atual.ombros,anterior.ombros," cm"],
-    ["Tórax",atual.torax,anterior.torax," cm"],
-    ["Cintura",atual.cintura,anterior.cintura," cm"],
-    ["Abdômen",atual.abdomen,anterior.abdomen," cm"],
-    ["Quadril",atual.quadril,anterior.quadril," cm"],
-
-    ["Braço direito",atual.bracoD,anterior.bracoD," cm"],
-    ["Braço esquerdo",atual.bracoE,anterior.bracoE," cm"],
-
-    ["Antebraço direito",atual.antebracoD,anterior.antebracoD," cm"],
-    ["Antebraço esquerdo",atual.antebracoE,anterior.antebracoE," cm"],
-
-    ["Coxa direita",atual.coxaD,anterior.coxaD," cm"],
-    ["Coxa esquerda",atual.coxaE,anterior.coxaE," cm"],
-
-    ["Panturrilha direita",atual.panturrilhaD,anterior.panturrilhaD," cm"],
-    ["Panturrilha esquerda",atual.panturrilhaE,anterior.panturrilhaE," cm"]
-  ];
-
-  let html =
-    '<div class="note">' +
-    'Comparando com a avaliação de ' +
-    mostrar(anterior.data) +
-    '.</div>' +
-    '<div class="comparison">';
-
-  itens.forEach(item => {
-
-    const diff =
-      diferenca(item[1],item[2]);
-
-    html += `
-      <div class="comparison-item">
-
-        <strong>${item[0]}</strong>
-
-        Atual:
-        ${mostrar(item[1])}
-        ${item[1] ? item[3] : ""}
-
-        <br>
-
-        Anterior:
-        ${mostrar(item[2])}
-        ${item[2] ? item[3] : ""}
-
-        <br><br>
-
-        Diferença:
-        ${formatarDiferenca(diff,item[3])}
-
-      </div>
-    `;
-  });
-
-  html += "</div>";
-
-  el.innerHTML = html;
+ tabela.innerHTML=h.map((d,i)=>{
+   const mm=d.massaMagra??d.mm;
+   return`
+   <tr class="history-row" onclick="verAvaliacao(${i})">
+   <td>${d.data||"--"}</td>
+   <td><strong>${d.nome||"--"}</strong></td>
+   <td>${d.peso?formatarNumero(d.peso)+" kg":"--"}</td>
+   <td>${d.gordura?formatarNumero(d.gordura)+"%":"--"}</td>
+   <td>${mm?formatarNumero(mm)+" kg":"--"}</td>
+   <td>${d.imc?formatarNumero(d.imc):"--"}</td>
+   </tr>`;
+ }).join("");
 }
 
+function verAvaliacao(i){
 
-function salvar(){
+ const d=obterHistorico()[i];
+ if(!d)return;
 
-  if(!resultadoAtual){
-    alert("Calcule primeiro.");
-    return;
-  }
+ const mm=d.massaMagra??d.mm;
+ const mg=d.massaGorda??d.mg;
+ const clas=d.classGordura??d.classificacao;
 
-  dados.unshift(resultadoAtual);
+ let html=`
+ <div class="detail-block">
+ <h3>${d.nome||"Aluno"}</h3>
+ <strong>Data:</strong> ${d.data||"--"} ${d.hora?" às "+d.hora:""}<br>
+ <strong>Idade:</strong> ${d.idade||"--"} anos<br>
+ <strong>Peso:</strong> ${formatarNumero(d.peso)} kg<br>
+ <strong>Altura:</strong> ${formatarNumero(d.altura)} cm<br>
+ <strong>IMC:</strong> ${formatarNumero(d.imc)} ${d.classImc?" — "+d.classImc:""}
+ </div>
 
-  localStorage.setItem(
-    STORAGE_KEY,
-    JSON.stringify(dados)
-  );
+ <div class="detail-block">
+ <h3>Composição corporal</h3>
+ <strong>Gordura corporal:</strong> ${formatarNumero(d.gordura)}%<br>
+ <strong>Massa gorda:</strong> ${formatarNumero(mg)} kg<br>
+ <strong>Massa magra:</strong> ${formatarNumero(mm)} kg<br>
+ <strong>Classificação:</strong> ${clas||"--"}
+ </div>`;
 
-  render();
+ if(d.energia){
+   html+=`
+   <div class="detail-block">
+   <h3>Estimativa energética</h3>
+   TMB: ${Math.round(d.energia.tmb)} kcal/dia<br>
+   GET: ${Math.round(d.energia.get)} kcal/dia<br>
+   Meta: ${Math.round(d.energia.metaCal||0)} kcal/dia
+   </div>`;
+ }
 
-  alert(
-    "Avaliação de " +
-    resultadoAtual.nome +
-    " salva com sucesso."
-  );
+ document.getElementById("detalhesAvaliacao").innerHTML=html;
+ document.getElementById("detalhesCard").classList.remove("hidden");
+ document.getElementById("detalhesCard").scrollIntoView({behavior:"smooth"});
 }
 
+function exportarCSV(){
 
-function render(){
+ const h=obterHistorico();
 
-  const tbody =
-    document.getElementById("historico");
+ if(!h.length){
+   alert("Não há avaliações salvas.");
+   return;
+ }
 
-  if(!dados.length){
+ const linhas=[[
+ "Data","Hora","Nome","Sexo","Idade","Peso kg","Altura cm",
+ "IMC","Classificação IMC","% Gordura",
+ "Massa gorda kg","Massa magra kg","Classificação gordura"
+ ].join(";")];
 
-    tbody.innerHTML =
-      '<tr>' +
-      '<td colspan="5">' +
-      'Nenhuma avaliação salva ainda.' +
-      '</td>' +
-      '</tr>';
+ h.forEach(d=>{
+   linhas.push([
+   d.data||"",d.hora||"",d.nome||"",d.sexo||"",d.idade||"",
+   d.peso||"",d.altura||"",d.imc||"",d.classImc||"",
+   d.gordura||"",d.massaGorda??d.mg??"",
+   d.massaMagra??d.mm??"",d.classGordura??d.classificacao??""
+   ].map(v=>String(v).replace(/;/g,",")).join(";"));
+ });
 
-    return;
-  }
-
-  tbody.innerHTML =
-    dados.map((d,i) => `
-
-      <tr
-        class="history-row"
-        onclick="verAvaliacao(${i})"
-      >
-
-        <td>${mostrar(d.data)}</td>
-
-        <td>
-          <strong>${mostrar(d.nome)}</strong>
-        </td>
-
-        <td>
-          ${d.peso ? d.peso + " kg" : "—"}
-        </td>
-
-        <td>
-          ${d.gordura ? d.gordura + "%" : "—"}
-        </td>
-
-        <td>
-          ${d.mm ? d.mm + " kg" : "—"}
-        </td>
-
-      </tr>
-
-    `).join("");
+ const blob=new Blob(["\uFEFF"+linhas.join("\n")],{type:"text/csv;charset=utf-8;"});
+ const link=document.createElement("a");
+ link.href=URL.createObjectURL(blob);
+ link.download="avaliacoes_lucas_personal.csv";
+ document.body.appendChild(link);
+ link.click();
+ link.remove();
 }
 
+function gerarRelatorio(){
 
-function verAvaliacao(index){
+ if(!avaliacaoAtual){
+   if(!calcular())return;
+ }
 
-  const d = dados[index];
+ const d=avaliacaoAtual;
+ const janela=window.open("","_blank");
 
-  const area =
-    document.getElementById("detalhesAvaliacao");
+ if(!janela){
+   alert("O navegador bloqueou o relatório. Permita pop-ups e tente novamente.");
+   return;
+ }
 
-  area.classList.remove("hidden");
+ let energiaHTML="";
 
-  area.innerHTML = `
+ if(energiaAtual){
+   energiaHTML=`
+   <div class="box">
+   <h2>Estimativa energética</h2>
+   TMB: ${Math.round(energiaAtual.tmb)} kcal/dia<br>
+   GET: ${Math.round(energiaAtual.get)} kcal/dia<br>
+   Meta energética: ${Math.round(energiaAtual.metaCal)} kcal/dia<br>
+   Proteínas: ${Math.round(energiaAtual.proteina)} g/dia<br>
+   Carboidratos: ${Math.round(energiaAtual.carbo)} g/dia<br>
+   Gorduras: ${Math.round(energiaAtual.lipidio)} g/dia
+   </div>`;
+ }
 
-    <div class="detail-block">
+ let treinoHTML="";
 
-      <h3>${mostrar(d.nome)}</h3>
+ if(treinoAtual){
+   treinoHTML=`
+   <div class="box">
+   <h2>Planejamento de treino</h2>
+   Objetivo: ${treinoAtual.objetivo}<br>
+   Nível: ${treinoAtual.nivel}<br>
+   Frequência: ${treinoAtual.dias} dias/semana<br>
+   Séries-base: ${treinoAtual.series}<br>
+   Repetições: ${treinoAtual.repeticoes}<br>
+   RIR: ${treinoAtual.rir}
+   </div>`;
+ }
 
-      <strong>Data:</strong>
-      ${mostrar(d.data)}
-      ${d.hora ? " às " + d.hora : ""}
+ janela.document.write(`
+ <!DOCTYPE html>
+ <html lang="pt-BR">
+ <head>
+ <meta charset="UTF-8">
+ <title>Relatório - ${d.nome}</title>
+ <style>
+ body{font-family:Arial,sans-serif;max-width:800px;margin:30px auto;padding:20px;color:#0f172a}
+ h1,h2{color:#165c99}
+ .box{border:1px solid #dbe3ea;border-radius:16px;padding:18px;margin-bottom:16px;line-height:1.7}
+ button{background:#165c99;color:white;border:0;padding:14px 20px;border-radius:12px;font-weight:bold}
+ @media print{button{display:none}}
+ </style>
+ </head>
+ <body>
 
-      <br>
+ <h1>Lucas Personal</h1>
+ <h2>Relatório de Avaliação Física</h2>
 
-      <strong>Sexo:</strong>
-      ${mostrar(d.sexo)}
+ <div class="box">
+ <strong>Aluno:</strong> ${d.nome}<br>
+ <strong>Idade:</strong> ${d.idade} anos<br>
+ <strong>Peso:</strong> ${formatarNumero(d.peso)} kg<br>
+ <strong>Altura:</strong> ${formatarNumero(d.altura)} cm<br>
+ <strong>IMC:</strong> ${formatarNumero(d.imc)} — ${d.classImc}
+ </div>
 
-      <br>
+ <div class="box">
+ <h2>Composição corporal</h2>
+ Gordura corporal: <strong>${formatarNumero(d.gordura)}%</strong><br>
+ Massa livre: ${formatarNumero(d.massaLivre)}%<br>
+ Massa gorda: ${formatarNumero(d.massaGorda)} kg<br>
+ Massa magra: ${formatarNumero(d.massaMagra)} kg<br>
+ Classificação: ${d.classGordura}
+ </div>
 
-      <strong>Idade:</strong>
-      ${mostrar(d.idade)} anos
+ <div class="box">
+ <h2>Dobras cutâneas</h2>
+ Peitoral: ${formatarNumero(d.dobras.peitoral)} mm<br>
+ Axilar média: ${formatarNumero(d.dobras.axilar)} mm<br>
+ Tricipital: ${formatarNumero(d.dobras.tricipital)} mm<br>
+ Subescapular: ${formatarNumero(d.dobras.subescapular)} mm<br>
+ Abdominal: ${formatarNumero(d.dobras.abdominal)} mm<br>
+ Supra-ilíaca: ${formatarNumero(d.dobras.supra)} mm<br>
+ Coxa: ${formatarNumero(d.dobras.coxa)} mm<br><br>
+ <strong>Soma: ${formatarNumero(d.soma)} mm</strong>
+ </div>
 
-      <br>
+ ${energiaHTML}
+ ${treinoHTML}
 
-      <strong>Peso:</strong>
-      ${mostrar(d.peso)} kg
+ <div class="box">
+ <small>
+ Os cálculos apresentados são estimativas para acompanhamento.
+ Referências alimentares não substituem prescrição nutricional individualizada.
+ O planejamento de treino deve ser revisado pelo profissional responsável.
+ </small>
+ </div>
 
-      <br>
+ <button onclick="window.print()">Imprimir ou salvar em PDF</button>
 
-      <strong>Altura:</strong>
-      ${mostrar(d.altura)} cm
+ </body>
+ </html>`);
 
-      <br>
-
-      <strong>IMC:</strong>
-      ${mostrar(d.imc)}
-      ${d.imcClass ? " - " + d.imcClass : ""}
-
-    </div>
-
-
-    <div class="detail-block">
-
-      <h3>Composição corporal</h3>
-
-      <strong>Gordura corporal:</strong>
-      ${mostrar(d.gordura)}%
-
-      <br>
-
-      <strong>Massa livre:</strong>
-      ${mostrar(d.massaLivre)}%
-
-      <br>
-
-      <strong>Massa gorda:</strong>
-      ${mostrar(d.mg)} kg
-
-      <br>
-
-      <strong>Massa magra:</strong>
-      ${mostrar(d.mm)} kg
-
-      <br>
-
-      <strong>Classificação:</strong>
-      ${mostrar(d.classificacao)}
-
-    </div>
-
-
-    <div class="detail-block">
-
-      <h3>Dobras cutâneas</h3>
-
-      Peitoral: ${mostrar(d.peitoral)} mm<br>
-      Axilar média: ${mostrar(d.axilar)} mm<br>
-      Tricipital: ${mostrar(d.tricipital)} mm<br>
-      Subescapular: ${mostrar(d.subescapular)} mm<br>
-      Abdominal: ${mostrar(d.abdominal)} mm<br>
-      Supra-ilíaca: ${mostrar(d.supra)} mm<br>
-      Coxa: ${mostrar(d.coxa)} mm<br><br>
-
-      <strong>
-        Soma das 7 dobras:
-      </strong>
-
-      ${mostrar(d.soma)} mm
-
-    </div>
-
-
-    <div class="detail-block">
-
-      <h3>Perimetria</h3>
-
-      Pescoço: ${mostrar(d.pescoco)} cm<br>
-      Ombros: ${mostrar(d.ombros)} cm<br>
-      Tórax: ${mostrar(d.torax)} cm<br>
-      Cintura: ${mostrar(d.cintura)} cm<br>
-      Abdômen: ${mostrar(d.abdomen)} cm<br>
-      Quadril: ${mostrar(d.quadril)} cm<br>
-
-      Braço direito: ${mostrar(d.bracoD)} cm<br>
-      Braço esquerdo: ${mostrar(d.bracoE)} cm<br>
-
-      Antebraço direito: ${mostrar(d.antebracoD)} cm<br>
-      Antebraço esquerdo: ${mostrar(d.antebracoE)} cm<br>
-
-      Coxa direita: ${mostrar(d.coxaD)} cm<br>
-      Coxa esquerda: ${mostrar(d.coxaE)} cm<br>
-
-      Panturrilha direita: ${mostrar(d.panturrilhaD)} cm<br>
-      Panturrilha esquerda: ${mostrar(d.panturrilhaE)} cm
-
-    </div>
-
-
-    <button
-      class="primary no-print"
-      onclick="gerarRelatorio(${index})"
-    >
-      Gerar relatório desta avaliação
-    </button>
-  `;
-
-  area.scrollIntoView({
-    behavior:"smooth"
-  });
+ janela.document.close();
 }
 
+function limparHistorico(){
 
-function gerarRelatorioAtual(){
+ const ok=confirm("Deseja realmente apagar todo o histórico de avaliações? Essa ação não poderá ser desfeita.");
 
-  if(!resultadoAtual){
+ if(!ok)return;
 
-    alert(
-      "Calcule uma avaliação primeiro."
-    );
+ localStorage.removeItem(STORAGE_KEY);
+ renderHistorico();
 
-    return;
-  }
+ document.getElementById("comparacao").innerHTML='<p class="note">Salve avaliações do mesmo aluno para acompanhar a evolução.</p>';
 
-  abrirRelatorio(resultadoAtual);
+ alert("Histórico apagado.");
 }
 
+renderHistorico();
 
-function gerarRelatorio(index){
-  abrirRelatorio(dados[index]);
-}
-
-
-function abrirRelatorio(d){
-
-  const janela =
-    window.open("","_blank");
-
-  if(!janela){
-    alert("O navegador bloqueou a abertura do relatório. Permita pop-ups para este site.");
-    return;
-  }
-
-  const html = `
-
-  <!DOCTYPE html>
-  <html lang="pt-BR">
-
-  <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-      name="viewport"
-      content="width=device-width,initial-scale=1"
-    >
-
-    <title>
-      Relatório - ${mostrar(d.nome)}
-    </title>
-
-    <style>
-
-      body{
-        font-family:Arial,sans-serif;
-        max-width:800px;
-        margin:30px auto;
-        padding:20px;
-        color:#0f172a;
-      }
-
-      h1,h2{
-        color:#165c99;
-      }
-
-      .header-relatorio{
-        border-bottom:3px solid #165c99;
-        padding-bottom:15px;
-        margin-bottom:20px;
-      }
-
-      .box{
-        border:1px solid #dbe3ea;
-        border-radius:16px;
-        padding:18px;
-        margin-bottom:16px;
-        line-height:1.7;
-      }
-
-      .grid{
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-      }
-
-      .item{
-        background:#f8fafc;
-        padding:12px;
-        border-radius:10px;
-      }
-
-      button{
-        background:#165c99;
-        color:white;
-        border:0;
-        padding:14px 20px;
-        border-radius:12px;
-        font-weight:bold;
-        font-size:16px;
-      }
-
-      @media(max-width:600px){
-        .grid{
-          grid-template-columns:1fr;
-        }
-      }
-
-      @media print{
-
-        button{
-          display:none;
-        }
-
-        body{
-          margin:0;
-        }
-      }
-
-    </style>
-
-  </head>
-
-  <body>
-
-    <div class="header-relatorio">
-
-      <h1>
-        Relatório de Avaliação Física
-      </h1>
-
-      <h2>
-        ${mostrar(d.nome)}
-      </h2>
-
-    </div>
-
-
-    <div class="box">
-
-      <strong>Data:</strong>
-      ${mostrar(d.data)}
-
-      <br>
-
-      <strong>Sexo:</strong>
-      ${mostrar(d.sexo)}
-
-      <br>
-
-      <strong>Idade:</strong>
-      ${mostrar(d.idade)} anos
-
-      <br>
-
-      <strong>Peso:</strong>
-      ${mostrar(d.peso)} kg
-
-      <br>
-
-      <strong>Altura:</strong>
-      ${mostrar(d.altura)} cm
-
-      <br>
-
-      <strong>IMC:</strong>
-      ${mostrar(d.imc)}
-      ${d.imcClass ? " - " + d.imcClass : ""}
-
-    </div>
-
-
-    <div class="box">
-
-      <h2>Composição corporal</h2>
-
-      <div class="grid">
-
-        <div class="item">
-          Gordura corporal<br>
-          <strong>${mostrar(d.gordura)}%</strong>
-        </div>
-
-        <div class="item">
-          Massa livre<br>
-          <strong>${mostrar(d.massaLivre)}%</strong>
-        </div>
-
-        <div class="item">
-          Massa gorda<br>
-          <strong>${mostrar(d.mg)} kg</strong>
-        </div>
-
-        <div class="item">
-          Massa magra<br>
-          <strong>${mostrar(d.mm)} kg</strong>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="box">
-
-      <h2>Dobras cutâneas</h2>
-
-      Peitoral: ${mostrar(d.peitoral)} mm<br>
-      Axilar média: ${mostrar(d.axilar)} mm<br>
-      Tricipital: ${mostrar(d.tricipital)} mm<br>
-      Subescapular: ${mostrar(d.subescapular)} mm<br>
-      Abdominal: ${mostrar(d.abdominal)} mm<br>
-      Supra-ilíaca: ${mostrar(d.supra)} mm<br>
-      Coxa: ${mostrar(d.coxa)} mm<br><br>
-
-      <strong>Soma das 7 dobras:</strong>
-      ${mostrar(d.soma)} mm
-
-    </div>
-
-
-    <div class="box">
-
-      <h2>Perimetria</h2>
-
-      Pescoço: ${mostrar(d.pescoco)} cm<br>
-      Ombros: ${mostrar(d.ombros)} cm<br>
-      Tórax: ${mostrar(d.torax)} cm<br>
-      Cintura: ${mostrar(d.cintura)} cm<br>
-      Abdômen: ${mostrar(d.abdomen)} cm<br>
-      Quadril: ${mostrar(d.quadril)} cm<br>
-
-      Braço direito: ${mostrar(d.bracoD)} cm<br>
-      Braço esquerdo: ${mostrar(d.bracoE)} cm<br>
-
-      Antebraço direito: ${mostrar(d.antebracoD)} cm<br>
-      Antebraço esquerdo: ${mostrar(d.antebracoE)} cm<br>
-
-      Coxa direita: ${mostrar(d.coxaD)} cm<br>
-      Coxa esquerda: ${mostrar(d.coxaE)} cm<br>
-
-      Panturrilha direita: ${mostrar(d.panturrilhaD)} cm<br>
-      Panturrilha esquerda: ${mostrar(d.panturrilhaE)} cm
-
-    </div>
-
-
-    <div class="box">
-
-      <strong>Método:</strong>
-
-      Jackson & Pollock 7 dobras
-      com conversão pela equação de Siri.
-
-      <br><br>
-
-      <small>
-        Os resultados são estimativas e dependem
-        da qualidade e padronização da coleta.
-      </small>
-
-    </div>
-
-
-    <button onclick="window.print()">
-      Imprimir ou salvar em PDF
-    </button>
-
-  </body>
-
-  </html>
-  `;
-
-  janela.document.write(html);
-  janela.document.close();
-}
-
-
-function csv(valor){
-
-  if(
-    valor === undefined ||
-    valor === null
-  ){
-    return "";
-  }
-
-  return String(valor)
-    .replace(/;/g,",");
-}
-
-
-function exportar(){
-
-  if(!dados.length){
-
-    alert(
-      "Não há histórico para exportar."
-    );
-
-    return;
-  }
-
-  const cabecalho = [
-
-    "Data",
-    "Hora",
-    "Nome",
-    "Sexo",
-    "Idade",
-    "Peso kg",
-    "Altura cm",
-    "IMC",
-    "Classificação IMC",
-
-    "Peitoral mm",
-    "Axilar mm",
-    "Tricipital mm",
-    "Subescapular mm",
-    "Abdominal mm",
-    "Supra-ilíaca mm",
-    "Coxa dobra mm",
-
-    "Soma das dobras",
-    "Densidade",
-    "% Gordura",
-    "% Massa livre",
-    "Massa gorda kg",
-    "Massa magra kg",
-    "Classificação gordura",
-
-    "Pescoço cm",
-    "Ombros cm",
-    "Tórax cm",
-    "Cintura cm",
-    "Abdômen cm",
-    "Quadril cm",
-
-    "Braço direito cm",
-    "Braço esquerdo cm",
-
-    "Antebraço direito cm",
-    "Antebraço esquerdo cm",
-
-    "Coxa direita cm",
-    "Coxa esquerda cm",
-
-    "Panturrilha direita cm",
-    "Panturrilha esquerda cm"
-  ];
-
-  const linhas = [
-    cabecalho.join(";")
-  ];
-
-  dados.forEach(d => {
-
-    const linha = [
-
-      d.data,
-      d.hora,
-      d.nome,
-      d.sexo,
-      d.idade,
-      d.peso,
-      d.altura,
-      d.imc,
-      d.imcClass,
-
-      d.peitoral,
-      d.axilar,
-      d.tricipital,
-      d.subescapular,
-      d.abdominal,
-      d.supra,
-      d.coxa,
-
-      d.soma,
-      d.densidade,
-      d.gordura,
-      d.massaLivre,
-      d.mg,
-      d.mm,
-      d.classificacao,
-
-      d.pescoco,
-      d.ombros,
-      d.torax,
-      d.cintura,
-      d.abdomen,
-      d.quadril,
-
-      d.bracoD,
-      d.bracoE,
-
-      d.antebracoD,
-      d.antebracoE,
-
-      d.coxaD,
-      d.coxaE,
-
-      d.panturrilhaD,
-      d.panturrilhaE
-    ];
-
-    linhas.push(
-      linha.map(csv).join(";")
-    );
-  });
-
-  const blob =
-    new Blob(
-      [
-        "\uFEFF" +
-        linhas.join("\n")
-      ],
-      {
-        type:"text/csv;charset=utf-8;"
-      }
-    );
-
-  const a =
-    document.createElement("a");
-
-  a.href =
-    URL.createObjectURL(blob);
-
-  a.download =
-    "avaliacoes_lucas_personal.csv";
-
-  document.body.appendChild(a);
-
-  a.click();
-
-  a.remove();
-
-  setTimeout(() => {
-    URL.revokeObjectURL(a.href);
-  }, 1000);
-}
-
-
-function limpar(){
-
-  if(
-    confirm(
-      "Deseja apagar todo o histórico? Esta ação não poderá ser desfeita."
-    )
-  ){
-
-    localStorage.removeItem(
-      STORAGE_KEY
-    );
-
-    dados = [];
-    resultadoAtual = null;
-
-    render();
-
-    document
-      .getElementById("detalhesAvaliacao")
-      .classList
-      .add("hidden");
-
-    document
-      .getElementById("comparacaoConteudo")
-      .innerHTML =
-      '<div class="note">' +
-      'Calcule uma avaliação para verificar a evolução.' +
-      '</div>';
-  }
-}
-
-
-render();
-
-
-/*
-  Mantém o aplicativo como PWA instalável.
-  Não existe botão "Instalar app" dentro da interface.
-*/
 if("serviceWorker" in navigator){
-
-  window.addEventListener("load", () => {
-
-    navigator.serviceWorker
-      .register("service-worker.js")
-      .catch(error => {
-        console.log(
-          "Service Worker não registrado:",
-          error
-        );
-      });
-
-  });
+ window.addEventListener("load",()=>{
+   navigator.serviceWorker.register("service-worker.js").catch(error=>{
+     console.log("Service Worker não registrado:",error);
+   });
+ });
 }
 
 </script>
