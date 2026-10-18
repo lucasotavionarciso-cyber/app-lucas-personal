@@ -40,6 +40,10 @@ th{color:#165c99;background:#f2f7fb}
 .hidden{display:none}
 .alert{background:#fff4e4;border:1px solid #e5c48d;border-radius:12px;padding:12px;margin-top:12px;line-height:1.5}
 .meal,.session{border:1px solid #dbe5ed;border-radius:13px;padding:13px;margin-top:10px;line-height:1.6}
+.session h3{margin-bottom:8px}
+.exercise{padding:9px 0;border-bottom:1px solid #e8eef4}
+.exercise:last-child{border-bottom:0}
+.pill{display:inline-block;background:#e6f1f9;color:#165c99;padding:5px 9px;border-radius:20px;font-size:12px;margin:3px 3px 3px 0}
 @media(max-width:650px){
 .grid,.metrics{grid-template-columns:1fr}
 .hero h1{font-size:28px}
@@ -84,7 +88,7 @@ th{color:#165c99;background:#f2f7fb}
 <div class="metrics" id="metricas">
 <p class="muted">Preencha os dados e calcule a avaliação.</p>
 </div>
-<p class="muted">Percentual de gordura calculado pelo método Jackson-Pollock de sete dobras e equação de Siri. Valores estimados; interpretar considerando o contexto do aluno.</p>
+<p class="muted">Percentual de gordura estimado pelo método Jackson-Pollock de sete dobras e equação de Siri. A interpretação depende das características individuais e das limitações do método.</p>
 </section>
 
 <section class="card">
@@ -134,20 +138,32 @@ th{color:#165c99;background:#f2f7fb}
 <button class="secondary" onclick="compartilhar('plano')">Compartilhar informações</button>
 </div>
 <div id="resultadoPlano"></div>
-<p class="muted">As sugestões de alimentos são exemplos, não uma prescrição nutricional. Calorias e macronutrientes apresentados são metas estimadas, não valores calculados a partir das porções. Revisão individualizada é necessária antes do envio.</p>
+<p class="muted">As sugestões de alimentos são exemplos, não uma prescrição nutricional. As metas de calorias e macronutrientes não são calculadas a partir das porções apresentadas. O plano precisa de revisão individualizada por profissional habilitado.</p>
 </section>
 
 <section class="card">
 <h2>Anamnese e planejamento de treino</h2>
+
 <div class="grid">
+<div class="field">
+<label>Divisão de treinamento</label>
+<select id="divisaoTreino" onchange="atualizarDivisao()">
+<option value="abc">ABC — Peito / Costas / Pernas</option>
+<option value="abcd">ABCD — Quadríceps / Superiores / Posteriores / Full Body</option>
+</select>
+</div>
+
 <div class="field">
 <label>Objetivo</label>
 <select id="objetivoTreino">
-<option>Hipertrofia</option><option>Emagrecimento</option>
-<option>Força</option><option>Condicionamento</option>
+<option>Hipertrofia</option>
+<option>Emagrecimento</option>
+<option>Força</option>
+<option>Condicionamento</option>
 <option>Saúde</option>
 </select>
 </div>
+
 <div class="field">
 <label>Nível</label>
 <select id="nivelTreino">
@@ -156,20 +172,29 @@ th{color:#165c99;background:#f2f7fb}
 <option value="avancado">Avançado</option>
 </select>
 </div>
+
 <div class="field">
 <label>Dias de treino por semana</label>
 <select id="diasTreino">
-<option>2</option><option>3</option><option selected>4</option>
-<option>5</option><option>6</option>
+<option>2</option>
+<option selected>3</option>
+<option>4</option>
+<option>5</option>
+<option>6</option>
 </select>
 </div>
+
 <div class="field">
 <label>Duração da sessão</label>
 <select id="duracaoTreino">
-<option>30</option><option>45</option><option selected>60</option>
-<option>75</option><option>90</option>
+<option>30</option>
+<option>45</option>
+<option selected>60</option>
+<option>75</option>
+<option>90</option>
 </select>
 </div>
+
 <div class="field">
 <label>Local</label>
 <select id="localTreino">
@@ -177,6 +202,7 @@ th{color:#165c99;background:#f2f7fb}
 <option value="casa">Casa</option>
 </select>
 </div>
+
 <div class="field"><label>Equipamentos disponíveis</label><textarea id="equipamentos"></textarea></div>
 <div class="field"><label>Grupos musculares prioritários</label><textarea id="prioridades"></textarea></div>
 <div class="field"><label>Lesões / diagnósticos</label><textarea id="condicoesTreino"></textarea></div>
@@ -185,13 +211,18 @@ th{color:#165c99;background:#f2f7fb}
 <div class="field"><label>Restrições profissionais</label><textarea id="restricoesProf"></textarea></div>
 <div class="field"><label>Exercícios a evitar</label><textarea id="evitarExercicios"></textarea></div>
 </div>
+
+<div id="descricaoDivisao" class="detail"></div>
+
 <div class="actions">
 <button onclick="gerarTreino()">Gerar ficha de treino</button>
 <button class="secondary" onclick="documento('treino')">Baixar PDF do treino</button>
 <button class="secondary" onclick="compartilhar('treino')">Compartilhar informações</button>
 </div>
+
 <div id="resultadoTreino"></div>
-<p class="muted">A ficha é um modelo inicial. O profissional deve conferir equipamentos, restrições, cargas, volume, execução e recuperação antes da aplicação.</p>
+
+<p class="muted">Os exercícios seguem os modelos previamente definidos. A seleção não substitui a avaliação profissional. Verifique volume, recuperação, equipamentos, limitações e condições clínicas antes de aplicar a ficha.</p>
 </section>
 
 <section class="card">
@@ -199,7 +230,9 @@ th{color:#165c99;background:#f2f7fb}
 <p class="muted">Toque em um registro para consultar todas as dobras e circunferências. Os registros ficam salvos neste navegador e neste endereço do aplicativo.</p>
 <div class="scroll">
 <table>
-<thead><tr><th>Data</th><th>Aluno</th><th>Peso</th><th>Gordura</th><th>Detalhes</th></tr></thead>
+<thead>
+<tr><th>Data</th><th>Aluno</th><th>Peso</th><th>Gordura</th><th>Detalhes</th></tr>
+</thead>
 <tbody id="historicoTabela"></tbody>
 </table>
 </div>
@@ -265,6 +298,121 @@ const periCampos=[
 ['panturrilhaE','Panturrilha esquerda']
 ];
 
+/*
+MODELOS DE TREINO DEFINIDOS PARA O LUCAS PERSONAL
+
+ABC:
+A = Peito, tríceps e ombro anterior
+B = Costas, bíceps e ombro posterior
+C = Pernas completas e ombro lateral
+
+ABCD:
+A = Quadríceps
+B = Superiores
+C = Posteriores e glúteos
+D = Full Body
+
+As opções com "ou" representam um único exercício.
+*/
+
+const modelosTreino={
+abc:{
+titulo:'ABC — Peito, Costas e Pernas',
+A:{
+grupo:'Peito, tríceps e deltoide anterior',
+exercicios:[
+['Peito','Supino reto com barra'],
+['Peito','Supino inclinado com barra'],
+['Peito','Crucifixo na máquina'],
+['Peito','Supino inclinado com halteres'],
+['Tríceps','Tríceps na polia com barra reta'],
+['Tríceps','Tríceps na polia unilateral'],
+['Tríceps','Tríceps testa no banco inclinado com barra W'],
+['Deltoide anterior','Elevação frontal unilateral no cabo'],
+['Deltoide anterior','Elevação frontal com anilha']
+]
+},
+B:{
+grupo:'Costas, bíceps e deltoide posterior',
+exercicios:[
+['Costas','Puxador frontal'],
+['Costas','Remada baixa'],
+['Costas','Remada unilateral (serrote)'],
+['Costas','Pulldown na polia'],
+['Bíceps','Rosca direta com barra W'],
+['Bíceps','Rosca martelo com halteres'],
+['Bíceps','Rosca alternada com halteres'],
+['Deltoide posterior','Face pull na polia'],
+['Região escapular','Adução escapular unilateral no cabo']
+]
+},
+C:{
+grupo:'Pernas completas e deltoide lateral',
+exercicios:[
+['Quadríceps','Leg press'],
+['Quadríceps','Agachamento Smith ou livre'],
+['Quadríceps','Agachamento Hack'],
+['Quadríceps','Cadeira extensora'],
+['Posteriores','Cadeira flexora'],
+['Posteriores e glúteos','Stiff'],
+['Glúteos, adutores e quadríceps','Agachamento sumô'],
+['Panturrilhas','Panturrilha no Smith'],
+['Deltoide lateral','Elevação lateral com halteres'],
+['Deltoide lateral','Elevação lateral unilateral no cabo']
+]
+}
+},
+abcd:{
+titulo:'ABCD — Quadríceps, Superiores, Posteriores e Full Body',
+A:{
+grupo:'Quadríceps',
+exercicios:[
+['Quadríceps','Agachamento Smith ou livre'],
+['Quadríceps','Leg press'],
+['Quadríceps','Cadeira extensora'],
+['Quadríceps','Agachamento Hack'],
+['Quadríceps e glúteos','Afundo']
+]
+},
+B:{
+grupo:'Membros superiores',
+exercicios:[
+['Costas','Puxada frontal'],
+['Costas','Remada baixa'],
+['Deltoide posterior','Face pull'],
+['Bíceps','Rosca com halteres'],
+['Bíceps','Rosca direta com halteres'],
+['Tríceps','Tríceps na polia com barra reta'],
+['Deltoide anterior','Elevação frontal com halteres']
+]
+},
+C:{
+grupo:'Posteriores de coxa e glúteos',
+exercicios:[
+['Posteriores','Cadeira flexora ou mesa flexora'],
+['Posteriores e glúteos','Stiff'],
+['Adutores','Cadeira adutora'],
+['Glúteos','Cadeira abdutora'],
+['Quadríceps e glúteos','Afundo búlgaro'],
+['Glúteos','Elevação pélvica'],
+['Panturrilhas','Panturrilha no step']
+]
+},
+D:{
+grupo:'Full Body — Corpo inteiro',
+exercicios:[
+['Quadríceps e glúteos','Leg press 45°'],
+['Posteriores','Cadeira flexora'],
+['Peito','Supino reto na máquina'],
+['Costas','Puxada frontal'],
+['Deltoide lateral','Elevação lateral com halteres'],
+['Glúteos','Elevação pélvica'],
+['Abdômen','Abdominal na máquina']
+]
+}
+}
+};
+
 let avaliacaoAtual=null;
 let energiaAtual=null;
 let planoAtual=null;
@@ -275,7 +423,7 @@ const el=id=>document.getElementById(id);
 const txt=id=>el(id).value.trim();
 
 const num=id=>{
-let v=el(id).value.trim();
+const v=el(id).value.trim();
 return v===''?null:Number(v);
 };
 
@@ -494,605 +642,4 @@ return `
 <h3>Adipometria</h3>
 ${blocoMedidas(a.dobras,dobrasCampos,'mm')}
 <strong>Soma:</strong> ${esc(medida(a.soma,'mm'))}<br>
-<strong>Densidade:</strong> ${esc(fmt(a.densidade,4))}
-</div>
-
-<div class="detail">
-<h3>Perimetria</h3>
-${blocoMedidas(a.perimetria,periCampos,'cm')}
-</div>
-
-${a.energia?`
-<div class="detail">
-<h3>Estimativa energética</h3>
-TMB: ${esc(medida(a.energia.tmb,'kcal'))}<br>
-GET: ${esc(medida(a.energia.get,'kcal'))}<br>
-Meta: ${esc(medida(a.energia.metaCal,'kcal'))}
-</div>`:''}`;
-}
-
-function verAvaliacao(i){
-const a=historico()[i];
-if(!a)return;
-
-avaliacaoSelecionada=a;
-el('detalhesAvaliacao').innerHTML=detalheHTML(a);
-el('detalhesCard').classList.remove('hidden');
-el('detalhesCard').scrollIntoView({behavior:'smooth'});
-}
-
-function renderHistorico(){
-const h=historico();
-
-el('historicoTabela').innerHTML=h.length
-?h.map((a,i)=>`
-<tr>
-<td>${esc(a.data||'—')}</td>
-<td>${esc(a.nome||'—')}</td>
-<td>${esc(medida(a.peso,'kg'))}</td>
-<td>${esc(medida(a.gordura,'%'))}</td>
-<td><button onclick="verAvaliacao(${i})">Abrir</button></td>
-</tr>
-`).join('')
-:'<tr><td colspan="5">Nenhuma avaliação salva neste navegador.</td></tr>';
-
-const options='<option value="">Selecione</option>'+
-h.map((a,i)=>`
-<option value="${i}">
-${esc(a.nome||'Aluno')} — ${esc(a.data||'sem data')} ${esc(a.hora||'')}
-</option>`).join('');
-
-el('comparar1').innerHTML=options;
-el('comparar2').innerHTML=options;
-}
-
-function comparar(){
-const h=historico();
-const a=h[el('comparar1').value];
-const b=h[el('comparar2').value];
-
-if(!a||!b){
-alert('Selecione duas avaliações.');
-return;
-}
-
-if(normal(a.nome)!==normal(b.nome)){
-alert('Selecione avaliações do mesmo aluno.');
-return;
-}
-
-const itens=[
-['Peso',a.peso,b.peso,'kg'],
-['Gordura',a.gordura,b.gordura,'%'],
-['Massa magra',a.massaMagra??a.mm,b.massaMagra??b.mm,'kg'],
-...dobrasCampos.map(([id,n])=>[
-'Dobra: '+n,a.dobras?.[id],b.dobras?.[id],'mm'
-]),
-...periCampos.map(([id,n])=>[
-'Circunferência: '+n,a.perimetria?.[id],b.perimetria?.[id],'cm'
-])
-];
-
-el('resultadoComparacao').innerHTML=`
-<p class="muted">
-Diferença = segunda avaliação menos primeira.
-Valor positivo indica aumento; negativo, redução.
-</p>
-<div class="scroll">
-<table>
-<thead>
-<tr><th>Medida</th><th>Primeira</th><th>Segunda</th><th>Diferença</th></tr>
-</thead>
-<tbody>
-${itens.map(([n,x,y,u])=>`
-<tr>
-<td>${esc(n)}</td>
-<td>${esc(medida(x,u))}</td>
-<td>${esc(medida(y,u))}</td>
-<td>${x==null||y==null?'—':
-esc((y-x>0?'+':'')+fmt(y-x)+' '+u)}</td>
-</tr>
-`).join('')}
-</tbody>
-</table>
-</div>`;
-}
-
-function gerarPlano(){
-const a=calcular();
-if(!a)return;
-
-const fator=Number(el('atividade').value);
-const objetivo=el('objetivo').value;
-const n=Number(el('refeicoes').value);
-
-const tmb=10*a.peso+6.25*a.altura-5*a.idade+
-(a.sexo==='male'?5:-161);
-
-const get=tmb*fator;
-
-const metaCal=get*(
-objetivo==='cutting'?.85:
-objetivo==='bulking'?1.10:1
-);
-
-const proteina=a.peso*(objetivo==='cutting'?2:1.8);
-const lipidio=a.peso*.8;
-const carbo=Math.max(0,(metaCal-proteina*4-lipidio*9)/4);
-
-energiaAtual={
-tmb,get,metaCal,proteina,lipidio,carbo,objetivo,fator
-};
-
-const nomes={
-3:['Café da manhã','Almoço','Jantar'],
-4:['Café da manhã','Almoço','Lanche da tarde','Jantar'],
-5:['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar'],
-6:['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar','Ceia']
-}[n];
-
-const restricoes=[
-txt('alergias'),
-txt('evitaAlimentos'),
-txt('condicaoNutri')
-].filter(x=>x&&normal(x)!=='nenhuma'&&normal(x)!=='nenhum');
-
-const padrao=el('padraoAlimentar').value;
-
-const aviso=restricoes.length
-?'Existem alergias, alimentos evitados ou condições clínicas informados. Por segurança, não foram geradas sugestões automáticas de alimentos. O plano exige avaliação nutricional individualizada.'
-:'Porções abaixo são exemplos ilustrativos e NÃO foram calculadas para corresponder aos macronutrientes apresentados.';
-
-const refeicoes=nomes.map((nome,i)=>({
-nome,
-itens:restricoes.length?[]:(
-i===0
-?[
-'Aveia: 40 g',
-'Banana: 1 unidade',
-padrao==='onivoro'?'Ovos: 2 unidades':'Tofu: 120 g'
-]
-:nome.includes('Almoço')||nome.includes('Jantar')
-?[
-'Arroz cozido: 120 g',
-'Feijão cozido: 100 g',
-padrao==='onivoro'
-?'Frango grelhado: 120 g'
-:padrao==='vegano'
-?'Lentilha cozida: 180 g'
-:'Ovos: 2 unidades',
-'Legumes: 100 g'
-]
-:[
-'Fruta: 1 unidade',
-'Aveia: 30 g',
-padrao==='onivoro'?'Iogurte natural: 170 g':'Tofu: 100 g'
-])
-}));
-
-planoAtual={
-nome:a.nome,
-data:new Date().toLocaleDateString('pt-BR'),
-energia:energiaAtual,
-refeicoes,
-aviso,
-alergias:txt('alergias'),
-evitaAlimentos:txt('evitaAlimentos'),
-condicaoNutri:txt('condicaoNutri'),
-padrao
-};
-
-el('resultadoPlano').innerHTML=`
-<div class="detail">
-<h3>Metas diárias estimadas</h3>
-TMB: ${fmt(tmb,0)} kcal<br>
-GET: ${fmt(get,0)} kcal<br>
-Meta: ${fmt(metaCal,0)} kcal<br>
-Proteínas: ${fmt(proteina,0)} g<br>
-Carboidratos: ${fmt(carbo,0)} g<br>
-Gorduras: ${fmt(lipidio,0)} g
-</div>
-<div class="alert">${esc(aviso)}</div>
-${refeicoes.map(r=>`
-<div class="meal">
-<strong>${esc(r.nome)}</strong>
-${r.itens.map(x=>`<div>${esc(x)}</div>`).join('')}
-</div>
-`).join('')}`;
-}
-
-function gerarTreino(){
-const a=calcular();
-if(!a)return;
-
-const nivel=el('nivelTreino').value;
-const dias=Number(el('diasTreino').value);
-const local=el('localTreino').value;
-
-const restricoes=[
-txt('condicoesTreino'),
-txt('sintomasTreino'),
-txt('cirurgiasTreino'),
-txt('restricoesProf'),
-txt('evitarExercicios')
-].filter(Boolean);
-
-const modelos=local==='casa'
-?{
-A:[
-'Agachamento com peso corporal',
-'Ponte de glúteos',
-'Afundo com apoio',
-'Panturrilha em pé'
-],
-B:[
-'Flexão de braços adaptada',
-'Remada com elástico',
-'Elevação lateral com elástico',
-'Rosca com elástico'
-],
-C:[
-'Agachamento com peso corporal',
-'Ponte de glúteos',
-'Remada com elástico',
-'Prancha adaptada'
-]
-}
-:{
-A:[
-'Agachamento no Smith',
-'Leg press',
-'Cadeira extensora',
-'Panturrilha'
-],
-B:[
-'Puxada frontal',
-'Remada sentada',
-'Supino máquina',
-'Elevação lateral',
-'Rosca direta',
-'Tríceps na polia'
-],
-C:[
-'Elevação pélvica',
-'Mesa flexora',
-'Stiff/RDL',
-'Abdução de quadril'
-]
-};
-
-const letras=dias===2?['A','B']:
-dias===3?['A','B','C']:
-dias===4?['A','C','B','A']:
-dias===5?['A','B','C','B','A']:
-['A','B','C','A','B','C'];
-
-const series=nivel==='iniciante'?2:3;
-const reps=el('objetivoTreino').value==='Força'?'5–8':'8–12';
-
-const sessoes=letras.map((l,i)=>({
-nome:`Sessão ${i+1} — Treino ${l}`,
-exercicios:modelos[l].map(nome=>({
-nome,
-series,
-reps,
-rir:nivel==='avancado'?'1–2':'2–3',
-descanso:'60–120 s'
-}))
-}));
-
-const aviso=restricoes.length
-?'A anamnese contém condições, sintomas ou restrições. O modelo abaixo NÃO foi adaptado clinicamente e não deve ser aplicado sem revisão individualizada e, quando necessário, liberação profissional.'
-:'Modelo-base para revisão pelo profissional antes de aplicar.';
-
-treinoAtual={
-nome:a.nome,
-data:new Date().toLocaleDateString('pt-BR'),
-objetivo:el('objetivoTreino').value,
-nivel,dias,
-duracao:el('duracaoTreino').value,
-local,
-prioridades:txt('prioridades'),
-equipamentos:txt('equipamentos'),
-restricoes,sessoes,aviso
-};
-
-el('resultadoTreino').innerHTML=`
-<div class="alert">${esc(aviso)}</div>
-${sessoes.map(s=>`
-<div class="session">
-<h3>${esc(s.nome)}</h3>
-${s.exercicios.map(e=>`
-<div>
-${esc(e.nome)} — ${e.series} × ${esc(e.reps)}
-| RIR ${esc(e.rir)} | ${esc(e.descanso)}
-</div>
-`).join('')}
-</div>
-`).join('')}`;
-}
-
-function conteudoDocumento(tipo){
-if(tipo==='avaliacao'||tipo==='salva'){
-const a=tipo==='salva'?avaliacaoSelecionada:calcular();
-if(!a)return null;
-return {
-titulo:'Relatório de avaliação física',
-nome:a.nome,
-html:detalheHTML(a)
-};
-}
-
-if(tipo==='plano'){
-if(!planoAtual){
-alert('Gere primeiro o plano alimentar.');
-return null;
-}
-
-const p=planoAtual;
-const e=p.energia;
-
-return {
-titulo:'Referência alimentar estimada',
-nome:p.nome,
-html:`
-<div class="detail">
-<h3>Metas energéticas</h3>
-TMB: ${fmt(e.tmb,0)} kcal<br>
-GET: ${fmt(e.get,0)} kcal<br>
-Meta: ${fmt(e.metaCal,0)} kcal<br>
-Proteínas: ${fmt(e.proteina,0)} g<br>
-Carboidratos: ${fmt(e.carbo,0)} g<br>
-Gorduras: ${fmt(e.lipidio,0)} g
-</div>
-<div class="alert">${esc(p.aviso)}</div>
-${p.refeicoes.map(r=>`
-<div class="meal">
-<h3>${esc(r.nome)}</h3>
-${r.itens.map(i=>`<div>${esc(i)}</div>`).join('')}
-</div>
-`).join('')}`
-};
-}
-
-if(tipo==='treino'){
-if(!treinoAtual){
-alert('Gere primeiro a ficha de treino.');
-return null;
-}
-
-const t=treinoAtual;
-
-return {
-titulo:'Ficha de treino',
-nome:t.nome,
-html:`
-<div class="detail">
-Objetivo: ${esc(t.objetivo)}<br>
-Nível: ${esc(t.nivel)}<br>
-Frequência: ${t.dias} dias/semana<br>
-Duração: ${esc(t.duracao)} minutos<br>
-Prioridades: ${esc(t.prioridades||'—')}<br>
-Equipamentos: ${esc(t.equipamentos||'—')}
-</div>
-<div class="alert">
-${esc(t.aviso)}
-${t.restricoes.length
-?'<br>Observações: '+esc(t.restricoes.join('; '))
-:''}
-</div>
-${t.sessoes.map(s=>`
-<div class="session">
-<h3>${esc(s.nome)}</h3>
-${s.exercicios.map(e=>`
-<div>
-${esc(e.nome)} — ${e.series} séries ×
-${esc(e.reps)} repetições |
-RIR ${esc(e.rir)} |
-Descanso ${esc(e.descanso)}
-</div>
-`).join('')}
-</div>
-`).join('')}`
-};
-}
-
-return null;
-}
-
-function htmlDocumento(doc){
-return `<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>${esc(doc.titulo)} — ${esc(doc.nome)}</title>
-<style>
-body{font-family:Arial,sans-serif;max-width:800px;margin:auto;padding:24px;color:#17283a}
-h1,h2,h3{color:#165c99}
-.detail,.meal,.session,.alert{padding:14px;margin:12px 0;border:1px solid #dbe5ed;border-radius:12px;line-height:1.65}
-table{width:100%;border-collapse:collapse}
-td{padding:6px;border-bottom:1px solid #ddd}
-.alert{background:#fff7eb}
-button{background:#165c99;color:white;border:0;padding:12px;border-radius:10px}
-@media print{button{display:none}}
-</style>
-</head>
-<body>
-<h1>Lucas Personal</h1>
-<h2>${esc(doc.titulo)}</h2>
-<p>
-<strong>Aluno:</strong> ${esc(doc.nome)}<br>
-<strong>Emissão:</strong> ${new Date().toLocaleDateString('pt-BR')}
-</p>
-${doc.html}
-<p style="font-size:12px;color:#526477">
-Documento de apoio. Os resultados e sugestões devem ser revisados pelo profissional responsável antes do uso.
-</p>
-<button onclick="window.print()">Imprimir / Salvar em PDF</button>
-</body>
-</html>`;
-}
-
-function documento(tipo){
-const d=conteudoDocumento(tipo);
-if(!d)return;
-
-const w=window.open('','_blank');
-
-if(!w){
-alert('Permita pop-ups para abrir o relatório.');
-return;
-}
-
-w.document.open();
-w.document.write(htmlDocumento(d));
-w.document.close();
-
-alert('Na página do documento, toque em "Imprimir / Salvar em PDF" e escolha "Salvar como PDF" no celular.');
-}
-
-async function compartilhar(tipo){
-const d=conteudoDocumento(tipo);
-if(!d)return;
-
-const texto=`Lucas Personal — ${d.titulo}
-Aluno: ${d.nome}
-Abra o documento pelo aplicativo para salvar em PDF.`;
-
-if(navigator.share){
-try{
-await navigator.share({title:d.titulo,text:texto});
-return;
-}catch(e){
-if(e.name==='AbortError')return;
-}
-}
-
-alert('O compartilhamento direto do PDF não está disponível neste navegador. Use "Baixar PDF", salve o arquivo e envie pelo WhatsApp ou outro aplicativo.');
-}
-
-function baixarArquivo(nome,conteudo,tipo){
-const blob=new Blob([conteudo],{type:tipo});
-const url=URL.createObjectURL(blob);
-const a=document.createElement('a');
-
-a.href=url;
-a.download=nome;
-document.body.appendChild(a);
-a.click();
-a.remove();
-
-setTimeout(()=>URL.revokeObjectURL(url),1500);
-}
-
-function exportarJSON(){
-baixarArquivo(
-'backup_lucas_personal.json',
-JSON.stringify(historico(),null,2),
-'application/json'
-);
-}
-
-async function importarBackup(ev){
-const f=ev.target.files?.[0];
-if(!f)return;
-
-try{
-const d=JSON.parse(await f.text());
-
-if(!Array.isArray(d)||
-!d.every(x=>x&&typeof x==='object'&&typeof x.nome==='string')){
-throw Error('Formato inválido');
-}
-
-const atual=historico();
-
-if(!confirm(
-`Importar ${d.length} avaliações e manter as ${atual.length} existentes? Registros iguais poderão aparecer duplicados.`
-))return;
-
-localStorage.setItem(
-STORAGE_KEY,
-JSON.stringify([...atual,...d])
-);
-
-renderHistorico();
-alert('Backup importado.');
-}catch(e){
-alert('Não foi possível importar o arquivo: '+e.message);
-}finally{
-ev.target.value='';
-}
-}
-
-function exportarCSV(){
-const h=historico();
-
-if(!h.length){
-alert('Não há avaliações para exportar.');
-return;
-}
-
-const col=[
-['data','Data'],
-['hora','Hora'],
-['nome','Aluno'],
-['sexo','Sexo'],
-['idade','Idade'],
-['peso','Peso kg'],
-['altura','Altura cm'],
-['gordura','Gordura %'],
-['massaGorda','Massa gorda kg'],
-['massaMagra','Massa magra kg'],
-['imc','IMC'],
-...dobrasCampos.map(([k,n])=>['dobras.'+k,n+' mm']),
-...periCampos.map(([k,n])=>['perimetria.'+k,n+' cm'])
-];
-
-const cel=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
-
-const linhas=[
-col.map(x=>cel(x[1])).join(';'),
-...h.map(a=>col.map(([key])=>{
-const parts=key.split('.');
-let v=parts.reduce((o,k)=>o?.[k],a);
-
-if(key==='massaMagra')v??=a.mm;
-if(key==='massaGorda')v??=a.mg;
-
-return cel(v);
-}).join(';'))
-];
-
-baixarArquivo(
-'historico_lucas_personal.csv',
-'\uFEFF'+linhas.join('\n'),
-'text/csv;charset=utf-8'
-);
-}
-
-function limparHistorico(){
-if(!confirm(
-'ATENÇÃO: apagar definitivamente todas as avaliações salvas neste navegador? Faça um backup antes.'
-))return;
-
-if(!confirm('Confirma a exclusão de todo o histórico?'))return;
-
-localStorage.removeItem(STORAGE_KEY);
-avaliacaoSelecionada=null;
-el('detalhesCard').classList.add('hidden');
-renderHistorico();
-}
-
-campos();
-renderHistorico();
-
-if('serviceWorker' in navigator){
-window.addEventListener('load',()=>
-navigator.serviceWorker.register('service-worker.js').catch(()=>{})
-);
-}
-</script>
-</body>
-</html>
+<str
