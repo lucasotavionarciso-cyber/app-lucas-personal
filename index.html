@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#165c99">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
@@ -52,7 +51,8 @@ padding:12px;
 font:inherit;
 border:1px solid #cbd9e6;
 border-radius:11px;
-background:#faf3d9
+background:#faf3d9;
+min-width:0
 }
 textarea{min-height:75px}
 .actions{
@@ -119,10 +119,86 @@ border-radius:12px;
 padding:12px;
 margin:12px 0
 }
-.hidden{display:none}
+.hidden{display:none!important}
+.checkPanel{
+background:#f1f7fb;
+border:1px solid #dbe5ed;
+border-radius:12px;
+padding:12px;
+margin:8px 0
+}
+.checkPanel summary{
+cursor:pointer;
+font-weight:bold;
+color:#165c99;
+padding:5px
+}
+.checkGrid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:8px;
+margin:10px 0
+}
+.checkItem{
+display:flex;
+align-items:center;
+gap:9px;
+padding:9px;
+border-radius:9px;
+background:white;
+font-size:13px;
+cursor:pointer
+}
+.checkItem input{
+width:18px;
+height:18px;
+flex-shrink:0
+}
+.foodRow{
+display:grid;
+grid-template-columns:minmax(0,2fr) 95px auto;
+gap:7px;
+align-items:end;
+margin:10px 0
+}
+.foodRow label{
+font-size:12px;
+font-weight:bold
+}
+.foodRow input,.foodRow select{
+padding:9px;
+font-size:13px
+}
+.foodRow button{
+padding:10px 7px;
+font-size:12px
+}
+.foodTotal{
+background:#edf5fb;
+padding:10px;
+border-radius:9px;
+font-size:13px;
+line-height:1.7
+}
+.progress{
+height:9px;
+background:#d9e5ef;
+border-radius:9px;
+overflow:hidden;
+margin-top:7px
+}
+.progress span{
+display:block;
+height:100%;
+background:#2791c8
+}
 @media(max-width:650px){
 .grid,.metrics{grid-template-columns:1fr}
 .hero h1{font-size:28px}
+.checkGrid{grid-template-columns:1fr}
+.card{padding:15px}
+.foodRow{grid-template-columns:minmax(0,2fr) 75px auto}
+.foodRow button{font-size:11px}
 }
 @media print{
 .actions,button{display:none}
@@ -146,7 +222,6 @@ margin:12px 0
 <label>Nome do aluno</label>
 <input id="nome" placeholder="Nome completo">
 </div>
-
 <div class="field">
 <label>Sexo</label>
 <select id="sexo">
@@ -154,17 +229,14 @@ margin:12px 0
 <option value="female">Feminino</option>
 </select>
 </div>
-
 <div class="field">
 <label>Idade (anos)</label>
 <input id="idade" type="number" min="1">
 </div>
-
 <div class="field">
 <label>Peso (kg)</label>
 <input id="peso" type="number" step="0.1">
 </div>
-
 <div class="field">
 <label>Altura (cm)</label>
 <input id="altura" type="number" step="0.1">
@@ -172,7 +244,6 @@ margin:12px 0
 </div>
 
 <h3>Adipometria — 7 dobras (mm)</h3>
-
 <div class="grid">
 <div class="field">
 <label>Peitoral</label>
@@ -205,7 +276,6 @@ margin:12px 0
 </div>
 
 <h3>Perimetria (cm)</h3>
-
 <div class="grid">
 <div class="field">
 <label>Pescoço</label>
@@ -298,7 +368,6 @@ Resultados devem ser interpretados individualmente.
 <option value="1.9">Extremamente ativo</option>
 </select>
 </div>
-
 <div class="field">
 <label>Objetivo</label>
 <select id="objetivo">
@@ -307,7 +376,6 @@ Resultados devem ser interpretados individualmente.
 <option value="bulking">Hipertrofia</option>
 </select>
 </div>
-
 <div class="field">
 <label>Refeições por dia</label>
 <select id="refeicoes">
@@ -317,12 +385,10 @@ Resultados devem ser interpretados individualmente.
 <option>6</option>
 </select>
 </div>
-
 <div class="field">
 <label>Horário de treino</label>
 <input id="horarioTreino" type="time">
 </div>
-
 <div class="field">
 <label>Padrão alimentar</label>
 <select id="padraoAlimentar">
@@ -331,17 +397,14 @@ Resultados devem ser interpretados individualmente.
 <option value="vegano">Vegano</option>
 </select>
 </div>
-
 <div class="field">
 <label>Alergias e intolerâncias</label>
 <textarea id="alergias"></textarea>
 </div>
-
 <div class="field">
 <label>Alimentos evitados</label>
 <textarea id="evitaAlimentos"></textarea>
 </div>
-
 <div class="field">
 <label>Condições clínicas / dieta terapêutica</label>
 <textarea id="condicaoNutri"></textarea>
@@ -357,8 +420,9 @@ Resultados devem ser interpretados individualmente.
 <div id="resultadoPlano"></div>
 
 <p class="muted">
-As porções são exemplos ilustrativos e não correspondem necessariamente
-às metas de macronutrientes. Revisão por nutricionista antes da utilização.
+Valores nutricionais aproximados, calculados com alimentos na forma
+indicada e prontos para consumo. As quantidades podem ser ajustadas
+manualmente. A sugestão exige revisão nutricional antes de ser utilizada.
 </p>
 </section>
 
@@ -373,7 +437,6 @@ As porções são exemplos ilustrativos e não correspondem necessariamente
 <option value="abcd">ABCD — Quadríceps / Superiores / Posteriores / Full Body</option>
 </select>
 </div>
-
 <div class="field">
 <label>Objetivo</label>
 <select id="objetivoTreino">
@@ -384,7 +447,6 @@ As porções são exemplos ilustrativos e não correspondem necessariamente
 <option>Saúde</option>
 </select>
 </div>
-
 <div class="field">
 <label>Nível</label>
 <select id="nivelTreino">
@@ -393,7 +455,6 @@ As porções são exemplos ilustrativos e não correspondem necessariamente
 <option value="avancado">Avançado</option>
 </select>
 </div>
-
 <div class="field">
 <label>Dias de treino por semana</label>
 <select id="diasTreino">
@@ -404,7 +465,6 @@ As porções são exemplos ilustrativos e não correspondem necessariamente
 <option>6</option>
 </select>
 </div>
-
 <div class="field">
 <label>Duração da sessão</label>
 <select id="duracaoTreino">
@@ -415,7 +475,6 @@ As porções são exemplos ilustrativos e não correspondem necessariamente
 <option>90</option>
 </select>
 </div>
-
 <div class="field">
 <label>Local</label>
 <select id="localTreino">
@@ -423,37 +482,67 @@ As porções são exemplos ilustrativos e não correspondem necessariamente
 <option value="casa">Casa</option>
 </select>
 </div>
-
-<div class="field">
-<label>Equipamentos disponíveis</label>
-<textarea id="equipamentos"></textarea>
 </div>
 
-<div class="field">
-<label>Grupos musculares prioritários</label>
-<textarea id="prioridades"></textarea>
-</div>
+<h3>Equipamentos disponíveis</h3>
+<p class="muted">
+Selecione os equipamentos existentes no local de treinamento.
+Você pode marcar vários ou nenhum.
+</p>
 
+<details class="checkPanel">
+<summary>
+Selecionar equipamentos
+(<span id="contEquipamentos">0</span> selecionados)
+</summary>
+<div class="actions">
+<button class="secondary" onclick="marcarTodosEquipamentos(true)">
+Marcar todos
+</button>
+<button class="secondary" onclick="marcarTodosEquipamentos(false)">
+Desmarcar todos
+</button>
+</div>
+<div id="listaEquipamentos"></div>
+</details>
+
+<h3>Grupos musculares prioritários</h3>
+<p class="muted">
+Seleção opcional. Deixe tudo desmarcado quando não houver
+prioridade específica para o aluno.
+</p>
+
+<details class="checkPanel">
+<summary>
+Selecionar grupos musculares
+(<span id="contPrioridades">0</span> selecionados)
+</summary>
+<div class="actions">
+<button class="secondary" onclick="limparPrioridades()">
+Limpar seleção
+</button>
+</div>
+<div id="listaPrioridades"></div>
+</details>
+
+<h3>Informações da anamnese</h3>
+<div class="grid">
 <div class="field">
 <label>Lesões / diagnósticos</label>
 <textarea id="condicoesTreino"></textarea>
 </div>
-
 <div class="field">
 <label>Sintomas atuais</label>
 <textarea id="sintomasTreino"></textarea>
 </div>
-
 <div class="field">
 <label>Cirurgias anteriores</label>
 <textarea id="cirurgiasTreino"></textarea>
 </div>
-
 <div class="field">
 <label>Restrições profissionais</label>
 <textarea id="restricoesProf"></textarea>
 </div>
-
 <div class="field">
 <label>Exercícios a evitar</label>
 <textarea id="evitarExercicios"></textarea>
@@ -475,19 +564,18 @@ C — Pernas/ombro lateral.
 <div id="resultadoTreino"></div>
 
 <p class="muted">
-Os treinos são modelos para academia e precisam de revisão profissional
-quanto a volume, execução, recuperação e restrições.
+Os modelos ABC e ABCD mantêm os exercícios previamente definidos.
+Equipamentos indisponíveis e restrições precisam ser revisados
+antes da aplicação.
 </p>
 </section>
 
 <section class="card">
 <h2>Histórico de avaliações</h2>
-
 <p class="muted">
 Os registros ficam armazenados neste navegador e neste endereço.
 Faça backup regularmente.
 </p>
-
 <div class="scroll">
 <table>
 <thead>
@@ -510,38 +598,39 @@ Faça backup regularmente.
 <button class="danger" onclick="limparHistorico()">Limpar histórico</button>
 </div>
 
-<input id="importarJSON" type="file" accept=".json,application/json" hidden onchange="importarBackup(event)">
+<input id="importarJSON" type="file"
+accept=".json,application/json" hidden
+onchange="importarBackup(event)">
 </section>
 
 <section id="detalhesCard" class="card hidden">
 <h2>Detalhes da avaliação salva</h2>
 <div id="detalhesAvaliacao"></div>
-
 <div class="actions">
-<button class="secondary" onclick="documento('salva')">Baixar PDF desta avaliação</button>
-<button class="secondary" onclick="compartilhar('salva')">Compartilhar informações</button>
+<button class="secondary" onclick="documento('salva')">
+Baixar PDF desta avaliação
+</button>
+<button class="secondary" onclick="compartilhar('salva')">
+Compartilhar informações
+</button>
 </div>
 </section>
 
 <section class="card">
 <h2>Comparar evolução</h2>
-
 <div class="grid">
 <div class="field">
 <label>Primeira avaliação</label>
 <select id="comparar1"></select>
 </div>
-
 <div class="field">
 <label>Segunda avaliação</label>
 <select id="comparar2"></select>
 </div>
 </div>
-
 <div class="actions">
 <button onclick="comparar()">Comparar avaliações</button>
 </div>
-
 <div id="resultadoComparacao"></div>
 </section>
 
@@ -577,6 +666,105 @@ const periCampos=[
 ['coxaE','Coxa esquerda'],
 ['panturrilhaD','Panturrilha direita'],
 ['panturrilhaE','Panturrilha esquerda']
+];
+
+const gruposEquipamentos=[
+{
+titulo:'Máquinas de pernas e glúteos',
+itens:[
+'Leg press 45°',
+'Leg press horizontal',
+'Hack machine',
+'Smith machine',
+'Cadeira extensora',
+'Cadeira flexora',
+'Mesa flexora',
+'Cadeira adutora',
+'Cadeira abdutora',
+'Máquina de elevação pélvica',
+'Máquina de panturrilha'
+]
+},
+{
+titulo:'Máquinas de superiores',
+itens:[
+'Puxador alto',
+'Remada baixa',
+'Remada articulada',
+'Máquina de supino',
+'Peck deck / voador',
+'Voador inverso',
+'Máquina de desenvolvimento',
+'Máquina de bíceps',
+'Máquina de tríceps'
+]
+},
+{
+titulo:'Cabos e pesos livres',
+itens:[
+'Crossover / polias',
+'Polia ajustável',
+'Halteres',
+'Barras retas',
+'Barra W',
+'Anilhas',
+'Banco reto',
+'Banco inclinado',
+'Rack de agachamento'
+]
+},
+{
+titulo:'Outros equipamentos',
+itens:[
+'Máquina abdominal',
+'Banco abdominal',
+'Banco romano',
+'Barra fixa',
+'Paralelas',
+'Step',
+'Elásticos',
+'Kettlebells',
+'Esteira',
+'Bicicleta ergométrica',
+'Elíptico'
+]
+}
+];
+
+const gruposPrioritarios=[
+{
+titulo:'Membros inferiores',
+itens:[
+'Quadríceps',
+'Posteriores de coxa',
+'Glúteos',
+'Adutores',
+'Abdutores',
+'Panturrilhas'
+]
+},
+{
+titulo:'Membros superiores',
+itens:[
+'Peitoral',
+'Dorsais / costas',
+'Deltoide anterior',
+'Deltoide lateral',
+'Deltoide posterior',
+'Bíceps',
+'Tríceps',
+'Trapézio',
+'Antebraços'
+]
+},
+{
+titulo:'Tronco',
+itens:[
+'Abdômen',
+'Lombar',
+'Core / estabilidade'
+]
+}
 ];
 
 const modelosTreino={
@@ -684,7 +872,11 @@ let treinoAtual=null;
 let avaliacaoSelecionada=null;
 
 const el=id=>document.getElementById(id);
-const txt=id=>el(id).value.trim();
+
+const txt=id=>{
+const campo=el(id);
+return campo?campo.value.trim():'';
+};
 
 const num=id=>{
 const v=txt(id);
@@ -692,7 +884,8 @@ return v===''?null:Number(v);
 };
 
 const fmt=(v,n=1)=>
-v===null||v===undefined||v===''||!Number.isFinite(Number(v))
+v===null||v===undefined||v===''||
+!Number.isFinite(Number(v))
 ?'—'
 :Number(v).toLocaleString('pt-BR',{
 minimumFractionDigits:n,
@@ -726,29 +919,51 @@ v<40?'Obesidade grau II':
 
 function classGordura(sexo,g){
 return sexo==='male'
-?(g<6?'Muito baixo':g<14?'Atlético':g<18?'Bom':g<25?'Médio':'Elevado')
-:(g<14?'Muito baixo':g<21?'Atlético':g<25?'Bom':g<32?'Médio':'Elevado');
+?(g<6?'Muito baixo':g<14?'Atlético':
+g<18?'Bom':g<25?'Médio':'Elevado')
+:(g<14?'Muito baixo':g<21?'Atlético':
+g<25?'Bom':g<32?'Médio':'Elevado');
 }
 
-function coletarAvaliacao(){
+function coletarBasico(){
 const nome=txt('nome');
-const sexo=el('sexo').value;
+const sexo=txt('sexo');
 const idade=num('idade');
 const peso=num('peso');
 const altura=num('altura');
 
-if(!nome||!idade||!peso||!altura||
-idade<=0||peso<=0||altura<=0){
+if(
+!nome||
+!Number.isFinite(idade)||
+!Number.isFinite(peso)||
+!Number.isFinite(altura)||
+idade<=0||
+peso<=0||
+altura<=0
+){
 alert('Preencha nome, idade, peso e altura corretamente.');
 return null;
 }
 
+return {nome,sexo,idade,peso,altura};
+}
+
+function coletarAvaliacao(){
+const basico=coletarBasico();
+if(!basico)return null;
+
+const {nome,sexo,idade,peso,altura}=basico;
 const dobras={};
 const perimetria={};
 
 for(const [id] of dobrasCampos){
 dobras[id]=num(id);
-if(dobras[id]===null||dobras[id]<=0){
+
+if(
+dobras[id]===null||
+!Number.isFinite(dobras[id])||
+dobras[id]<=0
+){
 alert('Preencha as sete dobras com valores maiores que zero.');
 return null;
 }
@@ -756,21 +971,32 @@ return null;
 
 for(const [id] of periCampos){
 perimetria[id]=num(id);
-if(perimetria[id]!==null&&perimetria[id]<0){
+
+if(
+perimetria[id]!==null&&
+(!Number.isFinite(perimetria[id])||perimetria[id]<0)
+){
 alert('Verifique as medidas de perimetria.');
 return null;
 }
 }
 
-const soma=Object.values(dobras).reduce((a,b)=>a+b,0);
+const soma=Object.values(dobras)
+.reduce((a,b)=>a+b,0);
 
 const densidade=sexo==='male'
-?1.112-.00043499*soma+.00000055*soma*soma-.00028826*idade
-:1.097-.00046971*soma+.00000056*soma*soma-.00012828*idade;
+?1.112-.00043499*soma+
+.00000055*soma*soma-.00028826*idade
+:1.097-.00046971*soma+
+.00000056*soma*soma-.00012828*idade;
 
 const gordura=495/densidade-450;
 
-if(!Number.isFinite(gordura)||gordura<=0||gordura>=100){
+if(
+!Number.isFinite(gordura)||
+gordura<=0||
+gordura>=100
+){
 alert('Confira as dobras: resultado fora da faixa válida.');
 return null;
 }
@@ -815,7 +1041,9 @@ return a;
 
 function historico(){
 try{
-const h=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
+const h=JSON.parse(
+localStorage.getItem(STORAGE_KEY)||'[]'
+);
 return Array.isArray(h)?h:[];
 }catch{
 return [];
@@ -836,9 +1064,12 @@ hour:'2-digit',
 minute:'2-digit'
 }),
 criadoEm:agora.toISOString(),
-energia:planoAtual&&planoAtual.nome===a.nome?energiaAtual:null,
-plano:planoAtual&&planoAtual.nome===a.nome?planoAtual:null,
-treino:treinoAtual&&treinoAtual.nome===a.nome?treinoAtual:null,
+energia:planoAtual&&planoAtual.nome===a.nome
+?energiaAtual:null,
+plano:planoAtual&&planoAtual.nome===a.nome
+?JSON.parse(JSON.stringify(planoAtual)):null,
+treino:treinoAtual&&treinoAtual.nome===a.nome
+?JSON.parse(JSON.stringify(treinoAtual)):null,
 mm:a.massaMagra,
 mg:a.massaGorda,
 classificacao:a.classGordura
@@ -847,8 +1078,14 @@ classificacao:a.classGordura
 try{
 const h=historico();
 h.unshift(registro);
-localStorage.setItem(STORAGE_KEY,JSON.stringify(h));
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify(h)
+);
+
 renderHistorico();
+
 alert('Avaliação salva com adipometria e perimetria completas.');
 }catch{
 alert('Não foi possível salvar. Verifique o armazenamento.');
@@ -885,7 +1122,8 @@ return `
 <strong>Massa livre:</strong> ${esc(medida(a.massaLivre,'%'))}<br>
 <strong>Massa gorda:</strong> ${esc(medida(a.massaGorda??a.mg,'kg'))}<br>
 <strong>Massa magra:</strong> ${esc(medida(a.massaMagra??a.mm,'kg'))}<br>
-<strong>Classificação:</strong> ${esc(a.classGordura??a.classificacao??'—')}
+<strong>Classificação:</strong>
+${esc(a.classGordura??a.classificacao??'—')}
 </div>
 
 <div class="detail">
@@ -929,7 +1167,9 @@ el('historicoTabela').innerHTML=h.length
 <td>${esc(a.nome||'—')}</td>
 <td>${esc(medida(a.peso,'kg'))}</td>
 <td>${esc(medida(a.gordura,'%'))}</td>
-<td><button onclick="verAvaliacao(${i})">Abrir</button></td>
+<td>
+<button onclick="verAvaliacao(${i})">Abrir</button>
+</td>
 </tr>
 `).join('')
 :'<tr><td colspan="5">Nenhuma avaliação salva neste navegador.</td></tr>';
@@ -937,7 +1177,8 @@ el('historicoTabela').innerHTML=h.length
 const options='<option value="">Selecione</option>'+
 h.map((a,i)=>`
 <option value="${i}">
-${esc(a.nome||'Aluno')} — ${esc(a.data||'sem data')} ${esc(a.hora||'')}
+${esc(a.nome||'Aluno')} —
+${esc(a.data||'sem data')} ${esc(a.hora||'')}
 </option>`).join('');
 
 el('comparar1').innerHTML=options;
@@ -962,17 +1203,22 @@ return;
 const itens=[
 ['Peso',a.peso,b.peso,'kg'],
 ['Gordura',a.gordura,b.gordura,'%'],
-['Massa magra',a.massaMagra??a.mm,b.massaMagra??b.mm,'kg'],
+['Massa magra',
+a.massaMagra??a.mm,
+b.massaMagra??b.mm,'kg'],
 ...dobrasCampos.map(([id,n])=>[
 'Dobra: '+n,a.dobras?.[id],b.dobras?.[id],'mm'
 ]),
 ...periCampos.map(([id,n])=>[
-'Circunferência: '+n,a.perimetria?.[id],b.perimetria?.[id],'cm'
+'Circunferência: '+n,
+a.perimetria?.[id],b.perimetria?.[id],'cm'
 ])
 ];
 
 el('resultadoComparacao').innerHTML=`
-<p class="muted">Diferença = segunda avaliação menos primeira.</p>
+<p class="muted">
+Diferença = segunda avaliação menos primeira.
+</p>
 <div class="scroll">
 <table>
 <thead>
@@ -998,15 +1244,343 @@ esc((y-x>0?'+':'')+fmt(y-x)+' '+u)}</td>
 </div>`;
 }
 
+/* SELEÇÃO DE EQUIPAMENTOS E PRIORIDADES */
+
+function criarSelecao(id,grupos,tipo){
+el(id).innerHTML=grupos.map(g=>`
+<h3>${esc(g.titulo)}</h3>
+<div class="checkGrid">
+${g.itens.map(nome=>`
+<label class="checkItem">
+<input
+type="checkbox"
+data-selecao="${tipo}"
+value="${esc(nome)}"
+onchange="atualizarContadores()">
+<span>${esc(nome)}</span>
+</label>
+`).join('')}
+</div>
+`).join('');
+}
+
+function itensSelecionados(tipo){
+return Array.from(
+document.querySelectorAll(
+`input[data-selecao="${tipo}"]:checked`
+)
+).map(c=>c.value);
+}
+
+function atualizarContadores(){
+el('contEquipamentos').textContent=
+itensSelecionados('equipamento').length;
+
+el('contPrioridades').textContent=
+itensSelecionados('prioridade').length;
+}
+
+function marcarTodosEquipamentos(marcar){
+document.querySelectorAll(
+'input[data-selecao="equipamento"]'
+).forEach(c=>c.checked=marcar);
+
+atualizarContadores();
+}
+
+function limparPrioridades(){
+document.querySelectorAll(
+'input[data-selecao="prioridade"]'
+).forEach(c=>c.checked=false);
+
+atualizarContadores();
+}
+
+function iniciarSelecoes(){
+criarSelecao(
+'listaEquipamentos',
+gruposEquipamentos,
+'equipamento'
+);
+
+criarSelecao(
+'listaPrioridades',
+gruposPrioritarios,
+'prioridade'
+);
+
+atualizarContadores();
+}
+
+/* BANCO DE ALIMENTOS
+Valores aproximados por 100 g de alimento na forma indicada.
+kcal, proteína, carboidratos e gorduras.
+Não são dados laboratoriais individualizados.
+*/
+
+const alimentos=[
+['arroz','Arroz branco cozido',128,2.5,28.1,0.2,'vegano','carbo'],
+['arrozIntegral','Arroz integral cozido',124,2.6,25.8,1,'vegano','carbo'],
+['feijao','Feijão carioca cozido',76,4.8,13.6,0.5,'vegano','leguminosa'],
+['feijaoPreto','Feijão preto cozido',77,4.5,14,0.5,'vegano','leguminosa'],
+['lentilha','Lentilha cozida',116,9,20.1,0.4,'vegano','leguminosa'],
+['graoBico','Grão-de-bico cozido',164,8.9,27.4,2.6,'vegano','leguminosa'],
+['frango','Peito de frango grelhado',165,31,0,3.6,'onivoro','proteina'],
+['patinho','Patinho bovino grelhado',190,29,0,7.5,'onivoro','proteina'],
+['tilapia','Tilápia grelhada',128,26,0,2.7,'onivoro','proteina'],
+['ovo','Ovo cozido sem casca',155,12.6,1.1,10.6,'vegetariano','proteina'],
+['tofu','Tofu firme',110,12,2,6,'vegano','proteina'],
+['soja','Proteína de soja hidratada e cozida',115,17,9,1,'vegano','proteina'],
+['iogurte','Iogurte natural integral',61,3.5,4.7,3.3,'vegetariano','laticinio'],
+['leite','Leite integral',61,3.2,4.8,3.3,'vegetariano','laticinio'],
+['queijo','Queijo minas frescal',264,17.4,3.2,20.2,'vegetariano','laticinio'],
+['aveia','Aveia em flocos',389,16.9,66.3,6.9,'vegano','carbo'],
+['pao','Pão francês',300,9.4,58.6,3.1,'vegano','carbo'],
+['paoIntegral','Pão integral',250,10,43,4,'vegano','carbo'],
+['batata','Batata inglesa cozida',87,1.9,20.1,0.1,'vegano','carbo'],
+['batataDoce','Batata-doce cozida',77,0.6,18.4,0.1,'vegano','carbo'],
+['mandioca','Mandioca cozida',125,0.6,30.1,0.3,'vegano','carbo'],
+['macarrao','Macarrão cozido sem molho',157,5.8,30.9,0.9,'vegano','carbo'],
+['banana','Banana prata sem casca',98,1.3,26,0.1,'vegano','fruta'],
+['maca','Maçã sem casca',56,0.3,15.2,0.1,'vegano','fruta'],
+['mamao','Mamão papaia',43,0.5,10.8,0.1,'vegano','fruta'],
+['laranja','Laranja sem casca',47,0.9,11.8,0.1,'vegano','fruta'],
+['morango','Morango',32,0.7,7.7,0.3,'vegano','fruta'],
+['brocolis','Brócolis cozido',35,2.4,7.2,0.4,'vegano','vegetal'],
+['cenoura','Cenoura cozida',35,0.8,8.2,0.2,'vegano','vegetal'],
+['abobrinha','Abobrinha cozida',20,1.1,4,0.2,'vegano','vegetal'],
+['salada','Folhas cruas sem molho',20,1.5,3.3,0.2,'vegano','vegetal'],
+['azeite','Azeite de oliva',884,0,0,100,'vegano','gordura'],
+['amendoim','Amendoim torrado sem sal',585,24,21,50,'vegano','gordura'],
+['castanha','Castanha-de-caju torrada',574,15.3,32.7,46.4,'vegano','gordura'],
+['pasta','Pasta de amendoim sem açúcar',588,25,20,50,'vegano','gordura']
+].map(([id,nome,kcal,p,c,g,tipo,grupo])=>({
+id,nome,kcal,p,c,g,tipo,grupo
+}));
+
+const mapaAlimentos=Object.fromEntries(
+alimentos.map(a=>[a.id,a])
+);
+
+function alimentoPermitido(a,padrao){
+if(!a)return false;
+
+if(padrao==='onivoro')return true;
+
+if(padrao==='vegetariano'){
+return a.tipo!=='onivoro';
+}
+
+return a.tipo==='vegano';
+}
+
+function alimentoPorId(id){
+return mapaAlimentos[id]||null;
+}
+
+function nutrientes(id,gramas){
+const a=alimentoPorId(id);
+
+const g=Number(gramas);
+
+if(!a||!Number.isFinite(g)||g<0){
+return {kcal:0,p:0,c:0,g:0};
+}
+
+const fator=g/100;
+
+return {
+kcal:a.kcal*fator,
+p:a.p*fator,
+c:a.c*fator,
+g:a.g*fator
+};
+}
+
+function somarNutrientes(itens){
+const total={kcal:0,p:0,c:0,g:0};
+
+for(const item of itens){
+const n=nutrientes(item.id,item.gramas);
+
+total.kcal+=n.kcal;
+total.p+=n.p;
+total.c+=n.c;
+total.g+=n.g;
+}
+
+return total;
+}
+
+function totalRefeicao(r){
+return somarNutrientes(r.itens);
+}
+
+function totalPlano(){
+if(!planoAtual){
+return {kcal:0,p:0,c:0,g:0};
+}
+
+return somarNutrientes(
+planoAtual.refeicoes.flatMap(r=>r.itens)
+);
+}
+
+function nomesRefeicoes(n){
+return {
+3:['Café da manhã','Almoço','Jantar'],
+4:['Café da manhã','Almoço','Lanche da tarde','Jantar'],
+5:['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar'],
+6:['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar','Ceia']
+}[n]||[];
+}
+
+function montarRefeicao(nome,padrao){
+const proteina=padrao==='onivoro'
+?'frango'
+:padrao==='vegetariano'
+?'ovo'
+:'tofu';
+
+if(nome==='Almoço'||nome==='Jantar'){
+return [
+{id:'arroz',gramas:130},
+{id:'feijao',gramas:100},
+{id:proteina,gramas:130},
+{id:'brocolis',gramas:100},
+{id:'azeite',gramas:8}
+];
+}
+
+if(nome==='Café da manhã'){
+return [
+{id:'aveia',gramas:45},
+{id:'banana',gramas:100},
+{id:padrao==='vegano'?'tofu':'ovo',gramas:100}
+];
+}
+
+if(nome==='Ceia'){
+return [
+{id:padrao==='vegano'?'tofu':'iogurte',gramas:170},
+{id:'aveia',gramas:30},
+{id:'mamao',gramas:120}
+];
+}
+
+return [
+{id:'paoIntegral',gramas:60},
+{id:padrao==='vegano'?'tofu':'iogurte',gramas:170},
+{id:'maca',gramas:120}
+];
+}
+
+function limitesAlimento(a){
+if(!a)return [0,500];
+
+if(a.grupo==='gordura')return [0,40];
+
+if(a.grupo==='vegetal')return [50,250];
+
+if(a.grupo==='fruta')return [40,300];
+
+if(a.grupo==='proteina')return [40,300];
+
+if(a.grupo==='leguminosa')return [30,300];
+
+if(a.grupo==='laticinio')return [50,350];
+
+return [30,400];
+}
+
+/*
+Ajuste numérico aproximado das porções.
+O cálculo tenta aproximar calorias e macros,
+mas não garante correspondência exata.
+*/
+function ajustarPorcoesAutomaticas(refeicoes,metas){
+const itens=refeicoes.flatMap(r=>r.itens);
+
+if(!itens.length)return;
+
+const custo=total=>{
+const kcal=(total.kcal-metas.metaCal)/
+Math.max(300,metas.metaCal);
+
+const p=(total.p-metas.proteina)/
+Math.max(30,metas.proteina);
+
+const c=(total.c-metas.carbo)/
+Math.max(50,metas.carbo);
+
+const g=(total.g-metas.lipidio)/
+Math.max(20,metas.lipidio);
+
+return 2*kcal*kcal+
+3*p*p+
+2*c*c+
+2*g*g;
+};
+
+for(const passo of [50,20,10,5]){
+for(let ciclo=0;ciclo<12;ciclo++){
+let alterou=false;
+
+for(const item of itens){
+const a=alimentoPorId(item.id);
+const [min,max]=limitesAlimento(a);
+
+const atual=item.gramas;
+let melhor=atual;
+let menorCusto=custo(somarNutrientes(itens));
+
+for(const delta of [-passo,passo]){
+const candidato=Math.max(
+min,Math.min(max,atual+delta)
+);
+
+if(candidato===atual)continue;
+
+item.gramas=candidato;
+
+const novoCusto=custo(
+somarNutrientes(itens)
+);
+
+if(novoCusto<menorCusto-0.00000001){
+menorCusto=novoCusto;
+melhor=candidato;
+}
+}
+
+item.gramas=melhor;
+
+if(melhor!==atual)alterou=true;
+}
+
+if(!alterou)break;
+}
+}
+
+for(const item of itens){
+item.gramas=Math.max(
+0,Math.round(item.gramas/5)*5
+);
+}
+}
+
 function gerarPlano(){
-const a=calcular();
+const a=coletarBasico();
 if(!a)return;
 
-const fator=Number(el('atividade').value);
-const objetivo=el('objetivo').value;
-const n=Number(el('refeicoes').value);
+const fator=Number(txt('atividade'));
+const objetivo=txt('objetivo');
+const quantidade=Number(txt('refeicoes'));
+const padrao=txt('padraoAlimentar');
 
-const tmb=10*a.peso+6.25*a.altura-5*a.idade+
+const tmb=10*a.peso+
+6.25*a.altura-
+5*a.idade+
 (a.sexo==='male'?5:-161);
 
 const get=tmb*fator;
@@ -1016,103 +1590,342 @@ objetivo==='cutting'?0.85:
 objetivo==='bulking'?1.10:1
 );
 
-const proteina=a.peso*(objetivo==='cutting'?2:1.8);
+const proteina=a.peso*(
+objetivo==='cutting'?2:1.8
+);
+
 const lipidio=a.peso*0.8;
-const carbo=Math.max(0,(metaCal-proteina*4-lipidio*9)/4);
+
+const carbo=Math.max(
+0,(metaCal-proteina*4-lipidio*9)/4
+);
 
 energiaAtual={
-tmb,get,metaCal,proteina,lipidio,carbo,objetivo,fator
+tmb,get,metaCal,proteina,
+lipidio,carbo,objetivo,fator
 };
 
-const nomes={
-3:['Café da manhã','Almoço','Jantar'],
-4:['Café da manhã','Almoço','Lanche da tarde','Jantar'],
-5:['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar'],
-6:['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar','Ceia']
-}[n];
+const alergias=txt('alergias');
+const evitaAlimentos=txt('evitaAlimentos');
+const condicaoNutri=txt('condicaoNutri');
 
-const restricoes=[
-txt('alergias'),
-txt('evitaAlimentos'),
-txt('condicaoNutri')
-].filter(x=>x&&!['nenhuma','nenhum','não','nao'].includes(normal(x)));
+const temRestricao=[
+alergias,evitaAlimentos,condicaoNutri
+].some(x=>
+x&&![
+'nenhuma','nenhum','nao','não'
+].includes(normal(x))
+);
 
-const padrao=el('padraoAlimentar').value;
+const nomes=nomesRefeicoes(quantidade);
 
-const aviso=restricoes.length
-?'Existem restrições ou condições clínicas informadas. Não foram geradas sugestões automáticas de alimentos. É necessária avaliação nutricional individualizada.'
-:'Porções ilustrativas. Os valores nutricionais das porções não foram calculados para corresponder às metas.';
-
-const refeicoes=nomes.map((nome,i)=>({
+const refeicoes=nomes.map(nome=>({
 nome,
-itens:restricoes.length?[]:
-i===0
-?[
-'Aveia: 40 g',
-'Banana: 1 unidade',
-padrao==='onivoro'?'Ovos: 2 unidades':'Tofu: 120 g'
-]
-:nome.includes('Almoço')||nome.includes('Jantar')
-?[
-'Arroz cozido: 120 g',
-'Feijão cozido: 100 g',
-padrao==='onivoro'
-?'Frango grelhado: 120 g'
-:padrao==='vegano'
-?'Lentilha cozida: 180 g'
-:'Ovos: 2 unidades',
-'Legumes: 100 g'
-]
-:[
-'Fruta: 1 unidade',
-'Aveia: 30 g',
-padrao==='onivoro'?'Iogurte natural: 170 g':'Tofu: 100 g'
-]
+itens:temRestricao
+?[]
+:montarRefeicao(nome,padrao)
 }));
+
+if(!temRestricao){
+ajustarPorcoesAutomaticas(
+refeicoes,
+energiaAtual
+);
+}
 
 planoAtual={
 nome:a.nome,
 data:new Date().toLocaleDateString('pt-BR'),
 energia:energiaAtual,
 refeicoes,
-aviso,
-alergias:txt('alergias'),
-evitaAlimentos:txt('evitaAlimentos'),
-condicaoNutri:txt('condicaoNutri'),
-padrao
+alergias,
+evitaAlimentos,
+condicaoNutri,
+padrao,
+horarioTreino:txt('horarioTreino'),
+aviso:temRestricao
+?'Há restrições alimentares ou condições clínicas informadas. Nenhum alimento foi sugerido automaticamente. É necessária revisão nutricional individualizada.'
+:'Sugestão automática com porções ajustadas aproximadamente às metas. Confira as diferenças de calorias e macronutrientes.'
 };
+
+renderPlano();
+}
+
+function opcoesAlimentos(selecionado){
+if(!planoAtual)return '';
+
+return alimentos
+.filter(a=>
+alimentoPermitido(a,planoAtual.padrao)||
+a.id===selecionado
+)
+.map(a=>`
+<option value="${esc(a.id)}"
+${a.id===selecionado?'selected':''}>
+${esc(a.nome)}
+</option>
+`).join('');
+}
+
+function indicadoresPlano(){
+const total=totalPlano();
+const meta=planoAtual.energia;
+
+const itens=[
+['Calorias','kcal','kcal','metaCal'],
+['Proteínas','p','g','proteina'],
+['Carboidratos','c','g','carbo'],
+['Gorduras','g','g','lipidio']
+];
+
+return itens.map(([nome,chave,unidade,metaChave])=>{
+const atual=total[chave];
+const alvo=meta[metaChave];
+const diferenca=atual-alvo;
+
+const percentual=alvo>0
+?Math.max(0,Math.min(100,atual/alvo*100))
+:0;
+
+return `
+<div class="metric">
+${esc(nome)}
+<strong>
+${fmt(atual,0)} / ${fmt(alvo,0)} ${unidade}
+</strong>
+<div class="progress">
+<span style="width:${percentual}%"></span>
+</div>
+<p class="muted">
+Diferença: ${diferenca>0?'+':''}${fmt(diferenca,0)} ${unidade}
+</p>
+</div>`;
+}).join('');
+}
+
+function renderPlano(){
+if(!planoAtual)return;
+
+const p=planoAtual;
+const e=p.energia;
 
 el('resultadoPlano').innerHTML=`
 <div class="detail">
 <h3>Metas diárias estimadas</h3>
-TMB: ${fmt(tmb,0)} kcal<br>
-GET: ${fmt(get,0)} kcal<br>
-Meta: ${fmt(metaCal,0)} kcal<br>
-Proteínas: ${fmt(proteina,0)} g<br>
-Carboidratos: ${fmt(carbo,0)} g<br>
-Gorduras: ${fmt(lipidio,0)} g
+TMB: ${fmt(e.tmb,0)} kcal<br>
+GET: ${fmt(e.get,0)} kcal<br>
+Meta energética: ${fmt(e.metaCal,0)} kcal<br>
+Proteínas: ${fmt(e.proteina,0)} g<br>
+Carboidratos: ${fmt(e.carbo,0)} g<br>
+Gorduras: ${fmt(e.lipidio,0)} g
 </div>
-<div class="alert">${esc(aviso)}</div>
-${refeicoes.map(r=>`
+
+<h3>Cardápio atual x metas</h3>
+<div class="metrics">
+${indicadoresPlano()}
+</div>
+
+<div class="alert">
+${esc(p.aviso)}
+</div>
+
+${p.refeicoes.map((r,i)=>{
+const total=totalRefeicao(r);
+
+return `
 <div class="meal">
-<strong>${esc(r.nome)}</strong>
-${r.itens.map(x=>`<div>${esc(x)}</div>`).join('')}
+<div class="field">
+<label>Refeição ${i+1}</label>
+<input
+value="${esc(r.nome)}"
+onchange="alterarNomeRefeicao(${i},this.value)">
 </div>
-`).join('')}`;
+
+${r.itens.map((item,j)=>`
+<div class="foodRow">
+<div>
+<label>Alimento</label>
+<select
+onchange="trocarAlimento(${i},${j},this.value)">
+${opcoesAlimentos(item.id)}
+</select>
+</div>
+
+<div>
+<label>Gramas</label>
+<input
+type="number"
+min="0"
+max="2000"
+step="5"
+value="${item.gramas}"
+onchange="alterarPorcao(${i},${j},this.value)">
+</div>
+
+<button class="danger"
+onclick="removerAlimento(${i},${j})">
+Excluir
+</button>
+</div>
+`).join('')}
+
+<div class="foodTotal">
+<strong>Total da refeição:</strong><br>
+${fmt(total.kcal,0)} kcal •
+P ${fmt(total.p)} g •
+C ${fmt(total.c)} g •
+G ${fmt(total.g)} g
+</div>
+
+<div class="actions">
+<button class="secondary"
+onclick="adicionarAlimento(${i})">
+Adicionar alimento
+</button>
+<button class="danger"
+onclick="removerRefeicao(${i})">
+Excluir refeição
+</button>
+</div>
+</div>`;
+}).join('')}
+
+<div class="actions">
+<button class="secondary"
+onclick="adicionarRefeicao()">
+Adicionar refeição
+</button>
+
+<button class="green"
+onclick="reajustarPorcoes()">
+Reajustar porções às metas
+</button>
+</div>
+
+<p class="muted">
+As quantidades são em gramas do alimento na forma indicada.
+As estimativas variam conforme preparo, ingredientes e marcas.
+Ajustes automáticos não garantem correspondência exata às metas.
+</p>
+`;
 }
 
+function alterarNomeRefeicao(i,valor){
+if(!planoAtual)return;
+
+planoAtual.refeicoes[i].nome=
+valor.trim()||'Refeição';
+}
+
+function trocarAlimento(i,j,id){
+if(!planoAtual||!alimentoPorId(id))return;
+
+planoAtual.refeicoes[i].itens[j].id=id;
+renderPlano();
+}
+
+function alterarPorcao(i,j,valor){
+if(!planoAtual)return;
+
+const gramas=Number(valor);
+
+if(
+!Number.isFinite(gramas)||
+gramas<0||
+gramas>2000
+){
+alert('Informe uma quantidade entre 0 e 2000 gramas.');
+renderPlano();
+return;
+}
+
+planoAtual.refeicoes[i].itens[j].gramas=gramas;
+renderPlano();
+}
+
+function adicionarAlimento(i){
+if(!planoAtual)return;
+
+const primeiro=alimentos.find(a=>
+alimentoPermitido(a,planoAtual.padrao)
+);
+
+planoAtual.refeicoes[i].itens.push({
+id:primeiro.id,
+gramas:100
+});
+
+renderPlano();
+}
+
+function removerAlimento(i,j){
+if(!planoAtual)return;
+
+planoAtual.refeicoes[i].itens.splice(j,1);
+renderPlano();
+}
+
+function adicionarRefeicao(){
+if(!planoAtual){
+alert('Gere primeiro o plano alimentar.');
+return;
+}
+
+planoAtual.refeicoes.push({
+nome:'Refeição adicional',
+itens:[]
+});
+
+renderPlano();
+}
+
+function removerRefeicao(i){
+if(!planoAtual)return;
+
+if(planoAtual.refeicoes.length<=1){
+alert('Mantenha pelo menos uma refeição.');
+return;
+}
+
+if(!confirm('Excluir esta refeição?'))return;
+
+planoAtual.refeicoes.splice(i,1);
+renderPlano();
+}
+
+function reajustarPorcoes(){
+if(!planoAtual)return;
+
+if(!confirm(
+'Reajustar as porções? Isso modificará as quantidades que você editou.'
+))return;
+
+ajustarPorcoesAutomaticas(
+planoAtual.refeicoes,
+planoAtual.energia
+);
+
+renderPlano();
+}
+
+/* TREINAMENTO */
+
 function atualizarDivisao(){
-const tipo=el('divisaoTreino').value;
+const tipo=txt('divisaoTreino');
 const modelo=modelosTreino[tipo];
 
-el('diasTreino').value=tipo==='abcd'?'4':'3';
+el('diasTreino').value=
+tipo==='abcd'?'4':'3';
 
 el('descricaoDivisao').innerHTML=`
 <h3>${esc(modelo.titulo)}</h3>
 ${Object.entries(modelo)
 .filter(([k])=>['A','B','C','D'].includes(k))
 .map(([k,t])=>`
-<div><strong>Treino ${k}:</strong> ${esc(t.grupo)}</div>
+<div>
+<strong>Treino ${k}:</strong>
+${esc(t.grupo)}
+</div>
 `).join('')}`;
 
 treinoAtual=null;
@@ -1121,12 +1934,22 @@ el('resultadoTreino').innerHTML='';
 
 function prescricaoExercicio(nome,nivel,objetivo){
 let series=nivel==='iniciante'?2:3;
-let reps=objetivo==='Força'?'5–8':'8–12';
-let rir=nivel==='iniciante'?'3–4':
-nivel==='avancado'?'1–2':'2–3';
-let descanso=objetivo==='Força'?'120–180 s':'60–120 s';
 
-if(/elevação lateral|elevação frontal|face pull|panturrilha|abdominal/i.test(nome)){
+let reps=objetivo==='Força'
+?'5–8':'8–12';
+
+let rir=nivel==='iniciante'
+?'3–4'
+:nivel==='avancado'
+?'1–2':'2–3';
+
+let descanso=objetivo==='Força'
+?'120–180 s':'60–120 s';
+
+if(
+/elevação lateral|elevação frontal|face pull|panturrilha|abdominal/i
+.test(nome)
+){
 reps='12–15';
 }
 
@@ -1135,6 +1958,103 @@ reps='10–12 por lado';
 }
 
 return {series,reps,rir,descanso};
+}
+
+function grupoPrioritario(grupo,prioridades){
+const g=normal(grupo);
+
+return prioridades.some(p=>{
+const x=normal(p);
+
+if(x==='peitoral'&&g.includes('peito'))return true;
+
+if(x==='dorsais / costas'&&g.includes('costas'))return true;
+
+if(x==='posteriores de coxa'&&g.includes('posteriores'))return true;
+
+if(x==='abdutores'&&g.includes('gluteos'))return false;
+
+return g.includes(x);
+});
+}
+
+/*
+A verificação de equipamentos é orientativa.
+Alguns exercícios admitem diferentes montagens.
+*/
+function verificarEquipamento(nome,equipamentos){
+const n=normal(nome);
+
+let opcoes=[];
+
+if(n.includes('smith ou livre')){
+opcoes=['Smith machine','Rack de agachamento'];
+}else if(n.includes('leg press 45')){
+opcoes=['Leg press 45°'];
+}else if(n.includes('leg press')){
+opcoes=['Leg press 45°','Leg press horizontal'];
+}else if(n.includes('hack')){
+opcoes=['Hack machine'];
+}else if(n.includes('extensora')){
+opcoes=['Cadeira extensora'];
+}else if(n.includes('flexora ou mesa')){
+opcoes=['Cadeira flexora','Mesa flexora'];
+}else if(n.includes('flexora')){
+opcoes=['Cadeira flexora'];
+}else if(n.includes('adutora')){
+opcoes=['Cadeira adutora'];
+}else if(n.includes('abdutora')){
+opcoes=['Cadeira abdutora'];
+}else if(n.includes('puxador')||n.includes('puxada frontal')){
+opcoes=['Puxador alto'];
+}else if(n.includes('remada baixa')){
+opcoes=['Remada baixa','Crossover / polias'];
+}else if(n.includes('remada unilateral')){
+opcoes=['Halteres','Remada articulada'];
+}else if(n.includes('supino reto na maquina')){
+opcoes=['Máquina de supino'];
+}else if(n.includes('crucifixo na maquina')){
+opcoes=['Peck deck / voador'];
+}else if(n.includes('face pull')||
+n.includes('polia')||
+n.includes('no cabo')||
+n.includes('pulldown')){
+opcoes=['Crossover / polias','Polia ajustável'];
+}else if(n.includes('barra w')){
+opcoes=['Barra W'];
+}else if(n.includes('supino')&&n.includes('barra')){
+opcoes=['Barras retas'];
+}else if(n.includes('halteres')){
+opcoes=['Halteres'];
+}else if(n.includes('anilha')){
+opcoes=['Anilhas'];
+}else if(n.includes('smith')){
+opcoes=['Smith machine'];
+}else if(n.includes('elevação pelvica')){
+opcoes=['Máquina de elevação pélvica','Banco reto'];
+}else if(n.includes('abdominal na maquina')){
+opcoes=['Máquina abdominal'];
+}else if(n.includes('panturrilha no step')){
+opcoes=['Step'];
+}else if(n.includes('stiff')){
+opcoes=['Halteres','Barras retas'];
+}else if(n.includes('afundo')||
+n.includes('agachamento sumo')){
+opcoes=['Halteres','Barras retas','Kettlebells'];
+}
+
+if(!opcoes.length){
+return {ok:true,observacao:''};
+}
+
+const ok=opcoes.some(x=>equipamentos.includes(x));
+
+return {
+ok,
+observacao:ok
+?''
+:'Verificar equipamento: '+opcoes.join(' ou ')
+};
 }
 
 function gerarTreino(){
@@ -1146,12 +2066,15 @@ el('nome').focus();
 return;
 }
 
-const tipo=el('divisaoTreino').value;
+const tipo=txt('divisaoTreino');
 const modelo=modelosTreino[tipo];
-const nivel=el('nivelTreino').value;
-const dias=Number(el('diasTreino').value);
-const objetivo=el('objetivoTreino').value;
-const local=el('localTreino').value;
+const nivel=txt('nivelTreino');
+const dias=Number(txt('diasTreino'));
+const objetivo=txt('objetivoTreino');
+const local=txt('localTreino');
+
+const equipamentos=itensSelecionados('equipamento');
+const prioridades=itensSelecionados('prioridade');
 
 const restricoes=[
 txt('condicoesTreino'),
@@ -1160,6 +2083,10 @@ txt('cirurgiasTreino'),
 txt('restricoesProf'),
 txt('evitarExercicios')
 ].filter(Boolean);
+
+const exerciciosEvitar=normal(
+txt('evitarExercicios')
+).split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean);
 
 const letras=tipo==='abc'
 ?['A','B','C']
@@ -1173,21 +2100,36 @@ return {
 letra,
 nome:`Sessão ${i+1} — Treino ${letra}`,
 grupo:base.grupo,
-exercicios:base.exercicios.map(([grupo,nome])=>({
+exercicios:base.exercicios.map(([grupo,nome])=>{
+const equipamento=verificarEquipamento(
+nome,equipamentos
+);
+
+const evitar=exerciciosEvitar.some(x=>
+normal(nome).includes(x)
+);
+
+return {
 grupo,nome,
-...prescricaoExercicio(nome,nivel,objetivo)
-}))
+...prescricaoExercicio(nome,nivel,objetivo),
+prioritario:grupoPrioritario(grupo,prioridades),
+equipamentoOK:equipamento.ok,
+observacao:equipamento.observacao,
+evitar
+};
+})
 };
 });
 
-let aviso='Modelo automático para revisão profissional. Ajuste volume, intensidade e recuperação conforme o aluno.';
+let aviso=
+'Modelo automático para revisão profissional. Ajuste volume, intensidade e recuperação conforme o aluno.';
 
 if(local==='casa'){
-aviso+=' ATENÇÃO: os exercícios foram definidos para academia; não foram adaptados para casa.';
+aviso+=' ATENÇÃO: exercícios de academia não foram adaptados para casa.';
 }
 
 if(restricoes.length){
-aviso+=' ATENÇÃO: há restrições ou sintomas informados. O treino não foi adaptado clinicamente; revise antes de aplicar.';
+aviso+=' ATENÇÃO: há restrições ou sintomas informados. Revise antes de aplicar.';
 }
 
 if(dias>letras.length){
@@ -1198,29 +2140,56 @@ if(tipo==='abcd'&&dias>=4){
 aviso+=' Avalie a recuperação entre o treino C e o Full Body.';
 }
 
+const incompatibilidades=sessoes.reduce(
+(total,s)=>total+s.exercicios.filter(e=>
+!e.equipamentoOK||e.evitar
+).length,0
+);
+
+if(incompatibilidades){
+aviso+=` Há ${incompatibilidades} ocorrência(s) de exercícios que exigem revisão por equipamento ou restrição.`;
+}
+
 treinoAtual={
 nome,
 data:new Date().toLocaleDateString('pt-BR'),
 objetivo,nivel,dias,
-duracao:el('duracaoTreino').value,
+duracao:txt('duracaoTreino'),
 local,
 divisao:tipo,
 tituloDivisao:modelo.titulo,
-prioridades:txt('prioridades'),
-equipamentos:txt('equipamentos'),
-restricoes,sessoes,aviso
+prioridades,
+equipamentos,
+restricoes,
+sessoes,
+aviso
 };
+
+renderTreino();
+}
+
+function renderTreino(){
+if(!treinoAtual)return;
+
+const t=treinoAtual;
 
 el('resultadoTreino').innerHTML=`
 <div class="detail">
-<h3>${esc(modelo.titulo)}</h3>
-Aluno: ${esc(nome)}<br>
-Objetivo: ${esc(objetivo)}<br>
-Nível: ${esc(nivel)}<br>
-Frequência: ${dias} dias/semana
+<h3>${esc(t.tituloDivisao)}</h3>
+Aluno: ${esc(t.nome)}<br>
+Objetivo: ${esc(t.objetivo)}<br>
+Nível: ${esc(t.nivel)}<br>
+Frequência: ${t.dias} dias/semana<br>
+Grupos prioritários:
+${esc(t.prioridades.join(', ')||'Nenhum selecionado')}
 </div>
-<div class="alert">${esc(aviso)}</div>
-${sessoes.map(tabelaTreino).join('')}`;
+
+<div class="alert">
+${esc(t.aviso)}
+</div>
+
+${t.sessoes.map(tabelaTreino).join('')}
+`;
 }
 
 function tabelaTreino(s){
@@ -1228,6 +2197,7 @@ return `
 <div class="session">
 <h3>${esc(s.nome)}</h3>
 <p><strong>${esc(s.grupo)}</strong></p>
+
 <div class="scroll">
 <table>
 <thead>
@@ -1237,6 +2207,7 @@ return `
 <th>Repetições</th>
 <th>RIR</th>
 <th>Descanso</th>
+<th>Observações</th>
 </tr>
 </thead>
 <tbody>
@@ -1244,6 +2215,7 @@ ${s.exercicios.map(e=>`
 <tr>
 <td>
 <strong>${esc(e.nome)}</strong>
+${e.prioritario?' ★':''}
 <br>
 <span class="muted">${esc(e.grupo||'')}</span>
 </td>
@@ -1251,12 +2223,133 @@ ${s.exercicios.map(e=>`
 <td>${esc(e.reps)}</td>
 <td>${esc(e.rir)}</td>
 <td>${esc(e.descanso)}</td>
+<td>
+${e.evitar
+?'<strong>Exercício incluído nas restrições: revisar.</strong>'
+:!e.equipamentoOK
+?esc(e.observacao)
+:e.prioritario
+?'Grupo prioritário'
+:'—'}
+</td>
 </tr>
 `).join('')}
 </tbody>
 </table>
 </div>
 </div>`;
+}
+
+/* RELATÓRIOS */
+
+function planoDocumento(p){
+const e=p.energia;
+
+if(!p.refeicoes.every(r=>
+r.itens.every(i=>typeof i==='object')
+)){
+return `
+<div class="alert">
+Este plano foi salvo em uma versão anterior.
+As porções antigas não possuem cálculo nutricional detalhado.
+</div>
+${p.refeicoes.map(r=>`
+<div class="meal">
+<h3>${esc(r.nome)}</h3>
+${r.itens.map(i=>`<p>${esc(
+typeof i==='string'?i:JSON.stringify(i)
+)}</p>`).join('')}
+</div>
+`).join('')}
+`;
+}
+
+const total=somarNutrientes(
+p.refeicoes.flatMap(r=>r.itens)
+);
+
+return `
+<div class="detail">
+<h3>Metas energéticas</h3>
+TMB: ${fmt(e.tmb,0)} kcal<br>
+GET: ${fmt(e.get,0)} kcal<br>
+Meta: ${fmt(e.metaCal,0)} kcal<br>
+Proteínas: ${fmt(e.proteina,0)} g<br>
+Carboidratos: ${fmt(e.carbo,0)} g<br>
+Gorduras: ${fmt(e.lipidio,0)} g
+</div>
+
+<div class="detail">
+<h3>Total calculado do cardápio</h3>
+Calorias: ${fmt(total.kcal,0)} kcal<br>
+Proteínas: ${fmt(total.p)} g<br>
+Carboidratos: ${fmt(total.c)} g<br>
+Gorduras: ${fmt(total.g)} g
+</div>
+
+<div class="alert">${esc(p.aviso||'')}</div>
+
+${p.refeicoes.map(r=>{
+const t=totalRefeicao(r);
+
+return `
+<div class="meal">
+<h3>${esc(r.nome)}</h3>
+<table>
+<thead>
+<tr>
+<th>Alimento</th>
+<th>Quantidade</th>
+<th>kcal</th>
+<th>Proteína</th>
+</tr>
+</thead>
+<tbody>
+${r.itens.map(item=>{
+const a=alimentoPorId(item.id);
+const n=nutrientes(item.id,item.gramas);
+
+return `
+<tr>
+<td>${esc(a?.nome||item.id)}</td>
+<td>${fmt(item.gramas,0)} g</td>
+<td>${fmt(n.kcal,0)}</td>
+<td>${fmt(n.p)} g</td>
+</tr>`;
+}).join('')}
+</tbody>
+</table>
+
+<p>
+<strong>Total:</strong>
+${fmt(t.kcal,0)} kcal •
+P ${fmt(t.p)} g •
+C ${fmt(t.c)} g •
+G ${fmt(t.g)} g
+</p>
+</div>`;
+}).join('')}
+
+${p.alergias?`
+<p><strong>Alergias:</strong> ${esc(p.alergias)}</p>
+`:''}
+
+${p.evitaAlimentos?`
+<p><strong>Alimentos evitados:</strong>
+${esc(p.evitaAlimentos)}</p>
+`:''}
+
+${p.condicaoNutri?`
+<p><strong>Condições clínicas:</strong>
+${esc(p.condicaoNutri)}</p>
+`:''}
+
+<p class="muted">
+Valores nutricionais aproximados para os alimentos na forma indicada.
+A composição pode variar conforme marca, preparo e receita.
+Revisão nutricional necessária antes da utilização.
+</p>
+`;
 }
 
 function conteudoDocumento(tipo){
@@ -1266,7 +2359,9 @@ const a=tipo==='salva'
 :calcular();
 
 if(!a){
-if(tipo==='salva')alert('Selecione uma avaliação salva.');
+if(tipo==='salva'){
+alert('Selecione uma avaliação salva.');
+}
 return null;
 }
 
@@ -1285,28 +2380,10 @@ alert('Gere primeiro o plano alimentar.');
 return null;
 }
 
-const e=p.energia;
-
 return {
 titulo:'Referência alimentar estimada',
 nome:p.nome,
-html:`
-<div class="detail">
-<h3>Metas energéticas</h3>
-TMB: ${fmt(e.tmb,0)} kcal<br>
-GET: ${fmt(e.get,0)} kcal<br>
-Meta: ${fmt(e.metaCal,0)} kcal<br>
-Proteínas: ${fmt(e.proteina,0)} g<br>
-Carboidratos: ${fmt(e.carbo,0)} g<br>
-Gorduras: ${fmt(e.lipidio,0)} g
-</div>
-<div class="alert">${esc(p.aviso)}</div>
-${p.refeicoes.map(r=>`
-<div class="meal">
-<h3>${esc(r.nome)}</h3>
-${r.itens.map(i=>`<div>${esc(i)}</div>`).join('')}
-</div>
-`).join('')}`
+html:planoDocumento(p)
 };
 }
 
@@ -1323,20 +2400,30 @@ titulo:'Ficha de treino — '+t.tituloDivisao,
 nome:t.nome,
 html:`
 <div class="detail">
-<strong>Divisão:</strong> ${esc(t.tituloDivisao)}<br>
-<strong>Objetivo:</strong> ${esc(t.objetivo)}<br>
-<strong>Nível:</strong> ${esc(t.nivel)}<br>
-<strong>Frequência:</strong> ${t.dias} dias/semana<br>
-<strong>Duração prevista:</strong> ${esc(t.duracao)} minutos<br>
-<strong>Prioridades:</strong> ${esc(t.prioridades||'—')}<br>
-<strong>Equipamentos:</strong> ${esc(t.equipamentos||'—')}
+<strong>Divisão:</strong>
+${esc(t.tituloDivisao)}<br>
+<strong>Objetivo:</strong>
+${esc(t.objetivo)}<br>
+<strong>Nível:</strong>
+${esc(t.nivel)}<br>
+<strong>Frequência:</strong>
+${t.dias} dias/semana<br>
+<strong>Duração prevista:</strong>
+${esc(t.duracao)} minutos<br>
+<strong>Prioridades:</strong>
+${esc(t.prioridades.join(', ')||'Nenhuma')}<br>
+<strong>Equipamentos:</strong>
+${esc(t.equipamentos.join(', ')||'Nenhum selecionado')}
 </div>
+
 <div class="alert">
 ${esc(t.aviso)}
 ${t.restricoes.length
-?'<p><strong>Observações:</strong> '+esc(t.restricoes.join('; '))+'</p>'
+?'<p><strong>Observações:</strong> '+
+esc(t.restricoes.join('; '))+'</p>'
 :''}
 </div>
+
 ${t.sessoes.map(tabelaTreino).join('')}
 `
 };
@@ -1368,7 +2455,10 @@ border:1px solid #dbe5ed;
 border-radius:12px;
 line-height:1.65
 }
-table{width:100%;border-collapse:collapse}
+table{
+width:100%;
+border-collapse:collapse
+}
 td,th{
 padding:7px;
 border-bottom:1px solid #ddd;
@@ -1389,6 +2479,7 @@ border-radius:10px
 @media print{
 button{display:none}
 body{padding:0}
+.session{break-inside:avoid}
 }
 </style>
 </head>
@@ -1397,13 +2488,20 @@ body{padding:0}
 <h2>${esc(doc.titulo)}</h2>
 <p>
 <strong>Aluno:</strong> ${esc(doc.nome)}<br>
-<strong>Emissão:</strong> ${new Date().toLocaleDateString('pt-BR')}
+<strong>Emissão:</strong>
+${new Date().toLocaleDateString('pt-BR')}
 </p>
+
 ${doc.html}
+
 <p style="font-size:12px;color:#526477">
-Documento de apoio. Resultados e sugestões devem ser revisados pelo profissional responsável antes do uso.
+Documento de apoio. Resultados e sugestões devem ser
+revisados pelo profissional responsável antes do uso.
 </p>
-<button onclick="window.print()">Imprimir / Salvar em PDF</button>
+
+<button onclick="window.print()">
+Imprimir / Salvar em PDF
+</button>
 </body>
 </html>`;
 }
@@ -1423,7 +2521,9 @@ w.document.open();
 w.document.write(htmlDocumento(d));
 w.document.close();
 
-alert('Na página do documento, toque em "Imprimir / Salvar em PDF" e escolha "Salvar como PDF" no celular.');
+alert(
+'Na página do documento, toque em "Imprimir / Salvar em PDF" e escolha "Salvar como PDF" no celular.'
+);
 }
 
 async function compartilhar(tipo){
@@ -1446,7 +2546,9 @@ if(e.name==='AbortError')return;
 }
 }
 
-alert('Use "Baixar PDF", salve o documento e envie pelo aplicativo desejado.');
+alert(
+'Use "Baixar PDF", salve o documento e envie pelo aplicativo desejado.'
+);
 }
 
 function baixarArquivo(nome,conteudo,tipo){
@@ -1456,6 +2558,7 @@ const a=document.createElement('a');
 
 a.href=url;
 a.download=nome;
+
 document.body.appendChild(a);
 a.click();
 a.remove();
@@ -1478,8 +2581,14 @@ if(!f)return;
 try{
 const d=JSON.parse(await f.text());
 
-if(!Array.isArray(d)||
-!d.every(x=>x&&typeof x==='object'&&typeof x.nome==='string')){
+if(
+!Array.isArray(d)||
+!d.every(x=>
+x&&
+typeof x==='object'&&
+typeof x.nome==='string'
+)
+){
 throw Error('Formato inválido');
 }
 
@@ -1523,17 +2632,25 @@ const col=[
 ['massaGorda','Massa gorda kg'],
 ['massaMagra','Massa magra kg'],
 ['imc','IMC'],
-...dobrasCampos.map(([k,n])=>['dobras.'+k,n+' mm']),
-...periCampos.map(([k,n])=>['perimetria.'+k,n+' cm'])
+...dobrasCampos.map(([k,n])=>[
+'dobras.'+k,n+' mm'
+]),
+...periCampos.map(([k,n])=>[
+'perimetria.'+k,n+' cm'
+])
 ];
 
-const cel=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+const cel=v=>
+'"'+String(v??'').replace(/"/g,'""')+'"';
 
 const linhas=[
 col.map(x=>cel(x[1])).join(';'),
 ...h.map(a=>col.map(([key])=>{
 const parts=key.split('.');
-let v=parts.reduce((o,k)=>o?.[k],a);
+
+let v=parts.reduce(
+(o,k)=>o?.[k],a
+);
 
 if(key==='massaMagra')v??=a.mm;
 if(key==='massaGorda')v??=a.mg;
@@ -1554,34 +2671,49 @@ if(!confirm(
 'ATENÇÃO: apagar todas as avaliações salvas neste navegador? Faça um backup antes.'
 ))return;
 
-if(!confirm('Confirma a exclusão de todo o histórico?'))return;
+if(!confirm(
+'Confirma a exclusão de todo o histórico?'
+))return;
 
 localStorage.removeItem(STORAGE_KEY);
+
 avaliacaoSelecionada=null;
+
 el('detalhesCard').classList.add('hidden');
+
 renderHistorico();
 }
 
 function iniciarAplicativo(){
 try{
+iniciarSelecoes();
 renderHistorico();
 atualizarDivisao();
 }catch(e){
 console.error('Erro ao iniciar:',e);
-alert('Erro ao iniciar o aplicativo: '+e.message);
+
+alert(
+'Erro ao iniciar o aplicativo: '+e.message
+);
 }
 }
 
 if(document.readyState==='loading'){
-document.addEventListener('DOMContentLoaded',iniciarAplicativo);
+document.addEventListener(
+'DOMContentLoaded',
+iniciarAplicativo
+);
 }else{
 iniciarAplicativo();
 }
 
 if('serviceWorker' in navigator){
 window.addEventListener('load',()=>{
-navigator.serviceWorker.register('service-worker.js')
-.catch(e=>console.warn('Service Worker:',e));
+navigator.serviceWorker
+.register('service-worker.js')
+.catch(e=>
+console.warn('Service Worker:',e)
+);
 });
 }
 </script>
