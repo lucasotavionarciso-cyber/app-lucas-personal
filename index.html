@@ -1,78 +1,269 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#165c99">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon-192.png">
 <title>Lucas Personal</title>
+
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#dbe9f4;color:#17283a;margin:0;padding:16px}
+body{
+font-family:Arial,sans-serif;
+background:#dbe9f4;
+color:#17283a;
+margin:0;
+padding:15px
+}
 .wrap{max-width:960px;margin:auto}
-.hero{background:linear-gradient(125deg,#165c99,#2791c8);color:white;padding:26px;border-radius:22px;margin-bottom:16px}
-.hero h1{margin:0;font-size:34px}
+.hero{
+background:linear-gradient(125deg,#165c99,#2791c8);
+color:white;
+padding:25px;
+border-radius:20px
+}
+.hero h1{margin:0;font-size:32px}
 .hero p{margin-bottom:0}
-.card{background:white;border-radius:20px;padding:20px;margin:15px 0;box-shadow:0 3px 16px #17406b14}
-h2,h3{color:#165c99;margin-top:0}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.field label{font-size:14px;font-weight:bold;display:block;margin-bottom:5px}
-input,select,textarea{width:100%;padding:12px;font-size:16px;border:1px solid #d1dce7;border-radius:11px;background:#faf3d9}
-textarea{min-height:78px}
-.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.card{
+background:white;
+border-radius:20px;
+padding:20px;
+margin:16px 0;
+box-shadow:0 3px 15px #17406b12
+}
+h2,h3{color:#165c99}
+.grid{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:12px
+}
+.field label{
+display:block;
+font-size:14px;
+font-weight:bold;
+margin-bottom:6px
+}
+input,select,textarea{
+width:100%;
+padding:12px;
+font:inherit;
+border:1px solid #cbd9e6;
+border-radius:11px;
+background:#faf3d9
+}
+textarea{min-height:75px}
+.actions{
+display:flex;
+gap:9px;
+flex-wrap:wrap;
+margin-top:15px
+}
 .actions button{flex:1 1 190px}
-button{padding:12px 14px;background:#165c99;color:white;border:0;border-radius:12px;font-weight:bold;font-size:15px;cursor:pointer}
+button{
+padding:12px;
+border:0;
+border-radius:12px;
+background:#165c99;
+color:white;
+font-size:15px;
+font-weight:bold;
+cursor:pointer
+}
 .secondary{background:#e6f1f9;color:#165c99}
 .green{background:#207344}
-.danger{background:#ad2929}
-.muted{color:#617387;font-size:13px;line-height:1.5}
-.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.metric{background:#eff6fb;border-radius:12px;padding:13px}
-.metric strong{display:block;font-size:20px;margin-top:6px}
-.scroll{overflow:auto}
+.danger{background:#a62c2c}
+.muted{
+color:#617387;
+font-size:13px;
+line-height:1.5
+}
+.metrics{
+display:grid;
+grid-template-columns:repeat(2,minmax(0,1fr));
+gap:10px
+}
+.metric,.detail{
+background:#f1f7fb;
+padding:13px;
+border-radius:12px
+}
+.metric strong{
+display:block;
+font-size:20px;
+margin-top:6px
+}
+.detail{margin:12px 0;line-height:1.7}
+.alert{
+background:#fff4e4;
+border:1px solid #e5c48d;
+border-radius:12px;
+padding:12px;
+margin:12px 0;
+line-height:1.5
+}
+.scroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #e3eaf1;text-align:left;font-size:14px}
-th{color:#165c99;background:#f2f7fb}
-.detail{background:#f4f8fb;padding:15px;border-radius:13px;margin-top:12px;line-height:1.8}
-.detail h3{margin:0 0 7px}
+th,td{
+padding:9px;
+border-bottom:1px solid #e1e9f0;
+text-align:left;
+font-size:13px
+}
+th{background:#f2f7fb;color:#165c99}
+.session,.meal{
+border:1px solid #dbe5ed;
+border-radius:12px;
+padding:12px;
+margin:12px 0
+}
 .hidden{display:none}
-.alert{background:#fff4e4;border:1px solid #e5c48d;border-radius:12px;padding:12px;margin-top:12px;line-height:1.5}
-.meal,.session{border:1px solid #dbe5ed;border-radius:13px;padding:13px;margin-top:10px;line-height:1.6}
-.session h3{margin-bottom:8px}
-.exercise{padding:9px 0;border-bottom:1px solid #e8eef4}
-.exercise:last-child{border-bottom:0}
-.pill{display:inline-block;background:#e6f1f9;color:#165c99;padding:5px 9px;border-radius:20px;font-size:12px;margin:3px 3px 3px 0}
 @media(max-width:650px){
 .grid,.metrics{grid-template-columns:1fr}
 .hero h1{font-size:28px}
 }
-@media print{.actions{display:none}}
+@media print{
+.actions,button{display:none}
+}
 </style>
 </head>
+
 <body>
 <div class="wrap">
 
 <header class="hero">
 <h1>Lucas Personal</h1>
-<p>Avaliação física • Pollock 7 dobras • Perimetria • Nutrição • Treinamento</p>
+<p>Avaliação física • Adipometria • Perimetria • Nutrição • Treinamento</p>
 </header>
 
 <section class="card">
 <h2>Nova avaliação</h2>
+
 <div class="grid">
-<div class="field"><label>Nome do aluno</label><input id="nome" placeholder="Nome completo"></div>
-<div class="field"><label>Sexo</label><select id="sexo"><option value="male">Masculino</option><option value="female">Feminino</option></select></div>
-<div class="field"><label>Idade (anos)</label><input id="idade" type="number" min="1"></div>
-<div class="field"><label>Peso (kg)</label><input id="peso" type="number" step="0.1" min="0"></div>
-<div class="field"><label>Altura (cm)</label><input id="altura" type="number" step="0.1" min="0"></div>
+<div class="field">
+<label>Nome do aluno</label>
+<input id="nome" placeholder="Nome completo">
 </div>
 
-<h3 style="margin-top:20px">Adipometria — 7 dobras (mm)</h3>
-<div id="camposDobras" class="grid"></div>
+<div class="field">
+<label>Sexo</label>
+<select id="sexo">
+<option value="male">Masculino</option>
+<option value="female">Feminino</option>
+</select>
+</div>
 
-<h3 style="margin-top:20px">Perimetria (cm)</h3>
-<div id="camposPerimetria" class="grid"></div>
+<div class="field">
+<label>Idade (anos)</label>
+<input id="idade" type="number" min="1">
+</div>
+
+<div class="field">
+<label>Peso (kg)</label>
+<input id="peso" type="number" step="0.1">
+</div>
+
+<div class="field">
+<label>Altura (cm)</label>
+<input id="altura" type="number" step="0.1">
+</div>
+</div>
+
+<h3>Adipometria — 7 dobras (mm)</h3>
+
+<div class="grid">
+<div class="field">
+<label>Peitoral</label>
+<input id="peitoral" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Axilar média</label>
+<input id="axilar" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Tricipital</label>
+<input id="tricipital" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Subescapular</label>
+<input id="subescapular" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Abdominal</label>
+<input id="abdominal" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Supra-ilíaca</label>
+<input id="supra" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Coxa</label>
+<input id="coxa" type="number" step="0.1">
+</div>
+</div>
+
+<h3>Perimetria (cm)</h3>
+
+<div class="grid">
+<div class="field">
+<label>Pescoço</label>
+<input id="pescoco" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Ombros</label>
+<input id="ombros" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Tórax</label>
+<input id="torax" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Cintura</label>
+<input id="cintura" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Abdômen</label>
+<input id="abdomen" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Quadril</label>
+<input id="quadril" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Braço direito</label>
+<input id="bracoD" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Braço esquerdo</label>
+<input id="bracoE" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Antebraço direito</label>
+<input id="antebracoD" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Antebraço esquerdo</label>
+<input id="antebracoE" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Coxa direita</label>
+<input id="coxaD" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Coxa esquerda</label>
+<input id="coxaE" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Panturrilha direita</label>
+<input id="panturrilhaD" type="number" step="0.1">
+</div>
+<div class="field">
+<label>Panturrilha esquerda</label>
+<input id="panturrilhaE" type="number" step="0.1">
+</div>
+</div>
 
 <div class="actions">
 <button onclick="calcular()">Calcular avaliação</button>
@@ -84,14 +275,18 @@ th{color:#165c99;background:#f2f7fb}
 
 <section class="card">
 <h2>Resultado da avaliação</h2>
-<div class="metrics" id="metricas">
+<div id="metricas" class="metrics">
 <p class="muted">Preencha os dados e calcule a avaliação.</p>
 </div>
-<p class="muted">Percentual de gordura estimado pelo método Jackson-Pollock de sete dobras e equação de Siri. A interpretação depende das características individuais e das limitações do método.</p>
+<p class="muted">
+Estimativa pelo método Jackson-Pollock de sete dobras e equação de Siri.
+Resultados devem ser interpretados individualmente.
+</p>
 </section>
 
 <section class="card">
 <h2>Estimativa energética e plano alimentar</h2>
+
 <div class="grid">
 <div class="field">
 <label>Atividade física</label>
@@ -103,6 +298,7 @@ th{color:#165c99;background:#f2f7fb}
 <option value="1.9">Extremamente ativo</option>
 </select>
 </div>
+
 <div class="field">
 <label>Objetivo</label>
 <select id="objetivo">
@@ -111,14 +307,22 @@ th{color:#165c99;background:#f2f7fb}
 <option value="bulking">Hipertrofia</option>
 </select>
 </div>
+
 <div class="field">
 <label>Refeições por dia</label>
 <select id="refeicoes">
-<option>3</option><option>4</option>
-<option selected>5</option><option>6</option>
+<option>3</option>
+<option>4</option>
+<option selected>5</option>
+<option>6</option>
 </select>
 </div>
-<div class="field"><label>Horário de treino</label><input id="horarioTreino" type="time"></div>
+
+<div class="field">
+<label>Horário de treino</label>
+<input id="horarioTreino" type="time">
+</div>
+
 <div class="field">
 <label>Padrão alimentar</label>
 <select id="padraoAlimentar">
@@ -127,17 +331,35 @@ th{color:#165c99;background:#f2f7fb}
 <option value="vegano">Vegano</option>
 </select>
 </div>
-<div class="field"><label>Alergias e intolerâncias</label><textarea id="alergias" placeholder="Informe qualquer alergia ou intolerância"></textarea></div>
-<div class="field"><label>Alimentos evitados</label><textarea id="evitaAlimentos"></textarea></div>
-<div class="field"><label>Condições clínicas / dieta terapêutica</label><textarea id="condicaoNutri"></textarea></div>
+
+<div class="field">
+<label>Alergias e intolerâncias</label>
+<textarea id="alergias"></textarea>
 </div>
+
+<div class="field">
+<label>Alimentos evitados</label>
+<textarea id="evitaAlimentos"></textarea>
+</div>
+
+<div class="field">
+<label>Condições clínicas / dieta terapêutica</label>
+<textarea id="condicaoNutri"></textarea>
+</div>
+</div>
+
 <div class="actions">
 <button onclick="gerarPlano()">Gerar referência alimentar</button>
 <button class="secondary" onclick="documento('plano')">Baixar PDF do plano</button>
 <button class="secondary" onclick="compartilhar('plano')">Compartilhar informações</button>
 </div>
+
 <div id="resultadoPlano"></div>
-<p class="muted">As sugestões de alimentos são exemplos, não uma prescrição nutricional. As metas de calorias e macronutrientes não são calculadas a partir das porções apresentadas. O plano precisa de revisão individualizada por profissional habilitado.</p>
+
+<p class="muted">
+As porções são exemplos ilustrativos e não correspondem necessariamente
+às metas de macronutrientes. Revisão por nutricionista antes da utilização.
+</p>
 </section>
 
 <section class="card">
@@ -202,16 +424,47 @@ th{color:#165c99;background:#f2f7fb}
 </select>
 </div>
 
-<div class="field"><label>Equipamentos disponíveis</label><textarea id="equipamentos"></textarea></div>
-<div class="field"><label>Grupos musculares prioritários</label><textarea id="prioridades"></textarea></div>
-<div class="field"><label>Lesões / diagnósticos</label><textarea id="condicoesTreino"></textarea></div>
-<div class="field"><label>Sintomas atuais</label><textarea id="sintomasTreino"></textarea></div>
-<div class="field"><label>Cirurgias anteriores</label><textarea id="cirurgiasTreino"></textarea></div>
-<div class="field"><label>Restrições profissionais</label><textarea id="restricoesProf"></textarea></div>
-<div class="field"><label>Exercícios a evitar</label><textarea id="evitarExercicios"></textarea></div>
+<div class="field">
+<label>Equipamentos disponíveis</label>
+<textarea id="equipamentos"></textarea>
 </div>
 
-<div id="descricaoDivisao" class="detail"></div>
+<div class="field">
+<label>Grupos musculares prioritários</label>
+<textarea id="prioridades"></textarea>
+</div>
+
+<div class="field">
+<label>Lesões / diagnósticos</label>
+<textarea id="condicoesTreino"></textarea>
+</div>
+
+<div class="field">
+<label>Sintomas atuais</label>
+<textarea id="sintomasTreino"></textarea>
+</div>
+
+<div class="field">
+<label>Cirurgias anteriores</label>
+<textarea id="cirurgiasTreino"></textarea>
+</div>
+
+<div class="field">
+<label>Restrições profissionais</label>
+<textarea id="restricoesProf"></textarea>
+</div>
+
+<div class="field">
+<label>Exercícios a evitar</label>
+<textarea id="evitarExercicios"></textarea>
+</div>
+</div>
+
+<div id="descricaoDivisao" class="detail">
+<strong>ABC:</strong> A — Peito/tríceps/ombro anterior;
+B — Costas/bíceps/ombro posterior;
+C — Pernas/ombro lateral.
+</div>
 
 <div class="actions">
 <button onclick="gerarTreino()">Gerar ficha de treino</button>
@@ -221,32 +474,49 @@ th{color:#165c99;background:#f2f7fb}
 
 <div id="resultadoTreino"></div>
 
-<p class="muted">Os exercícios seguem os modelos previamente definidos. A seleção não substitui a avaliação profissional. Verifique volume, recuperação, equipamentos, limitações e condições clínicas antes de aplicar a ficha.</p>
+<p class="muted">
+Os treinos são modelos para academia e precisam de revisão profissional
+quanto a volume, execução, recuperação e restrições.
+</p>
 </section>
 
 <section class="card">
 <h2>Histórico de avaliações</h2>
-<p class="muted">Toque em um registro para consultar todas as dobras e circunferências. Os registros ficam salvos neste navegador e neste endereço do aplicativo.</p>
+
+<p class="muted">
+Os registros ficam armazenados neste navegador e neste endereço.
+Faça backup regularmente.
+</p>
+
 <div class="scroll">
 <table>
 <thead>
-<tr><th>Data</th><th>Aluno</th><th>Peso</th><th>Gordura</th><th>Detalhes</th></tr>
+<tr>
+<th>Data</th>
+<th>Aluno</th>
+<th>Peso</th>
+<th>Gordura</th>
+<th>Detalhes</th>
+</tr>
 </thead>
 <tbody id="historicoTabela"></tbody>
 </table>
 </div>
+
 <div class="actions">
-<button class="secondary" onclick="exportarCSV()">Exportar histórico CSV</button>
-<button class="secondary" onclick="exportarJSON()">Backup completo JSON</button>
-<button class="secondary" onclick="document.getElementById('importarJSON').click()">Restaurar backup JSON</button>
+<button class="secondary" onclick="exportarCSV()">Exportar CSV</button>
+<button class="secondary" onclick="exportarJSON()">Backup JSON</button>
+<button class="secondary" onclick="document.getElementById('importarJSON').click()">Restaurar JSON</button>
 <button class="danger" onclick="limparHistorico()">Limpar histórico</button>
 </div>
-<input id="importarJSON" type="file" accept="application/json,.json" style="display:none" onchange="importarBackup(event)">
+
+<input id="importarJSON" type="file" accept=".json,application/json" hidden onchange="importarBackup(event)">
 </section>
 
 <section id="detalhesCard" class="card hidden">
 <h2>Detalhes da avaliação salva</h2>
 <div id="detalhesAvaliacao"></div>
+
 <div class="actions">
 <button class="secondary" onclick="documento('salva')">Baixar PDF desta avaliação</button>
 <button class="secondary" onclick="compartilhar('salva')">Compartilhar informações</button>
@@ -255,11 +525,23 @@ th{color:#165c99;background:#f2f7fb}
 
 <section class="card">
 <h2>Comparar evolução</h2>
+
 <div class="grid">
-<div class="field"><label>Primeira avaliação</label><select id="comparar1"></select></div>
-<div class="field"><label>Segunda avaliação</label><select id="comparar2"></select></div>
+<div class="field">
+<label>Primeira avaliação</label>
+<select id="comparar1"></select>
 </div>
-<div class="actions"><button onclick="comparar()">Comparar avaliações</button></div>
+
+<div class="field">
+<label>Segunda avaliação</label>
+<select id="comparar2"></select>
+</div>
+</div>
+
+<div class="actions">
+<button onclick="comparar()">Comparar avaliações</button>
+</div>
+
 <div id="resultadoComparacao"></div>
 </section>
 
@@ -296,23 +578,6 @@ const periCampos=[
 ['panturrilhaD','Panturrilha direita'],
 ['panturrilhaE','Panturrilha esquerda']
 ];
-
-/*
-MODELOS DE TREINO DEFINIDOS PARA O LUCAS PERSONAL
-
-ABC:
-A = Peito, tríceps e ombro anterior
-B = Costas, bíceps e ombro posterior
-C = Pernas completas e ombro lateral
-
-ABCD:
-A = Quadríceps
-B = Superiores
-C = Posteriores e glúteos
-D = Full Body
-
-As opções com "ou" representam um único exercício.
-*/
 
 const modelosTreino={
 abc:{
@@ -354,7 +619,7 @@ exercicios:[
 ['Quadríceps','Cadeira extensora'],
 ['Posteriores','Cadeira flexora'],
 ['Posteriores e glúteos','Stiff'],
-['Glúteos, adutores e quadríceps','Agachamento sumô'],
+['Glúteos e adutores','Agachamento sumô'],
 ['Panturrilhas','Panturrilha no Smith'],
 ['Deltoide lateral','Elevação lateral com halteres'],
 ['Deltoide lateral','Elevação lateral unilateral no cabo']
@@ -422,7 +687,7 @@ const el=id=>document.getElementById(id);
 const txt=id=>el(id).value.trim();
 
 const num=id=>{
-const v=el(id).value.trim();
+const v=txt(id);
 return v===''?null:Number(v);
 };
 
@@ -449,20 +714,6 @@ const normal=s=>String(s||'')
 
 const medida=(v,u)=>
 fmt(v)+(fmt(v)==='—'?'':' '+u);
-
-function campos(){
-for(const [dest,lista] of [
-['camposDobras',dobrasCampos],
-['camposPerimetria',periCampos]
-]){
-el(dest).innerHTML=lista.map(([id,label])=>
-`<div class="field">
-<label for="${id}">${label}</label>
-<input id="${id}" type="number" min="0" step="0.1">
-</div>`
-).join('');
-}
-}
 
 function classIMC(v){
 return v<18.5?'Baixo peso':
@@ -498,7 +749,7 @@ const perimetria={};
 for(const [id] of dobrasCampos){
 dobras[id]=num(id);
 if(dobras[id]===null||dobras[id]<=0){
-alert('Preencha as sete dobras cutâneas com valores maiores que zero.');
+alert('Preencha as sete dobras com valores maiores que zero.');
 return null;
 }
 }
@@ -520,7 +771,7 @@ const densidade=sexo==='male'
 const gordura=495/densidade-450;
 
 if(!Number.isFinite(gordura)||gordura<=0||gordura>=100){
-alert('Confira as dobras, a idade e o sexo: o resultado calculado ficou fora da faixa válida.');
+alert('Confira as dobras: resultado fora da faixa válida.');
 return null;
 }
 
@@ -545,8 +796,8 @@ if(!a)return null;
 avaliacaoAtual=a;
 
 el('metricas').innerHTML=[
-['Soma das 7 dobras',medida(a.soma,'mm')],
-['Densidade corporal',fmt(a.densidade,4)],
+['Soma das dobras',medida(a.soma,'mm')],
+['Densidade',fmt(a.densidade,4)],
 ['Gordura corporal',medida(a.gordura,'%')],
 ['Massa livre',medida(a.massaLivre,'%')],
 ['Massa gorda',medida(a.massaGorda,'kg')],
@@ -581,12 +832,13 @@ const registro={
 ...a,
 data:agora.toLocaleDateString('pt-BR'),
 hora:agora.toLocaleTimeString('pt-BR',{
-hour:'2-digit',minute:'2-digit'
+hour:'2-digit',
+minute:'2-digit'
 }),
 criadoEm:agora.toISOString(),
-energia:energiaAtual,
-plano:planoAtual,
-treino:treinoAtual,
+energia:planoAtual&&planoAtual.nome===a.nome?energiaAtual:null,
+plano:planoAtual&&planoAtual.nome===a.nome?planoAtual:null,
+treino:treinoAtual&&treinoAtual.nome===a.nome?treinoAtual:null,
 mm:a.massaMagra,
 mg:a.massaGorda,
 classificacao:a.classGordura
@@ -599,23 +851,22 @@ localStorage.setItem(STORAGE_KEY,JSON.stringify(h));
 renderHistorico();
 alert('Avaliação salva com adipometria e perimetria completas.');
 }catch{
-alert('Não foi possível salvar. Verifique o armazenamento do navegador e faça um backup.');
+alert('Não foi possível salvar. Verifique o armazenamento.');
 }
 }
 
 function blocoMedidas(obj,campos,u){
 return `<table><tbody>${
 campos.map(([id,n])=>
-`<tr><td>${esc(n)}</td>
-<td>${esc(medida(obj?.[id],u))}</td></tr>`
+`<tr>
+<td>${esc(n)}</td>
+<td>${esc(medida(obj?.[id],u))}</td>
+</tr>`
 ).join('')
 }</tbody></table>`;
 }
 
 function detalheHTML(a){
-const mm=a.massaMagra??a.mm;
-const mg=a.massaGorda??a.mg;
-
 return `
 <div class="detail">
 <h3>Dados gerais</h3>
@@ -632,8 +883,8 @@ return `
 <h3>Composição corporal</h3>
 <strong>Gordura:</strong> ${esc(medida(a.gordura,'%'))}<br>
 <strong>Massa livre:</strong> ${esc(medida(a.massaLivre,'%'))}<br>
-<strong>Massa gorda:</strong> ${esc(medida(mg,'kg'))}<br>
-<strong>Massa magra:</strong> ${esc(medida(mm,'kg'))}<br>
+<strong>Massa gorda:</strong> ${esc(medida(a.massaGorda??a.mg,'kg'))}<br>
+<strong>Massa magra:</strong> ${esc(medida(a.massaMagra??a.mm,'kg'))}<br>
 <strong>Classificação:</strong> ${esc(a.classGordura??a.classificacao??'—')}
 </div>
 
@@ -641,4 +892,699 @@ return `
 <h3>Adipometria</h3>
 ${blocoMedidas(a.dobras,dobrasCampos,'mm')}
 <strong>Soma:</strong> ${esc(medida(a.soma,'mm'))}<br>
-<str
+<strong>Densidade:</strong> ${esc(fmt(a.densidade,4))}
+</div>
+
+<div class="detail">
+<h3>Perimetria</h3>
+${blocoMedidas(a.perimetria,periCampos,'cm')}
+</div>
+
+${a.energia?`
+<div class="detail">
+<h3>Estimativa energética</h3>
+TMB: ${esc(medida(a.energia.tmb,'kcal'))}<br>
+GET: ${esc(medida(a.energia.get,'kcal'))}<br>
+Meta: ${esc(medida(a.energia.metaCal,'kcal'))}
+</div>`:''}`;
+}
+
+function verAvaliacao(i){
+const a=historico()[i];
+if(!a)return;
+
+avaliacaoSelecionada=a;
+el('detalhesAvaliacao').innerHTML=detalheHTML(a);
+el('detalhesCard').classList.remove('hidden');
+el('detalhesCard').scrollIntoView({behavior:'smooth'});
+}
+
+function renderHistorico(){
+const h=historico();
+
+el('historicoTabela').innerHTML=h.length
+?h.map((a,i)=>`
+<tr>
+<td>${esc(a.data||'—')}</td>
+<td>${esc(a.nome||'—')}</td>
+<td>${esc(medida(a.peso,'kg'))}</td>
+<td>${esc(medida(a.gordura,'%'))}</td>
+<td><button onclick="verAvaliacao(${i})">Abrir</button></td>
+</tr>
+`).join('')
+:'<tr><td colspan="5">Nenhuma avaliação salva neste navegador.</td></tr>';
+
+const options='<option value="">Selecione</option>'+
+h.map((a,i)=>`
+<option value="${i}">
+${esc(a.nome||'Aluno')} — ${esc(a.data||'sem data')} ${esc(a.hora||'')}
+</option>`).join('');
+
+el('comparar1').innerHTML=options;
+el('comparar2').innerHTML=options;
+}
+
+function comparar(){
+const h=historico();
+const a=h[el('comparar1').value];
+const b=h[el('comparar2').value];
+
+if(!a||!b){
+alert('Selecione duas avaliações.');
+return;
+}
+
+if(normal(a.nome)!==normal(b.nome)){
+alert('Selecione avaliações do mesmo aluno.');
+return;
+}
+
+const itens=[
+['Peso',a.peso,b.peso,'kg'],
+['Gordura',a.gordura,b.gordura,'%'],
+['Massa magra',a.massaMagra??a.mm,b.massaMagra??b.mm,'kg'],
+...dobrasCampos.map(([id,n])=>[
+'Dobra: '+n,a.dobras?.[id],b.dobras?.[id],'mm'
+]),
+...periCampos.map(([id,n])=>[
+'Circunferência: '+n,a.perimetria?.[id],b.perimetria?.[id],'cm'
+])
+];
+
+el('resultadoComparacao').innerHTML=`
+<p class="muted">Diferença = segunda avaliação menos primeira.</p>
+<div class="scroll">
+<table>
+<thead>
+<tr>
+<th>Medida</th>
+<th>Primeira</th>
+<th>Segunda</th>
+<th>Diferença</th>
+</tr>
+</thead>
+<tbody>
+${itens.map(([n,x,y,u])=>`
+<tr>
+<td>${esc(n)}</td>
+<td>${esc(medida(x,u))}</td>
+<td>${esc(medida(y,u))}</td>
+<td>${x==null||y==null?'—':
+esc((y-x>0?'+':'')+fmt(y-x)+' '+u)}</td>
+</tr>
+`).join('')}
+</tbody>
+</table>
+</div>`;
+}
+
+function gerarPlano(){
+const a=calcular();
+if(!a)return;
+
+const fator=Number(el('atividade').value);
+const objetivo=el('objetivo').value;
+const n=Number(el('refeicoes').value);
+
+const tmb=10*a.peso+6.25*a.altura-5*a.idade+
+(a.sexo==='male'?5:-161);
+
+const get=tmb*fator;
+
+const metaCal=get*(
+objetivo==='cutting'?0.85:
+objetivo==='bulking'?1.10:1
+);
+
+const proteina=a.peso*(objetivo==='cutting'?2:1.8);
+const lipidio=a.peso*0.8;
+const carbo=Math.max(0,(metaCal-proteina*4-lipidio*9)/4);
+
+energiaAtual={
+tmb,get,metaCal,proteina,lipidio,carbo,objetivo,fator
+};
+
+const nomes={
+3:['Café da manhã','Almoço','Jantar'],
+4:['Café da manhã','Almoço','Lanche da tarde','Jantar'],
+5:['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar'],
+6:['Café da manhã','Lanche da manhã','Almoço','Lanche da tarde','Jantar','Ceia']
+}[n];
+
+const restricoes=[
+txt('alergias'),
+txt('evitaAlimentos'),
+txt('condicaoNutri')
+].filter(x=>x&&!['nenhuma','nenhum','não','nao'].includes(normal(x)));
+
+const padrao=el('padraoAlimentar').value;
+
+const aviso=restricoes.length
+?'Existem restrições ou condições clínicas informadas. Não foram geradas sugestões automáticas de alimentos. É necessária avaliação nutricional individualizada.'
+:'Porções ilustrativas. Os valores nutricionais das porções não foram calculados para corresponder às metas.';
+
+const refeicoes=nomes.map((nome,i)=>({
+nome,
+itens:restricoes.length?[]:
+i===0
+?[
+'Aveia: 40 g',
+'Banana: 1 unidade',
+padrao==='onivoro'?'Ovos: 2 unidades':'Tofu: 120 g'
+]
+:nome.includes('Almoço')||nome.includes('Jantar')
+?[
+'Arroz cozido: 120 g',
+'Feijão cozido: 100 g',
+padrao==='onivoro'
+?'Frango grelhado: 120 g'
+:padrao==='vegano'
+?'Lentilha cozida: 180 g'
+:'Ovos: 2 unidades',
+'Legumes: 100 g'
+]
+:[
+'Fruta: 1 unidade',
+'Aveia: 30 g',
+padrao==='onivoro'?'Iogurte natural: 170 g':'Tofu: 100 g'
+]
+}));
+
+planoAtual={
+nome:a.nome,
+data:new Date().toLocaleDateString('pt-BR'),
+energia:energiaAtual,
+refeicoes,
+aviso,
+alergias:txt('alergias'),
+evitaAlimentos:txt('evitaAlimentos'),
+condicaoNutri:txt('condicaoNutri'),
+padrao
+};
+
+el('resultadoPlano').innerHTML=`
+<div class="detail">
+<h3>Metas diárias estimadas</h3>
+TMB: ${fmt(tmb,0)} kcal<br>
+GET: ${fmt(get,0)} kcal<br>
+Meta: ${fmt(metaCal,0)} kcal<br>
+Proteínas: ${fmt(proteina,0)} g<br>
+Carboidratos: ${fmt(carbo,0)} g<br>
+Gorduras: ${fmt(lipidio,0)} g
+</div>
+<div class="alert">${esc(aviso)}</div>
+${refeicoes.map(r=>`
+<div class="meal">
+<strong>${esc(r.nome)}</strong>
+${r.itens.map(x=>`<div>${esc(x)}</div>`).join('')}
+</div>
+`).join('')}`;
+}
+
+function atualizarDivisao(){
+const tipo=el('divisaoTreino').value;
+const modelo=modelosTreino[tipo];
+
+el('diasTreino').value=tipo==='abcd'?'4':'3';
+
+el('descricaoDivisao').innerHTML=`
+<h3>${esc(modelo.titulo)}</h3>
+${Object.entries(modelo)
+.filter(([k])=>['A','B','C','D'].includes(k))
+.map(([k,t])=>`
+<div><strong>Treino ${k}:</strong> ${esc(t.grupo)}</div>
+`).join('')}`;
+
+treinoAtual=null;
+el('resultadoTreino').innerHTML='';
+}
+
+function prescricaoExercicio(nome,nivel,objetivo){
+let series=nivel==='iniciante'?2:3;
+let reps=objetivo==='Força'?'5–8':'8–12';
+let rir=nivel==='iniciante'?'3–4':
+nivel==='avancado'?'1–2':'2–3';
+let descanso=objetivo==='Força'?'120–180 s':'60–120 s';
+
+if(/elevação lateral|elevação frontal|face pull|panturrilha|abdominal/i.test(nome)){
+reps='12–15';
+}
+
+if(/unilateral/i.test(nome)){
+reps='10–12 por lado';
+}
+
+return {series,reps,rir,descanso};
+}
+
+function gerarTreino(){
+const nome=txt('nome');
+
+if(!nome){
+alert('Informe o nome do aluno na seção Nova avaliação.');
+el('nome').focus();
+return;
+}
+
+const tipo=el('divisaoTreino').value;
+const modelo=modelosTreino[tipo];
+const nivel=el('nivelTreino').value;
+const dias=Number(el('diasTreino').value);
+const objetivo=el('objetivoTreino').value;
+const local=el('localTreino').value;
+
+const restricoes=[
+txt('condicoesTreino'),
+txt('sintomasTreino'),
+txt('cirurgiasTreino'),
+txt('restricoesProf'),
+txt('evitarExercicios')
+].filter(Boolean);
+
+const letras=tipo==='abc'
+?['A','B','C']
+:['A','B','C','D'];
+
+const sessoes=Array.from({length:dias},(_,i)=>{
+const letra=letras[i%letras.length];
+const base=modelo[letra];
+
+return {
+letra,
+nome:`Sessão ${i+1} — Treino ${letra}`,
+grupo:base.grupo,
+exercicios:base.exercicios.map(([grupo,nome])=>({
+grupo,nome,
+...prescricaoExercicio(nome,nivel,objetivo)
+}))
+};
+});
+
+let aviso='Modelo automático para revisão profissional. Ajuste volume, intensidade e recuperação conforme o aluno.';
+
+if(local==='casa'){
+aviso+=' ATENÇÃO: os exercícios foram definidos para academia; não foram adaptados para casa.';
+}
+
+if(restricoes.length){
+aviso+=' ATENÇÃO: há restrições ou sintomas informados. O treino não foi adaptado clinicamente; revise antes de aplicar.';
+}
+
+if(dias>letras.length){
+aviso+=' Há sessões repetidas na semana: ajuste o volume.';
+}
+
+if(tipo==='abcd'&&dias>=4){
+aviso+=' Avalie a recuperação entre o treino C e o Full Body.';
+}
+
+treinoAtual={
+nome,
+data:new Date().toLocaleDateString('pt-BR'),
+objetivo,nivel,dias,
+duracao:el('duracaoTreino').value,
+local,
+divisao:tipo,
+tituloDivisao:modelo.titulo,
+prioridades:txt('prioridades'),
+equipamentos:txt('equipamentos'),
+restricoes,sessoes,aviso
+};
+
+el('resultadoTreino').innerHTML=`
+<div class="detail">
+<h3>${esc(modelo.titulo)}</h3>
+Aluno: ${esc(nome)}<br>
+Objetivo: ${esc(objetivo)}<br>
+Nível: ${esc(nivel)}<br>
+Frequência: ${dias} dias/semana
+</div>
+<div class="alert">${esc(aviso)}</div>
+${sessoes.map(tabelaTreino).join('')}`;
+}
+
+function tabelaTreino(s){
+return `
+<div class="session">
+<h3>${esc(s.nome)}</h3>
+<p><strong>${esc(s.grupo)}</strong></p>
+<div class="scroll">
+<table>
+<thead>
+<tr>
+<th>Exercício</th>
+<th>Séries</th>
+<th>Repetições</th>
+<th>RIR</th>
+<th>Descanso</th>
+</tr>
+</thead>
+<tbody>
+${s.exercicios.map(e=>`
+<tr>
+<td>
+<strong>${esc(e.nome)}</strong>
+<br>
+<span class="muted">${esc(e.grupo||'')}</span>
+</td>
+<td>${esc(e.series)}</td>
+<td>${esc(e.reps)}</td>
+<td>${esc(e.rir)}</td>
+<td>${esc(e.descanso)}</td>
+</tr>
+`).join('')}
+</tbody>
+</table>
+</div>
+</div>`;
+}
+
+function conteudoDocumento(tipo){
+if(tipo==='avaliacao'||tipo==='salva'){
+const a=tipo==='salva'
+?avaliacaoSelecionada
+:calcular();
+
+if(!a){
+if(tipo==='salva')alert('Selecione uma avaliação salva.');
+return null;
+}
+
+return {
+titulo:'Relatório de avaliação física',
+nome:a.nome,
+html:detalheHTML(a)
+};
+}
+
+if(tipo==='plano'){
+const p=planoAtual;
+
+if(!p){
+alert('Gere primeiro o plano alimentar.');
+return null;
+}
+
+const e=p.energia;
+
+return {
+titulo:'Referência alimentar estimada',
+nome:p.nome,
+html:`
+<div class="detail">
+<h3>Metas energéticas</h3>
+TMB: ${fmt(e.tmb,0)} kcal<br>
+GET: ${fmt(e.get,0)} kcal<br>
+Meta: ${fmt(e.metaCal,0)} kcal<br>
+Proteínas: ${fmt(e.proteina,0)} g<br>
+Carboidratos: ${fmt(e.carbo,0)} g<br>
+Gorduras: ${fmt(e.lipidio,0)} g
+</div>
+<div class="alert">${esc(p.aviso)}</div>
+${p.refeicoes.map(r=>`
+<div class="meal">
+<h3>${esc(r.nome)}</h3>
+${r.itens.map(i=>`<div>${esc(i)}</div>`).join('')}
+</div>
+`).join('')}`
+};
+}
+
+if(tipo==='treino'){
+const t=treinoAtual;
+
+if(!t){
+alert('Gere primeiro a ficha de treino.');
+return null;
+}
+
+return {
+titulo:'Ficha de treino — '+t.tituloDivisao,
+nome:t.nome,
+html:`
+<div class="detail">
+<strong>Divisão:</strong> ${esc(t.tituloDivisao)}<br>
+<strong>Objetivo:</strong> ${esc(t.objetivo)}<br>
+<strong>Nível:</strong> ${esc(t.nivel)}<br>
+<strong>Frequência:</strong> ${t.dias} dias/semana<br>
+<strong>Duração prevista:</strong> ${esc(t.duracao)} minutos<br>
+<strong>Prioridades:</strong> ${esc(t.prioridades||'—')}<br>
+<strong>Equipamentos:</strong> ${esc(t.equipamentos||'—')}
+</div>
+<div class="alert">
+${esc(t.aviso)}
+${t.restricoes.length
+?'<p><strong>Observações:</strong> '+esc(t.restricoes.join('; '))+'</p>'
+:''}
+</div>
+${t.sessoes.map(tabelaTreino).join('')}
+`
+};
+}
+
+return null;
+}
+
+function htmlDocumento(doc){
+return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${esc(doc.titulo)} — ${esc(doc.nome)}</title>
+<style>
+body{
+font-family:Arial,sans-serif;
+max-width:850px;
+margin:auto;
+padding:24px;
+color:#17283a
+}
+h1,h2,h3{color:#165c99}
+.detail,.meal,.session,.alert{
+padding:14px;
+margin:12px 0;
+border:1px solid #dbe5ed;
+border-radius:12px;
+line-height:1.65
+}
+table{width:100%;border-collapse:collapse}
+td,th{
+padding:7px;
+border-bottom:1px solid #ddd;
+text-align:left;
+font-size:12px
+}
+th{background:#edf5fb;color:#165c99}
+.alert{background:#fff7eb}
+.muted{font-size:11px;color:#617387}
+.scroll{overflow:visible}
+button{
+background:#165c99;
+color:white;
+border:0;
+padding:12px;
+border-radius:10px
+}
+@media print{
+button{display:none}
+body{padding:0}
+}
+</style>
+</head>
+<body>
+<h1>Lucas Personal</h1>
+<h2>${esc(doc.titulo)}</h2>
+<p>
+<strong>Aluno:</strong> ${esc(doc.nome)}<br>
+<strong>Emissão:</strong> ${new Date().toLocaleDateString('pt-BR')}
+</p>
+${doc.html}
+<p style="font-size:12px;color:#526477">
+Documento de apoio. Resultados e sugestões devem ser revisados pelo profissional responsável antes do uso.
+</p>
+<button onclick="window.print()">Imprimir / Salvar em PDF</button>
+</body>
+</html>`;
+}
+
+function documento(tipo){
+const d=conteudoDocumento(tipo);
+if(!d)return;
+
+const w=window.open('','_blank');
+
+if(!w){
+alert('Permita pop-ups para abrir o relatório.');
+return;
+}
+
+w.document.open();
+w.document.write(htmlDocumento(d));
+w.document.close();
+
+alert('Na página do documento, toque em "Imprimir / Salvar em PDF" e escolha "Salvar como PDF" no celular.');
+}
+
+async function compartilhar(tipo){
+const d=conteudoDocumento(tipo);
+if(!d)return;
+
+const texto=`Lucas Personal — ${d.titulo}
+Aluno: ${d.nome}
+Para enviar o documento completo, salve-o em PDF pelo aplicativo.`;
+
+if(navigator.share){
+try{
+await navigator.share({
+title:d.titulo,
+text:texto
+});
+return;
+}catch(e){
+if(e.name==='AbortError')return;
+}
+}
+
+alert('Use "Baixar PDF", salve o documento e envie pelo aplicativo desejado.');
+}
+
+function baixarArquivo(nome,conteudo,tipo){
+const blob=new Blob([conteudo],{type:tipo});
+const url=URL.createObjectURL(blob);
+const a=document.createElement('a');
+
+a.href=url;
+a.download=nome;
+document.body.appendChild(a);
+a.click();
+a.remove();
+
+setTimeout(()=>URL.revokeObjectURL(url),1500);
+}
+
+function exportarJSON(){
+baixarArquivo(
+'backup_lucas_personal.json',
+JSON.stringify(historico(),null,2),
+'application/json'
+);
+}
+
+async function importarBackup(ev){
+const f=ev.target.files?.[0];
+if(!f)return;
+
+try{
+const d=JSON.parse(await f.text());
+
+if(!Array.isArray(d)||
+!d.every(x=>x&&typeof x==='object'&&typeof x.nome==='string')){
+throw Error('Formato inválido');
+}
+
+const atual=historico();
+
+if(!confirm(
+`Importar ${d.length} avaliações e manter as ${atual.length} existentes? Registros iguais poderão ficar duplicados.`
+))return;
+
+localStorage.setItem(
+STORAGE_KEY,
+JSON.stringify([...atual,...d])
+);
+
+renderHistorico();
+alert('Backup importado.');
+}catch(e){
+alert('Não foi possível importar: '+e.message);
+}finally{
+ev.target.value='';
+}
+}
+
+function exportarCSV(){
+const h=historico();
+
+if(!h.length){
+alert('Não há avaliações para exportar.');
+return;
+}
+
+const col=[
+['data','Data'],
+['hora','Hora'],
+['nome','Aluno'],
+['sexo','Sexo'],
+['idade','Idade'],
+['peso','Peso kg'],
+['altura','Altura cm'],
+['gordura','Gordura %'],
+['massaGorda','Massa gorda kg'],
+['massaMagra','Massa magra kg'],
+['imc','IMC'],
+...dobrasCampos.map(([k,n])=>['dobras.'+k,n+' mm']),
+...periCampos.map(([k,n])=>['perimetria.'+k,n+' cm'])
+];
+
+const cel=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+
+const linhas=[
+col.map(x=>cel(x[1])).join(';'),
+...h.map(a=>col.map(([key])=>{
+const parts=key.split('.');
+let v=parts.reduce((o,k)=>o?.[k],a);
+
+if(key==='massaMagra')v??=a.mm;
+if(key==='massaGorda')v??=a.mg;
+
+return cel(v);
+}).join(';'))
+];
+
+baixarArquivo(
+'historico_lucas_personal.csv',
+'\uFEFF'+linhas.join('\n'),
+'text/csv;charset=utf-8'
+);
+}
+
+function limparHistorico(){
+if(!confirm(
+'ATENÇÃO: apagar todas as avaliações salvas neste navegador? Faça um backup antes.'
+))return;
+
+if(!confirm('Confirma a exclusão de todo o histórico?'))return;
+
+localStorage.removeItem(STORAGE_KEY);
+avaliacaoSelecionada=null;
+el('detalhesCard').classList.add('hidden');
+renderHistorico();
+}
+
+function iniciarAplicativo(){
+try{
+renderHistorico();
+atualizarDivisao();
+}catch(e){
+console.error('Erro ao iniciar:',e);
+alert('Erro ao iniciar o aplicativo: '+e.message);
+}
+}
+
+if(document.readyState==='loading'){
+document.addEventListener('DOMContentLoaded',iniciarAplicativo);
+}else{
+iniciarAplicativo();
+}
+
+if('serviceWorker' in navigator){
+window.addEventListener('load',()=>{
+navigator.serviceWorker.register('service-worker.js')
+.catch(e=>console.warn('Service Worker:',e));
+});
+}
+</script>
+
+</body>
+</html>
